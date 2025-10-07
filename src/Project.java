@@ -9,6 +9,7 @@ public class Project {
     private String projectname;
     private String startday;
     private String accomplishday;
+    private String[] employee;//save employee id
 
     public Project() {}
 
@@ -20,9 +21,10 @@ public class Project {
         projectname = a.projectname;
         startday = a.startday;
         accomplishday = a.accomplishday;
+        employee = a.employee;
     }
 
-    public Project(float managerallowancerate, float mainengineerallowancerate, float participantallowancerate, String projectid, String projectname, String startday, String accomplishday) {
+    public Project(float managerallowancerate, float mainengineerallowancerate, float participantallowancerate, String projectid, String projectname, String startday, String accomplishday, String[] employee) {
         this.managerallowancerate = managerallowancerate;
         this.mainengineerallowancerate = mainengineerallowancerate;
         this.participantallowancerate = participantallowancerate;
@@ -30,6 +32,7 @@ public class Project {
         this.projectname = projectname;
         this.startday = startday;
         this.accomplishday = accomplishday;
+        this.employee = employee;
     }
 
 
@@ -62,6 +65,10 @@ public class Project {
         return accomplishday;
     }
 
+    public String[] getEmployee(){
+        return employee;
+    }
+
     public void setManagerAllowanceRate(float managerallowancerate) {
         this.managerallowancerate = managerallowancerate;
     }
@@ -88,5 +95,9 @@ public class Project {
 
     public void setAccomplishDay(String accomplishday) {
         this.accomplishday = accomplishday;
+    }
+
+    public void setEmployee(String[] employee) {
+        this.employee = employee;
     }
 }
