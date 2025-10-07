@@ -14,7 +14,7 @@ public class OffcialEmployee extends Employee {
     }
 
     public OffcialEmployee(String id, String surname, String name, String gender, String address, String phonenumber, String email, String startworkingday, double basicsalary, double salaryallowance){
-        super(id,surname,surname,gender,address,phonenumber,email,startworkingday);
+        super(id,surname,name,gender,address,phonenumber,email,startworkingday);
         this.basicsalary = basicsalary;
         this.salaryallowance = salaryallowance;
     }
@@ -29,6 +29,10 @@ public class OffcialEmployee extends Employee {
         super.putEmployee();
         System.out.println("Basic Salary: " + basicsalary);
         System.out.println("Salary Allowance: " + salaryallowance);
+    }
+
+    public boolean isEmployee(String employeeid) {
+        return getId().equals(employeeid);
     }
 
     public double getBasicSalary(){

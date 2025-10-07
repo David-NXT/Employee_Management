@@ -1,3 +1,5 @@
+import javax.xml.transform.Source;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Project {
@@ -13,7 +15,9 @@ public class Project {
     private String mainengineerid;
     private String[] employeeid;//save employee id
 
-    public Project() {}
+    public Project() {
+        employeeid = new String[0];
+    }
 
     public Project(Project a) {
         managerallowancerate = a.managerallowancerate;
@@ -39,6 +43,51 @@ public class Project {
         this.managerid = managerid;
         this.mainengineerid = mainengineerid;
         this.employeeid = employeeid;
+    }
+
+    public void getProject() {
+        System.out.println("Manager Allowance Rate: ");managerallowancerate = sc.nextFloat();
+        System.out.println("Main Engineer Allowance Rate: ");mainengineerallowancerate = sc.nextFloat();
+        System.out.println("Participant Allowance rate: ");participantallowancerate = sc.nextFloat();
+        sc.nextLine();//bo \n thua trong buffer
+        System.out.println("Project Id: ");projectid = sc.nextLine();
+        System.out.println("Project Name: ");projectname = sc.nextLine();
+        System.out.println("Start Day: ");startday = sc.nextLine();
+        System.out.println("Accomplish Day: ");accomplishday = sc.nextLine();
+        System.out.println("Manager Id: ");managerid = sc.nextLine();
+        System.out.println("Main Engineer Id: ");mainengineerid = sc.nextLine();
+        System.out.println("Number of Employee: ");int n = sc.nextInt();
+        sc.nextLine();//bo \n thua trong buffer
+        employeeid = Arrays.copyOf(employeeid,n);
+        for (int i = 0;i < employeeid.length;i++) {
+            employeeid[i] = sc.nextLine();
+        }
+    }
+
+    public void putProject(ListOffcialEmployee list) {
+        System.out.println("Manager Allowance Rate: " + managerallowancerate);
+        System.out.println("Main Engineer Allowance Rate: " + mainengineerallowancerate);
+        System.out.println("Participant Allowance rate: " + participantallowancerate);
+        System.out.println("Project Id: " + projectid);
+        System.out.println("Project Name: " + projectname);
+        System.out.println("Start Day: " + startday);
+        System.out.println("Accomplish Day: " + accomplishday);
+        System.out.println("Number of Employee: " + employeeid.length);
+        OffcialEmployee name = list.isInList(managerid);
+            if (name != null)
+                System.out.println("Quan ly du an: " + name.getName() + " " + name.getId());
+            else System.out.println("Du an chua co quan ly");
+            name = list.isInList(mainengineerid);
+            if (name != null)
+                System.out.println("Ky su truong du an: " + name.getName() + " " + name.getId());
+            else System.out.println("Du an chua co ki su truong");
+
+            System.out.println("Nhan vien tham gia du an: ");
+            for (String b: employeeid) {
+                name = list.isInList(b);
+                if (name != null)
+                    System.out.println("\t" + name.getName() + " " + name.getId());
+            }
     }
 
     public double projectAllowanceSalary(OffcialEmployee employee) {

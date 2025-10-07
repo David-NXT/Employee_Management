@@ -28,6 +28,12 @@ public class ListOffcialEmployee {
         }
     }
 
+    public OffcialEmployee isInList(String employeeid) {
+        for (OffcialEmployee a: data)
+            if (a.isEmployee(employeeid)) return a;//neu nhan vien a la nhan vien trung id thi tra ve
+        return null;//khong tim thay
+    }
+
     public void put(){
         System.out.println("Number of Offcial Employee: " + n);
         for(int i = 0;i < n;i++){
@@ -39,7 +45,7 @@ public class ListOffcialEmployee {
         return data;
     }
 
-    public void setData(OffcialEmployee[] dataa){
+    public void setData(OffcialEmployee[] data){
         this.data = data;
     }
 }
