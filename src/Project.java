@@ -9,7 +9,9 @@ public class Project {
     private String projectname;
     private String startday;
     private String accomplishday;
-    private String[] employee;//save employee id
+    private String managerid;
+    private String mainengineerid;
+    private String[] employeeid;//save employee id
 
     public Project() {}
 
@@ -21,10 +23,12 @@ public class Project {
         projectname = a.projectname;
         startday = a.startday;
         accomplishday = a.accomplishday;
-        employee = a.employee;
+        managerid = a.managerid;
+        mainengineerid = a.mainengineerid;
+        employeeid = a.employeeid;
     }
 
-    public Project(float managerallowancerate, float mainengineerallowancerate, float participantallowancerate, String projectid, String projectname, String startday, String accomplishday, String[] employee) {
+    public Project(float managerallowancerate, float mainengineerallowancerate, float participantallowancerate, String projectid, String projectname, String startday, String accomplishday, String managerid, String mainengineerid, String[] employeeid) {
         this.managerallowancerate = managerallowancerate;
         this.mainengineerallowancerate = mainengineerallowancerate;
         this.participantallowancerate = participantallowancerate;
@@ -32,10 +36,24 @@ public class Project {
         this.projectname = projectname;
         this.startday = startday;
         this.accomplishday = accomplishday;
-        this.employee = employee;
+        this.managerid = managerid;
+        this.mainengineerid = mainengineerid;
+        this.employeeid = employeeid;
     }
 
-
+    public double projectAllowanceSalary(OffcialEmployee employee) {
+        if(employee.getId().equals(managerid))
+            return employee.getBasicSalary() * managerallowancerate;//tra ve muc phu cap cua quan ly du an
+        else if(employee.getId().equals(mainengineerid))
+            return employee.getBasicSalary() * mainengineerallowancerate;//tra ve muc phu cap cua ki su truong
+        else {
+            for(String a : employeeid) {
+                if(employee.getId().equals(a))
+                    return employee.getBasicSalary() * participantallowancerate;//tra ve muc phu cap cua nhan vien tham gia
+            }
+            return 0;//neu khong co trong danh sach tra ve 0 dong
+        }
+    }
 
     public float getManagerAllowanceRate() {
         return managerallowancerate;
@@ -65,8 +83,16 @@ public class Project {
         return accomplishday;
     }
 
-    public String[] getEmployee(){
-        return employee;
+    public String getManagerId() {
+        return managerid;
+    }
+
+    public String getMainengineerId() {
+        return mainengineerid;
+    }
+
+    public String[] getEmployeeId(){
+        return employeeid;
     }
 
     public void setManagerAllowanceRate(float managerallowancerate) {
@@ -97,7 +123,15 @@ public class Project {
         this.accomplishday = accomplishday;
     }
 
-    public void setEmployee(String[] employee) {
-        this.employee = employee;
+    public void setManagerId(String managerid) {
+        this.managerid = managerid;
+    }
+
+    public void setMainengineerId(String mainengineerid) {
+        this.mainengineerid = mainengineerid;
+    }
+
+    public void setEmployee(String[] employeeid) {
+        this.employeeid = employeeid;
     }
 }
