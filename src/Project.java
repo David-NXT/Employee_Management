@@ -1,8 +1,9 @@
 import javax.xml.transform.Source;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class Project {
+public class Project implements Serializable{
     private final Scanner sc = new Scanner(System.in);
     private float managerallowancerate;
     private float mainengineerallowancerate;
