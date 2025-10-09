@@ -4,7 +4,7 @@ import java.io.*;
 import java.io.Serializable;
 
 public class ListProject implements Serializable {
-    private final Scanner sc = new Scanner(System.in);
+    private transient final Scanner sc = new Scanner(System.in);
     private Project[] data;
 
     public ListProject() {
@@ -32,8 +32,50 @@ public class ListProject implements Serializable {
         }
     }
 
+    public void add() {
+        Project a = new Project();
+        a.getProject();
+
+        data = Arrays.copyOf(data,data.length + 1);
+
+        data[data.length - 1] = a;
+    }
+
+    public void add(Project newproject) {
+        data = Arrays.copyOf(data,data.length + 1);
+        data[data.length - 1] = newproject;
+    }
+
+    public void delete(String projectid) {
+        int locate = -1;
+        for (int i = 0;i < data.length;i++) {
+            if (data[i].getProjectId().equals(projectid)){
+                locate = i;
+                break;
+            }
+        }
+
+        if (locate == -1) {
+            System.out.println("This Project Not in List.");
+            return;
+        }
+
+        for (int i = locate;i < data.length;i++) {
+            data[i] = data[i + 1];
+        }
+        data = Arrays.copyOf(data,data.length - 1);
+    }
+
     public void writeToFile() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/data_project.bin"))) {
+        String basepath = System.getProperty("user.dir");//lay duong dan goc cua may tinh
+        File dir = new File(basepath + File.separator + "data");
+
+        if (!dir.exists()) {
+            dir.mkdir();//neu folder chua ton tai -> tao folder
+        }
+
+        File file = new File(dir,"data_project.bin");//tao duong dan dung cho file can tao
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
         }
         catch (IOException e) {
@@ -42,7 +84,15 @@ public class ListProject implements Serializable {
     }
 
     public void readFromFile() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/data_project.bin"))) {
+        String basepath = System.getProperty("user.dir");//lay duong dan goc tu may tinh
+        File file = new File(basepath + File.separator + "data" + File.separator + "data_project.bin");
+
+        if (!file.exists()) {
+            System.out.println("file khong ton tai");
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             ListProject a = (ListProject) ois.readObject();
             this.data = a.data;
         }

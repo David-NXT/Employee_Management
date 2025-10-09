@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.io.Serializable;
 
 public class Project implements Serializable{
-    private final Scanner sc = new Scanner(System.in);
+    private transient final Scanner sc = new Scanner(System.in);
     private float managerallowancerate;
     private float mainengineerallowancerate;
     private float participantallowancerate;

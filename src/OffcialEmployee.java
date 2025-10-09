@@ -1,7 +1,8 @@
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class OffcialEmployee extends Employee {
-    private final Scanner sc = new Scanner(System.in);
+public class OffcialEmployee extends Employee implements Serializable{
+    private transient final Scanner sc = new Scanner(System.in);
     private double basicsalary;
     private double salaryallowance;
 
