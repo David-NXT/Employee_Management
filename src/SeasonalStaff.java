@@ -1,7 +1,8 @@
 import java.util.Scanner;
+import java.io.*;
 
-public class SeasonalStaff extends Employee {
-    private final Scanner sc = new Scanner(System.in);
+public class SeasonalStaff extends Employee implements Serializable {
+    private transient final Scanner sc = new Scanner(System.in);
     private double hourlysalary;
     private float worktime;
 

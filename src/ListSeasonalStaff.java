@@ -1,8 +1,9 @@
 import java.util.Arrays;
 import java.util.Scanner;
+import java.io.*;
 
-public class ListSeasonalStaff {
-    private final Scanner sc = new Scanner(System.in);
+public class ListSeasonalStaff implements Serializable {
+    private transient final Scanner sc = new Scanner(System.in);
     private SeasonalStaff[] data;
     private int n;//number of data
 
@@ -32,6 +33,40 @@ public class ListSeasonalStaff {
         System.out.println("Number of Seasonal Staff: " + n);
         for(int i = 0;i < n;i++){
             data[i].putSeasonalStaff();
+        }
+    }
+
+    public void writeToFile() {
+        String basepath = System.getProperty("user.dir");
+        File dir = new File(basepath + File.separator + "data");
+
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+
+        File file = new File(dir,"data_SeasonalStaff");
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(this);
+        }
+        catch (IOException e) {
+            System.out.println("khong the ghi file " + e);
+        }
+    }
+
+    public void readFromFile() {
+        String basepath = System.getProperty("user.dir");
+        File file = new File(basepath + File.separator + "data" + File.separator + "data_SeasonalStaff");
+
+        if (!file.exists()) {
+            System.out.println("file khong ton tai");
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            ListSeasonalStaff a = (ListSeasonalStaff) ois.readObject();
+            this.data = a.data;
+        }
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
