@@ -51,9 +51,9 @@ public class ListOffcialEmployee implements Serializable {
         data[data.length - 1] = a;
     }
 
-    public void add(OffcialEmployee a) {
+    public void add(OffcialEmployee newoffcialemployee) {
         data = Arrays.copyOf(data,data.length + 1);
-        data[data.length - 1] = a;
+        data[data.length - 1] = newoffcialemployee;
     }
 
     public void delete(String employeeid) {
@@ -61,12 +61,12 @@ public class ListOffcialEmployee implements Serializable {
         for (int i = 0;i < data.length;i++) {
             if (data[i].getId().equals(employeeid)) {//tim vi tri cua nhan vien can tim
                 locate = i;
+                break;
             }
         }
         if (locate == -1) {
-            //neu khong tim thay -> ket thuc ctr
             System.out.println("This Employee Not Exist in List.");
-            return;
+            return;//neu khong tim thay -> ket thuc ctr
         }
 
         for (int i = locate;i < data.length - 1;i++) {//don cac doi tuong vao vi tri trong

@@ -36,6 +36,39 @@ public class ListSeasonalStaff implements Serializable {
         }
     }
 
+    public void add() {
+        SeasonalStaff a = new SeasonalStaff();
+        a.getSeasonalStaff();
+
+        data = Arrays.copyOf(data,data.length + 1);
+        data[data.length - 1] = a;
+    }
+
+    public void add(SeasonalStaff newseasonalstaff) {
+        data = Arrays.copyOf(data,data.length + 1);
+        data[data.length - 1] = newseasonalstaff;
+    }
+
+    public void delete(String seasonalstaffid) {
+        int locate = -1;
+        for (int i = 0;i < data.length;i++) {
+            if (data[i].getId().equals(seasonalstaffid)) {//tim vi tri cua nhan vien can tim
+                locate = i;
+                break;
+            }
+        }
+        if (locate == -1) {
+            System.out.println("This Employee Not Exist in List.");
+            return;//neu khong tim thay -> ket thuc ctr
+        }
+
+        for (int i = locate;i < data.length - 1;i++) {//don cac doi tuong vao vi tri trong
+            data[i] = data[i + 1];
+        }
+
+        data = Arrays.copyOf(data,data.length - 1);//xoa vi tri cuoi
+    }
+
     public void writeToFile() {
         String basepath = System.getProperty("user.dir");
         File dir = new File(basepath + File.separator + "data");
