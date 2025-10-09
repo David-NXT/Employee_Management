@@ -43,6 +43,39 @@ public class ListOffcialEmployee implements Serializable {
         return null;//khong tim thay
     }
 
+    public void add() {
+        OffcialEmployee a = new OffcialEmployee();
+        a.getOffcialEmployee();//lay nhan vien muon them
+
+        data = Arrays.copyOf(data,data.length + 1);
+        data[data.length - 1] = a;
+    }
+
+    public void add(OffcialEmployee a) {
+        data = Arrays.copyOf(data,data.length + 1);
+        data[data.length - 1] = a;
+    }
+
+    public void delete(String employeeid) {
+        int locate = -1;
+        for (int i = 0;i < data.length;i++) {
+            if (data[i].getId().equals(employeeid)) {//tim vi tri cua nhan vien can tim
+                locate = i;
+            }
+        }
+        if (locate == -1) {
+            //neu khong tim thay -> ket thuc ctr
+            System.out.println("This Employee Not Exist in List.");
+            return;
+        }
+
+        for (int i = locate;i < data.length - 1;i++) {//don cac doi tuong vao vi tri trong
+            data[i] = data[i + 1];
+        }
+
+        data = Arrays.copyOf(data,data.length - 1);//xoa vi tri cuoi
+    }
+
     public void writeToFile() {
         String basepath = System.getProperty("user.dir");
         File dir = new File(basepath + File.separator + "data");
