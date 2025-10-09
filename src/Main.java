@@ -1,8 +1,9 @@
 public class Main {
     public static void main(String[] args) {
-        ListProject a = new ListProject();
-        ListOffcialEmployee b = new ListOffcialEmployee();
+        ListOffcialEmployee a = new ListOffcialEmployee();
+        a.get();
+        a.writeToFile();
         a.readFromFile();
-        a.put(b);
+        a.put();
     }
 }

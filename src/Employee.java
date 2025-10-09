@@ -1,8 +1,9 @@
 import javax.xml.transform.Source;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class Employee {
-    private final Scanner sc = new Scanner(System.in);
+public class Employee implements Serializable {
+    private transient final Scanner sc = new Scanner(System.in);
     private String id;
     private String surname;
     private String name;
