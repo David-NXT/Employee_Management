@@ -66,6 +66,7 @@ public class ListOffcialEmployee implements Serializable {
 
         if (!file.exists()) {
             System.out.println("file khong ton tai");
+            return;
         }
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
