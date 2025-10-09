@@ -4,7 +4,7 @@ import java.io.*;
 import java.io.Serializable;
 
 public class ListProject implements Serializable {
-    private final Scanner sc = new Scanner(System.in);
+    private transient final Scanner sc = new Scanner(System.in);
     private Project[] data;
 
     public ListProject() {
@@ -33,7 +33,15 @@ public class ListProject implements Serializable {
     }
 
     public void writeToFile() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/data_project.bin"))) {
+        String basepath = System.getProperty("user.dir");//lay duong dan goc cua may tinh
+        File dir = new File(basepath + File.separator + "data");
+
+        if (!dir.exists()) {
+            dir.mkdir();//neu folder chua ton tai -> tao folder
+        }
+
+        File file = new File(dir,"data_project.bin");//tao duong dan dung cho file can tao
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
         }
         catch (IOException e) {
@@ -42,7 +50,15 @@ public class ListProject implements Serializable {
     }
 
     public void readFromFile() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/data_project.bin"))) {
+        String basepath = System.getProperty("user.dir");//lay duong dan goc tu may tinh
+        File file = new File(basepath + File.separator + "data" + File.separator + "data_project.bin");
+
+        if (!file.exists()) {
+            System.out.println("file khong ton tai");
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             ListProject a = (ListProject) ois.readObject();
             this.data = a.data;
         }
