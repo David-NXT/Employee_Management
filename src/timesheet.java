@@ -2,13 +2,13 @@ import java.util.Scanner;
 public class timesheet 
 {
     private String id_clock;
-    private nhanvien nv;
+    private Employee nv;
     private int year;
     private int month;
-    private int work_day;
-    private int Paid_leave;
-    private int unpaid_leave;
-    private int overtime;
+    private int work_day; //ngay lam
+    private int Paid_leave; //co phep
+    private int unpaid_leave; //khong phep
+    private int overtime; //tang ca
     Scanner sc=new Scanner(System.in);
     //ham nhap
     public void enter()
@@ -35,7 +35,7 @@ public class timesheet
         {
             System.out.println("-----bang cham cong-----");
             System.out.println("ma bang cham cong: "+id_clock);
-            System.out.println("ma nhan vien: "+nv.getID());
+            System.out.println("ma nhan vien: "+nv.getId());
             System.out.println("nam: "+year);
             System.out.println("thang: "+month);
             System.out.println("so ngay lam viec: "+work_day);
@@ -46,8 +46,8 @@ public class timesheet
         else 
         {
             System.out.println("moi ban nhap lai thong tin cua minh");
-            nv=new nhanvien();
-            nv.enter();
+            nv=new Employee();
+            nv.getEmployee();
             out();
         }
     }
@@ -68,4 +68,3 @@ public class timesheet
     public int getUnpaid_leave(){return unpaid_leave;}
     public int getOvertime(){return overtime;}
 }
-
