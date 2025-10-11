@@ -29,6 +29,7 @@ public class ListProject implements Serializable {
     }
 
     public void put(ListEmployee list) {
+        System.out.printf("%-22s %-28s %-26s %-10s %-12s %-9s %-14s %n","Manager Allowancerate","Main Engineer Allowancerate","Participant Allowancerate","Project ID","Project Name","Start Day","Accomplish Day");
         for(Project a: data) {
             a.putProject(list);
         }

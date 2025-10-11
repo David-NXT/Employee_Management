@@ -32,8 +32,7 @@ public class SeasonalStaff extends Employee implements Serializable {
     @Override
     public void put(){
         super.put();
-        System.out.println("Hourly Salary: " + hourlysalary);
-        System.out.println("Work Time: " + worktime);
+        System.out.printf("%-15.2f %-15.2f%n",hourlysalary,worktime);
     }
 
     public double getHourlySalary() {

@@ -33,8 +33,7 @@ public class OffcialEmployee extends Employee implements Serializable{
     @Override
     public void put(){
         super.put();
-        System.out.println("Basic Salary: " + basicsalary);
-        System.out.println("Salary Allowance: " + salaryallowance);
+        System.out.printf("%-15.2f %-15.2f %n",basicsalary,salaryallowance);
     }
 
     public boolean isEmployee(String employeeid) {

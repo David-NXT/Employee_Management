@@ -66,29 +66,26 @@ public class Project implements Serializable{
     }
 
     public void putProject(ListEmployee list) {
-        System.out.println("Manager Allowance Rate: " + managerallowancerate);
-        System.out.println("Main Engineer Allowance Rate: " + mainengineerallowancerate);
-        System.out.println("Participant Allowance rate: " + participantallowancerate);
-        System.out.println("Project Id: " + projectid);
-        System.out.println("Project Name: " + projectname);
-        System.out.println("Start Day: " + startday);
-        System.out.println("Accomplish Day: " + accomplishday);
-        System.out.println("Number of Employee: " + employeeid.length);
+        System.out.println("________________________________________________________________________________________");
+        System.out.printf("%-22s %-28s %-26s %-10s %-12s %-9s %-14s ",managerallowancerate,mainengineerallowancerate,participantallowancerate,projectid,projectname,startday,accomplishday);
+
         OffcialEmployee name = list.isOffcialEmployee(managerid);
             if (name != null)
-                System.out.println("Quan ly du an: " + name.getName() + " " + name.getId());
-            else System.out.println("Du an chua co quan ly");
+                System.out.printf("%-13s %-7s ",name.getName(),name.getId());
+            else System.out.printf("%-21s ","Du an chua co quan ly");
             name = list.isOffcialEmployee(mainengineerid);
             if (name != null)
-                System.out.println("Ky su truong du an: " + name.getName() + " " + name.getId());
-            else System.out.println("Du an chua co ki su truong");
+                System.out.printf("%-18s %-7s%n",name.getName(),name.getId());
+            else System.out.printf("%-26s%n","Du an chua co ki su truong");
 
-            System.out.println("Nhan vien tham gia du an: ");
+            System.out.println("Nhan vien tham gia du an: " + employeeid.length);
+            System.out.printf("%-25s %-7s%n","Name","ID");
             for (String b: employeeid) {
                 name = list.isOffcialEmployee(b);
                 if (name != null)
-                    System.out.println("\t" + name.getName() + " " + name.getId());
+                    System.out.printf("%-25s %-7s%n",name.getSurname() + " " + name.getName(),name.getId());
             }
+            System.out.println("________________________________________________________________________________________");
     }
 
     public double projectAllowanceSalary(OffcialEmployee employee) {

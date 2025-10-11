@@ -51,14 +51,7 @@ public class Employee implements Serializable {
     }
 
     public void put(){
-        System.out.println("ID: " + id);
-        System.out.println("Surname: " + surname);
-        System.out.println("Name: " + name);
-        System.out.println("Gender: " + gender);
-        System.out.println("Address: " + address);
-        System.out.println("Phone Number: " + phonenumber);
-        System.out.println("Email: " + email);
-        System.out.println("Start Working Day: " + startworkingday);
+        System.out.printf("%-10s %-20s %-10s %-8s %-50s %-12s %-20s %-17s ",id,surname,name,gender,address,phonenumber,email,startworkingday);
     }
 
     public String getId(){

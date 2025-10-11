@@ -70,6 +70,8 @@ public class ListEmployee implements Serializable{
     public void putOffcialEmployee() {
         System.out.println("Number Of Offcial Employee: " + numOffcialEmployee());
 
+        System.out.printf("%-10s %-20s %-10s %-8s %-50s %-12s %-20s %-17s %-15s %-15s%n","ID","Surname","Name","Gender","Address","Phone Number","Email","Start Working Day","Basic Salary","Salary Allowance");
+
         for(int i = 0;i < data.length;i++) {
             if (data[i] instanceof OffcialEmployee) {
                 data[i].put();
@@ -79,6 +81,9 @@ public class ListEmployee implements Serializable{
 
     public void putSeasonalStaff() {
         System.out.println("Number Of Seasonal Staff: " + numSeasonalStaff());
+
+        System.out.printf("%-10s %-20s %-10s %-8s %-50s %-12s %-20s %-17s %-15s %-15s%n","ID","Surname","Name","Gender","Address","Phone Number","Email","Start Working Day","Hourly Salary","Work Time");
+
 
         for (int i = 0;i < data.length;i++) {
             if (data[i] instanceof SeasonalStaff) {
@@ -122,7 +127,7 @@ public class ListEmployee implements Serializable{
         return null;
     }
 
-    public int isEmployee(String id) {//check if there is a employee with that ID
+    public int isEmployee(String id) {//check if there is an employee with that ID
         int locate = -1;
         for (int i = 0;i < data.length;i++) {
             if (data[i].getId().equals(id)) {
