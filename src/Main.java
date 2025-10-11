@@ -1,6 +1,9 @@
 public class Main {
     public static void main(String[] args) {
-        EmployeeManagerMenu a = new EmployeeManagerMenu();
-        a.menu();
+        ListOffcialEmployee a = new ListOffcialEmployee();
+        a.get();
+        a.writeToFile();
+        a.readFromFile();
+        a.put();
     }
 }
