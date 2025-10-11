@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -31,7 +30,6 @@ class QDPC_ThamNien extends QuyDinhPhuCap{
     public int phuCap(){
         long thamnien = tinhThamNien();
         return (thamnien >= requirements)?amount:0;
-
     }
 
     public void putPhuCapThamNien() {
