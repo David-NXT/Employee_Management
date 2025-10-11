@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 public class ListProject implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
     private Project[] data;
 
     public ListProject() {
@@ -77,6 +79,8 @@ public class ListProject implements Serializable {
         File file = new File(dir,"data_project.bin");//tao duong dan dung cho file can tao
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
+            oos.close();
+            System.out.println("Saved!");
         }
         catch (IOException e) {
             System.out.println("loi ghi file " + e);
@@ -88,7 +92,7 @@ public class ListProject implements Serializable {
         File file = new File(basepath + File.separator + "data" + File.separator + "data_project.bin");
 
         if (!file.exists()) {
-            System.out.println("file khong ton tai");
+//            System.out.println("file khong ton tai");
             return;
         }
 

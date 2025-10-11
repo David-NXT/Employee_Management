@@ -4,6 +4,8 @@ import java.io.*;
 
 public class ListSeasonalStaff implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
     private SeasonalStaff[] data;
     private int n;//number of data
 
@@ -80,6 +82,8 @@ public class ListSeasonalStaff implements Serializable {
         File file = new File(dir,"data_SeasonalStaff");
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
+            oos.close();
+            System.out.println("Save!");
         }
         catch (IOException e) {
             System.out.println("khong the ghi file " + e);
@@ -91,7 +95,7 @@ public class ListSeasonalStaff implements Serializable {
         File file = new File(basepath + File.separator + "data" + File.separator + "data_SeasonalStaff");
 
         if (!file.exists()) {
-            System.out.println("file khong ton tai");
+//            System.out.println("file khong ton tai");
             return;
         }
 
