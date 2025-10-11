@@ -52,33 +52,33 @@ public class Employment_contract extends Employee implements Serializable {
     public void setEmployee(Employee employee) { this.employee = employee; }
 
     public void inputContract() {
-        System.out.print("Nhập mã hợp đồng: ");
+        System.out.print("Contract Id: ");
         contractId = sc.nextLine();
-        System.out.print("Nhập loại hợp đồng: ");
+        System.out.print("Contract Type: ");
         contractType = sc.nextLine();
-        System.out.print("Nhập ngày ký: ");
+        System.out.print("Day sign: ");
         daySign = sc.nextLine();
-        System.out.print("Nhập ngày hết hạn: ");
+        System.out.print("Day end: ");
         dayEnd = sc.nextLine();
-        System.out.print("Nhập lương: ");
+        System.out.print("Salary: ");
         reasonableSalary = sc.nextLine();
-        System.out.print("Nhập điều khoản: ");
+        System.out.print("Provision: ");
         provision = sc.nextLine();
 
-        System.out.println("\n--- Nhập thông tin nhân viên ký hợp đồng ---");
+        System.out.println("\n--- Enter employee sign the contract ---");
         employee = new Employee();
         employee.getEmployee();
     }
 
     public void outputContract() {
-        System.out.println("\n===== THÔNG TIN HỢP ĐỒNG LAO ĐỘNG =====");
-        System.out.println("Mã hợp đồng: " + contractId);
-        System.out.println("Loại hợp đồng: " + contractType);
-        System.out.println("Ngày ký: " + daySign);
-        System.out.println("Ngày kết thúc: " + dayEnd);
-        System.out.println("Lương thỏa đáng: " + reasonableSalary);
-        System.out.println("Điều khoản: " + provision);
-        System.out.println("\n--- Thông tin nhân viên ---");
+        System.out.println("\n===== Imformation of contract =====");
+        System.out.println("Contract Id: " + contractId);
+        System.out.println("Contract Type: " + contractType);
+        System.out.println("Day sign: " + daySign);
+        System.out.println("Day end: " + dayEnd);
+        System.out.println("Reasonable salary: " + reasonableSalary);
+        System.out.println("Provision: " + provision);
+        System.out.println("\n---Employee Imformation ---");
         employee.putEmployee();
     }
 }
