@@ -10,20 +10,7 @@ public class clock
     private int unpaid_leave;
     private int overtime;
     Scanner sc=new Scanner(System.in);
-    public void setId_clock(String id_clock){this.id_clock=id_clock;}
-    public void setYear(int year){this.year=year;}
-    public void setMonth(int month){this.month=month;}
-    public void setWork_day(int work_day){this.work_day=work_day;}
-    public void setPaid_leave(int Paid_leave){this.Paid_leave=Paid_leave;}
-    public void setUnpaid_leave(int unpaid_leave){this.unpaid_leave=unpaid_leave;}
-    public void setOvertime(int overtime){this.overtime=overtime;}
-    public String getId_clock(){return id_clock;}
-    public int getYear(){return year;}
-    public int getMonth(){return month;}
-    public int getWork_day(){return work_day;}
-    public int getPaid_leave(){return Paid_leave;}
-    public int getUnpaid_leave(){return unpaid_leave;}
-    public int getOvertime(){return overtime;}
+    //ham nhap
     public void enter()
     {
         System.out.print("nhap ma bang cham cong: ");
@@ -41,6 +28,7 @@ public class clock
         System.out.print("nhap so gio lam them: ");
         overtime=sc.nextInt();   
     }
+    //ham xuat
     public void out()
     {
         System.out.println("-----bang cham cong-----");
@@ -53,13 +41,20 @@ public class clock
         System.out.println("so ngay nghi khong phep: "+unpaid_leave);
         System.out.println("so gio lam them: "+overtime);
     }
-    public static void main(String[] args) 
-    {
-        clock c=new clock();
-        c.nv=new nhanvien();
-        c.nv.enter();
-        c.enter();
-        c.out();
-    }
-
+    //set
+    public void setId_clock(String id_clock){this.id_clock=id_clock;}
+    public void setYear(int year){this.year=year;}
+    public void setMonth(int month){this.month=month;}
+    public void setWork_day(int work_day){this.work_day=work_day;}
+    public void setPaid_leave(int Paid_leave){this.Paid_leave=Paid_leave;}
+    public void setUnpaid_leave(int unpaid_leave){this.unpaid_leave=unpaid_leave;}
+    public void setOvertime(int overtime){this.overtime=overtime;}
+    //get
+    public String getId_clock(){return id_clock;}
+    public int getYear(){return year;}
+    public int getMonth(){return month;}
+    public int getWork_day(){return work_day;}
+    public int getPaid_leave(){return Paid_leave;}
+    public int getUnpaid_leave(){return unpaid_leave;}
+    public int getOvertime(){return overtime;}
 }
