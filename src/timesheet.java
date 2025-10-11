@@ -31,15 +31,25 @@ public class timesheet
     //ham xuat
     public void out()
     {
-        System.out.println("-----bang cham cong-----");
-        System.out.println("ma bang cham cong: "+id_clock);
-        System.out.println("ma nhan vien: "+nv.getID());
-        System.out.println("nam: "+year);
-        System.out.println("thang: "+month);
-        System.out.println("so ngay lam viec: "+work_day);
-        System.out.println("so ngay nghi co phep: "+Paid_leave);
-        System.out.println("so ngay nghi khong phep: "+unpaid_leave);
-        System.out.println("so gio lam them: "+overtime);
+        if (nv!=null)
+        {
+            System.out.println("-----bang cham cong-----");
+            System.out.println("ma bang cham cong: "+id_clock);
+            System.out.println("ma nhan vien: "+nv.getID());
+            System.out.println("nam: "+year);
+            System.out.println("thang: "+month);
+            System.out.println("so ngay lam viec: "+work_day);
+            System.out.println("so ngay nghi co phep: "+Paid_leave);
+            System.out.println("so ngay nghi khong phep: "+unpaid_leave);
+            System.out.println("so gio lam them: "+overtime);
+        }
+        else 
+        {
+            System.out.println("moi ban nhap lai thong tin cua minh");
+            nv=new nhanvien();
+            nv.enter();
+            out();
+        }
     }
     //set
     public void setId_clock(String id_clock){this.id_clock=id_clock;}
@@ -58,3 +68,4 @@ public class timesheet
     public int getUnpaid_leave(){return unpaid_leave;}
     public int getOvertime(){return overtime;}
 }
+
