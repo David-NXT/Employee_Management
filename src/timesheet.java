@@ -2,19 +2,21 @@ import java.util.Scanner;
 public class timesheet 
 {
     private String id_clock;
-    private Employee nv;
+    private String id_employee;
     private int year;
     private int month;
-    private int work_day;
-    private int Paid_leave;
-    private int unpaid_leave;
-    private int overtime;
+    private int work_day; //ngay lam
+    private int Paid_leave; //co phep
+    private int unpaid_leave; //khong phep
+    private int overtime; //tang ca
     Scanner sc=new Scanner(System.in);
     //ham nhap
     public void enter()
     {
         System.out.print("nhap ma bang cham cong: ");
         id_clock=sc.nextLine();
+        System.out.print("nhap ma nhan vien: ");
+        id_employee=sc.nextLine();
         System.out.print("nhap nam: "); 
         year=sc.nextInt();
         System.out.print("nhap thang: ");
@@ -31,28 +33,20 @@ public class timesheet
     //ham xuat
     public void out()
     {
-        if (nv!=null)
-        {
-            System.out.println("-----bang cham cong-----");
-            System.out.println("ma bang cham cong: "+id_clock);
-            System.out.println("ma nhan vien: "+nv.getId());
-            System.out.println("nam: "+year);
-            System.out.println("thang: "+month);
-            System.out.println("so ngay lam viec: "+work_day);
-            System.out.println("so ngay nghi co phep: "+Paid_leave);
-            System.out.println("so ngay nghi khong phep: "+unpaid_leave);
-            System.out.println("so gio lam them: "+overtime);
-        }
-        else 
-        {
-            System.out.println("moi ban nhap lai thong tin cua minh");
-            nv=new Employee();
-            nv.get();
-            out();
-        }
+    
+        System.out.println("-----bang cham cong-----");
+        System.out.println("ma bang cham cong: "+id_clock);
+        System.out.println("ma nhan vien: "+id_employee);
+        System.out.println("nam: "+year);
+        System.out.println("thang: "+month);
+        System.out.println("so ngay lam viec: "+work_day);
+        System.out.println("so ngay nghi co phep: "+Paid_leave);
+        System.out.println("so ngay nghi khong phep: "+unpaid_leave);
+        System.out.println("so gio lam them: "+overtime);
     }
     //set
     public void setId_clock(String id_clock){this.id_clock=id_clock;}
+    public void setId_employee(String id_employee){this.id_employee=id_employee;}
     public void setYear(int year){this.year=year;}
     public void setMonth(int month){this.month=month;}
     public void setWork_day(int work_day){this.work_day=work_day;}
@@ -61,6 +55,7 @@ public class timesheet
     public void setOvertime(int overtime){this.overtime=overtime;}
     //get
     public String getId_clock(){return id_clock;}
+    public String getId_employee(){return id_employee;}
     public int getYear(){return year;}
     public int getMonth(){return month;}
     public int getWork_day(){return work_day;}
@@ -68,4 +63,3 @@ public class timesheet
     public int getUnpaid_leave(){return unpaid_leave;}
     public int getOvertime(){return overtime;}
 }
-
