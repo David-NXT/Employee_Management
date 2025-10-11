@@ -65,7 +65,7 @@ public class Project implements Serializable{
         }
     }
 
-    public void putProject(ListOffcialEmployee list) {
+    public void putProject(ListEmployee list) {
         System.out.println("Manager Allowance Rate: " + managerallowancerate);
         System.out.println("Main Engineer Allowance Rate: " + mainengineerallowancerate);
         System.out.println("Participant Allowance rate: " + participantallowancerate);
@@ -74,18 +74,18 @@ public class Project implements Serializable{
         System.out.println("Start Day: " + startday);
         System.out.println("Accomplish Day: " + accomplishday);
         System.out.println("Number of Employee: " + employeeid.length);
-        OffcialEmployee name = list.isInList(managerid);
+        OffcialEmployee name = list.isOffcialEmployee(managerid);
             if (name != null)
                 System.out.println("Quan ly du an: " + name.getName() + " " + name.getId());
             else System.out.println("Du an chua co quan ly");
-            name = list.isInList(mainengineerid);
+            name = list.isOffcialEmployee(mainengineerid);
             if (name != null)
                 System.out.println("Ky su truong du an: " + name.getName() + " " + name.getId());
             else System.out.println("Du an chua co ki su truong");
 
             System.out.println("Nhan vien tham gia du an: ");
             for (String b: employeeid) {
-                name = list.isInList(b);
+                name = list.isOffcialEmployee(b);
                 if (name != null)
                     System.out.println("\t" + name.getName() + " " + name.getId());
             }

@@ -1,8 +1,11 @@
+import java.io.Serial;
 import java.util.Scanner;
 import java.io.Serializable;
 
 public class OffcialEmployee extends Employee implements Serializable{
     private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
     private double basicsalary;
     private double salaryallowance;
 
@@ -20,14 +23,16 @@ public class OffcialEmployee extends Employee implements Serializable{
         this.salaryallowance = salaryallowance;
     }
 
-    public void getOffcialEmployee(){
-        super.getEmployee();
+    @Override
+    public void get(){
+        super.get();
         System.out.println("Basic Salary: ");basicsalary = sc.nextDouble();
         System.out.println("Salary Allowance: ");salaryallowance = sc.nextDouble();
     }
 
-    public void putOffcialEmployee(){
-        super.putEmployee();
+    @Override
+    public void put(){
+        super.put();
         System.out.println("Basic Salary: " + basicsalary);
         System.out.println("Salary Allowance: " + salaryallowance);
     }

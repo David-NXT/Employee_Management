@@ -15,7 +15,7 @@ public class EmployeeManagerMenu {
                     break;
                 }
                 case 1: {
-                    ListOffcialEmployee list = new ListOffcialEmployee();
+                    ListEmployee list = new ListEmployee();
                     list.readFromFile();
                     do {
                         offcialEmployeeMenu();
@@ -26,7 +26,7 @@ public class EmployeeManagerMenu {
                     break;
                 }
                 case 2: {
-                    ListSeasonalStaff list = new ListSeasonalStaff();
+                    ListEmployee list = new ListEmployee();
                     list.readFromFile();
                     do {
                         seasonalStaffMenu();
@@ -89,31 +89,29 @@ public class EmployeeManagerMenu {
         System.out.println("4. Print Data");
     }
 
-    public void runOffcialEmployeeManager(int mode, ListOffcialEmployee list) {
+    public void runOffcialEmployeeManager(int mode, ListEmployee list) {
         switch (mode) {
             case 0: {
                 list.writeToFile();
-                System.out.println("da luu file");
                 break;
             }
             case 1: {
-                list.get();
-                list.writeToFile();
+                list.getOffcialEmployee();
                 break;
             }
             case 2: {
-                list.add();
-                list.writeToFile();
+                OffcialEmployee a = new OffcialEmployee();
+                a.get();
+                list.add(a);
                 break;
             }
             case 3: {
                 System.out.println("Put The Employee ID That You Want to Delete: ");String id = sc.nextLine();
                 list.delete(id);
-                list.writeToFile();
                 break;
             }
             case 4: {
-                list.put();
+                list.putOffcialEmployee();
                 break;
             }
             default: {
@@ -123,18 +121,20 @@ public class EmployeeManagerMenu {
         }
     }
 
-    public void runSeasonalStaffManager(int mode, ListSeasonalStaff list) {
+    public void runSeasonalStaffManager(int mode, ListEmployee list) {
         switch (mode) {
             case 0: {
                 list.writeToFile();
                 break;
             }
             case 1: {
-                list.get();
+                list.getSeasonalStaff();
                 break;
             }
             case 2: {
-                list.add();
+                SeasonalStaff a = new SeasonalStaff();
+                a.get();
+                list.add(a);
                 break;
             }
             case 3: {
@@ -143,7 +143,7 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 4: {
-                list.put();
+                list.putSeasonalStaff();
                 break;
             }
             default: {
@@ -154,7 +154,7 @@ public class EmployeeManagerMenu {
     }
 
     public void runProjectManager(int mode, ListProject list) {
-        ListOffcialEmployee listemployee = new ListOffcialEmployee();
+        ListEmployee listemployee = new ListEmployee();
         listemployee.readFromFile();
         switch (mode) {
             case 0: {

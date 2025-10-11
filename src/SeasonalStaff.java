@@ -3,6 +3,8 @@ import java.io.*;
 
 public class SeasonalStaff extends Employee implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
     private double hourlysalary;
     private float worktime;
 
@@ -20,14 +22,16 @@ public class SeasonalStaff extends Employee implements Serializable {
         this.worktime = worktime;
     }
 
-    public void getSeasonalStaff() {
-        super.getEmployee();
+    @Override
+    public void get() {
+        super.get();
         System.out.println("Hourly Salary: ");hourlysalary = sc.nextDouble();
         System.out.println("Work Time: ");worktime = sc.nextFloat();
     }
 
-    public void putSeasonalStaff(){
-        super.putEmployee();
+    @Override
+    public void put(){
+        super.put();
         System.out.println("Hourly Salary: " + hourlysalary);
         System.out.println("Work Time: " + worktime);
     }

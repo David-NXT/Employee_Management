@@ -1,9 +1,11 @@
-import javax.xml.transform.Source;
+import java.io.Serial;
 import java.util.Scanner;
 import java.io.Serializable;
 
 public class Employee implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String id;
     private String surname;
     private String name;
@@ -37,7 +39,7 @@ public class Employee implements Serializable {
 
     public Employee(){}
 
-    public void getEmployee(){
+    public void get(){
         System.out.println("ID: ");id = sc.nextLine();
         System.out.println("Surname: ");surname = sc.nextLine();
         System.out.println("Name: ");name = sc.nextLine();
@@ -48,7 +50,7 @@ public class Employee implements Serializable {
         System.out.println("Start Working Day: ");startworkingday = sc.nextLine();
     }
 
-    public void putEmployee(){
+    public void put(){
         System.out.println("ID: " + id);
         System.out.println("Surname: " + surname);
         System.out.println("Name: " + name);

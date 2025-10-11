@@ -28,7 +28,7 @@ public class ListProject implements Serializable {
         }
     }
 
-    public void put(ListOffcialEmployee list) {
+    public void put(ListEmployee list) {
         for(Project a: data) {
             a.putProject(list);
         }
@@ -92,7 +92,7 @@ public class ListProject implements Serializable {
         File file = new File(basepath + File.separator + "data" + File.separator + "data_project.bin");
 
         if (!file.exists()) {
-//            System.out.println("file khong ton tai");
+            System.out.println("file khong ton tai");
             return;
         }
 

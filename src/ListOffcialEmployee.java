@@ -28,14 +28,14 @@ public class ListOffcialEmployee implements Serializable {
 
         for(int i = 0;i < n;i++){
             data[i] = new OffcialEmployee();//create new object each i of data
-            data[i].getOffcialEmployee();
+            data[i].get();
         }
     }
 
     public void put(){
         System.out.println("Number of Offcial Employee: " + n);
         for(int i = 0;i < n;i++){
-            data[i].putOffcialEmployee();
+            data[i].put();
         }
     }
 
@@ -47,7 +47,7 @@ public class ListOffcialEmployee implements Serializable {
 
     public void add() {
         OffcialEmployee a = new OffcialEmployee();
-        a.getOffcialEmployee();//lay nhan vien muon them
+        a.get();//lay nhan vien muon them
 
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
@@ -102,7 +102,7 @@ public class ListOffcialEmployee implements Serializable {
         File file = new File(basepath + File.separator + "data" + File.separator + "data_OffcialEmployee.bin");
 
         if (!file.exists()) {
-//            System.out.println("file khong ton tai");
+            System.out.println("file khong ton tai");
             return;
         }
 
