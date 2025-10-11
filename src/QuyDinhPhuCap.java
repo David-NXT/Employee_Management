@@ -2,18 +2,18 @@ import java.util.Scanner;
 
 public class QuyDinhPhuCap{  
     
-    private Scanner sc=new Scanner(System.in);
+    protected Scanner sc=new Scanner(System.in);
 
     protected String id;
     protected String name;
     protected String about;
-    protected long amount;
+    protected int amount;
     protected String date_ap_dung;
     protected Boolean status;
 
     public QuyDinhPhuCap(){}
 
-    public QuyDinhPhuCap(String id, String name, String about, long amount, String date_ap_dung, boolean status){
+    public QuyDinhPhuCap(String id, String name, String about, int amount, String date_ap_dung, boolean status){
         this.id = id;
         this.name = name;
         this.about = about;
@@ -42,7 +42,7 @@ public class QuyDinhPhuCap{
         System.out.printf("Trang thai phu cap: %sn",status);
     }
 
-    
+    //Get/set area
     //
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -51,7 +51,7 @@ public class QuyDinhPhuCap{
     public void setAbout(String about) { this.about = about; }
     //
     public long getAmount() { return amount; }
-    public void setAmount(long amount) { this.amount = amount; }
+    public void setAmount(int amount) { this.amount = amount; }
     //
     public String getDateApDung() { return date_ap_dung; }
     public void setDateApDung(String date_ap_dung) { this.date_ap_dung = date_ap_dung; }

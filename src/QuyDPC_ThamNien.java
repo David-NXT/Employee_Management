@@ -4,18 +4,24 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 class QDPC_ThamNien extends QuyDinhPhuCap{
+
     private Employee nv;
     private int requirements;
 
-    public QDPC_ThamNien(Employee nv,String id, String name, String about, long amount, String date_ap_dung, boolean status){
+    public QDPC_ThamNien(Employee nv,String id, String name, String about, int amount, String date_ap_dung, boolean status){
         super(id,name,about,amount,date_ap_dung,status);
         this.nv = nv;
         this.requirements = requirements;
-    
 
     }
+    public void getQDPC_ThamNien(){
+        System.out.printf("Yeu cau tham nien:");requirements=sc.nextInt();
+    }
+    public void putQDPC_ThamNien(){
+        System.out.printf("Yeu cau tham nien: %d%n",requirements);
+    }
 
-     public long tinhThamNien(){
+    public long tinhThamNien(){
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yy MM dd");
         LocalDate start = LocalDate.parse(nv.getStartWorkingDay(), fmt);
         LocalDate now = LocalDate.now();
@@ -26,17 +32,19 @@ class QDPC_ThamNien extends QuyDinhPhuCap{
         long thamnien = tinhThamNien();
         return (thamnien >= requirements)?amount:0;
 
-
-    }
-
-    public int requirements(){
-        int requirements = Integer.parseInt(sc.nextLine());
     }
 
     public void putPhuCapThamNien() {
-        System.out.println("So nam lam viec: %s%n",tinhThamNien());
-        System.out.println("Phu cap thuc nhan: %s%n",phuCap());
+        System.out.printf("So nam lam viec: %d%n",tinhThamNien());
+        System.out.printf("Phu cap thuc nhan: %d%n",phuCap());
     }
+
+     //Get/set area
+     //
+    public int getRequirements() { return requirements; }
+    public void setrequirements(int requirements) { this.requirements = requirements; }
+
+
 
 
 

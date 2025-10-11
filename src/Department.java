@@ -42,6 +42,7 @@ public class Department
         System.out.printf("Ngay thanh lap phong ban: %s%n",createdate);
         System.out.printf("Truong phong ban: %s%n",manager);
     }
+    //Get/set area
     //
     public String getId(){
         return id;
