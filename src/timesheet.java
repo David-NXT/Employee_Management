@@ -5,10 +5,10 @@ public class timesheet
     private Employee nv;
     private int year;
     private int month;
-    private int work_day; //ngay lam
-    private int Paid_leave; //co phep
-    private int unpaid_leave; //khong phep
-    private int overtime; //tang ca
+    private int work_day;
+    private int Paid_leave;
+    private int unpaid_leave;
+    private int overtime;
     Scanner sc=new Scanner(System.in);
     //ham nhap
     public void enter()
@@ -68,3 +68,4 @@ public class timesheet
     public int getUnpaid_leave(){return unpaid_leave;}
     public int getOvertime(){return overtime;}
 }
+
