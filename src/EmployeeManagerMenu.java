@@ -55,6 +55,14 @@ public class EmployeeManagerMenu {
                     } while(mode != 0);
                     break;
                 }
+                case 5: {
+                    do {
+                        //them chuc nang cho quan ly phong ban nha bao
+                        mode =sc.nextInt();
+                        sc.nextLine();// xoa \n thua trong buffer
+                    } while(mode != 0);
+                    break;
+                }
                 default: {
                     System.out.println("khong co chuc nang nay, voi long nhap lai");
                     break;
@@ -69,6 +77,7 @@ public class EmployeeManagerMenu {
         System.out.println("2. Seasonal Staff Manager");
         System.out.println("3. Project Manager");
         System.out.println("4. Salary Manager");
+        System.out.println("5. Department Manager");
     }
 
     public void offcialEmployeeMenu() {
