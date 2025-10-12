@@ -26,7 +26,6 @@ public class SeasonalStaff extends Employee implements Serializable {
     public void get() {
         super.get();
         System.out.println("Hourly Salary: ");hourlysalary = sc.nextDouble();
-        System.out.println("Work Time: ");worktime = sc.nextFloat();
     }
 
     @Override

@@ -102,6 +102,59 @@ public class Project implements Serializable{
         }
     }
 
+    public boolean isEmployeeInProject(OfficialEmployee employee) {
+        if(employee.getId().equals(managerid))
+            return true;
+        else if(employee.getId().equals(mainengineerid))
+            return true;
+        else {
+            for(String a : employeeid) {
+                if(employee.getId().equals(a))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public boolean isEmployeeInProject(String id) {
+        if(id.equals(managerid))
+            return true;
+        else if(id.equals(mainengineerid))
+            return true;
+        else {
+            for(String a : employeeid) {
+                if(id.equals(a))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public void addEmployeeId(String id) {
+        employeeid = Arrays.copyOf(employeeid,employeeid.length + 1);
+        employeeid[employeeid.length - 1] = id;
+    }
+
+    public void deleteEmployeeId(String id) {
+        int locate = -1;
+        for (int i = 0;i < employeeid.length;i++) {
+            if (employeeid[i].equals(id)) {
+                locate = i;
+                break;
+            }
+        }
+
+        if (locate == -1) {
+            System.out.println("There Is No Employee Have That ID");
+            return;
+        }
+
+        for (int i = locate;i < employeeid.length;i++) {
+            employeeid[i] = employeeid[i + 1];
+        }
+        employeeid = Arrays.copyOf(employeeid,employeeid.length - 1);
+    }
+
     public float getManagerAllowanceRate() {
         return managerallowancerate;
     }
