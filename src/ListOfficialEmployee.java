@@ -1,21 +1,20 @@
-import javax.xml.transform.Source;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.io.*;
 
-public class ListOffcialEmployee implements Serializable {
+public class ListOfficialEmployee implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
-    private OffcialEmployee[] data;
+    private OfficialEmployee[] data;
     private int n;//number of data
 
-    public ListOffcialEmployee(){
-        data = new OffcialEmployee[0];
+    public ListOfficialEmployee(){
+        data = new OfficialEmployee[0];
         n = 0;
     }
 
-    public ListOffcialEmployee(ListOffcialEmployee a){
+    public ListOfficialEmployee(ListOfficialEmployee a){
         data = a.data;
         n = a.data.length;
     }
@@ -27,7 +26,7 @@ public class ListOffcialEmployee implements Serializable {
         data = Arrays.copyOf(data,n);//cap them n phan tu cho mang data
 
         for(int i = 0;i < n;i++){
-            data[i] = new OffcialEmployee();//create new object each i of data
+            data[i] = new OfficialEmployee();//create new object each i of data
             data[i].get();
         }
     }
@@ -39,21 +38,21 @@ public class ListOffcialEmployee implements Serializable {
         }
     }
 
-    public OffcialEmployee isInList(String employeeid) {
-        for (OffcialEmployee a: data)
+    public OfficialEmployee isInList(String employeeid) {
+        for (OfficialEmployee a: data)
             if (a.isEmployee(employeeid)) return a;//neu nhan vien a la nhan vien trung id thi tra ve
         return null;//khong tim thay
     }
 
     public void add() {
-        OffcialEmployee a = new OffcialEmployee();
+        OfficialEmployee a = new OfficialEmployee();
         a.get();//lay nhan vien muon them
 
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
     }
 
-    public void add(OffcialEmployee newoffcialemployee) {
+    public void add(OfficialEmployee newoffcialemployee) {
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = newoffcialemployee;
     }
@@ -107,7 +106,7 @@ public class ListOffcialEmployee implements Serializable {
         }
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            ListOffcialEmployee a = (ListOffcialEmployee) ois.readObject();
+            ListOfficialEmployee a = (ListOfficialEmployee) ois.readObject();
             this.data = a.data;
         }
         catch (IOException | ClassNotFoundException e) {
@@ -115,11 +114,11 @@ public class ListOffcialEmployee implements Serializable {
         }
     }
 
-    public OffcialEmployee[] getData(){
+    public OfficialEmployee[] getData(){
         return data;
     }
 
-    public void setData(OffcialEmployee[] data){
+    public void setData(OfficialEmployee[] data){
         this.data = data;
     }
 }

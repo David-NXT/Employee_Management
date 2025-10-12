@@ -1,3 +1,4 @@
+import javax.xml.transform.Source;
 import java.util.Scanner;
 
 public class EmployeeManagerMenu {
@@ -21,7 +22,7 @@ public class EmployeeManagerMenu {
                         offcialEmployeeMenu();
                         mode = sc.nextInt();
                         sc.nextLine();
-                        runOffcialEmployeeManager(mode, list);
+                        runOfficialEmployeeManager(mode, list);
                     } while (mode != 0);
                     break;
                 }
@@ -73,7 +74,7 @@ public class EmployeeManagerMenu {
 
     public void mainMenu() {
         System.out.println("0. End Program");
-        System.out.println("1. Offcial Employee Manager");
+        System.out.println("1. Official Employee Manager");
         System.out.println("2. Seasonal Staff Manager");
         System.out.println("3. Project Manager");
         System.out.println("4. Salary Manager");
@@ -81,12 +82,24 @@ public class EmployeeManagerMenu {
     }
 
     public void offcialEmployeeMenu() {
-        System.out.println("---Offcial Employee Manager---");
+        System.out.println("---Official Employee Manager---");
         System.out.println("0. Save and Exit");
         System.out.println("1. reCreate List");
         System.out.println("2. Add Employee");
         System.out.println("3. Delete Employee");
         System.out.println("4. Print Data");
+        System.out.println("5. Change Employee Information");
+    }
+
+    public void changeOfficialEmployeeMenu() {
+        System.out.println("Choose Information That You Want To Change:");
+        System.out.println("0. Exit");
+        System.out.println("1. Name");
+        System.out.println("2. Gender");
+        System.out.println("3. Phone Number");
+        System.out.println("4. Email");
+        System.out.println("5. Start Working Day");
+        System.out.println("6. Basic Salary");
     }
 
     public void seasonalStaffMenu() {
@@ -107,7 +120,7 @@ public class EmployeeManagerMenu {
         System.out.println("4. Print Data");
     }
 
-    public void runOffcialEmployeeManager(int mode, ListEmployee list) {
+    public void runOfficialEmployeeManager(int mode, ListEmployee list) {
         switch (mode) {
             case 0: {
                 list.writeToFile();
@@ -118,7 +131,7 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 2: {
-                OffcialEmployee a = new OffcialEmployee();
+                OfficialEmployee a = new OfficialEmployee();
                 a.get();
                 list.add(a);
                 break;
@@ -130,6 +143,18 @@ public class EmployeeManagerMenu {
             }
             case 4: {
                 list.putOffcialEmployee();
+                break;
+            }
+            case 5: {
+                System.out.print("Employee ID That You Want To Change: ");String id = sc.nextLine();
+                if (!list.isOfficialEmployee(id)) {
+                    System.out.println("There No Official Employ");
+                }
+                do {
+                    changeOfficialEmployeeMenu();
+                    mode = sc.nextInt();
+                    sc.nextLine();
+                } while (mode != 0);
                 break;
             }
             default: {

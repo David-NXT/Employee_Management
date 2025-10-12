@@ -69,11 +69,11 @@ public class Project implements Serializable{
         System.out.println("________________________________________________________________________________________");
         System.out.printf("%-22s %-28s %-26s %-10s %-12s %-9s %-14s ",managerallowancerate,mainengineerallowancerate,participantallowancerate,projectid,projectname,startday,accomplishday);
 
-        OffcialEmployee name = list.isOffcialEmployee(managerid);
+        OfficialEmployee name = list.getOfficialEmployee(managerid);
             if (name != null)
                 System.out.printf("%-13s %-7s ",name.getName(),name.getId());
             else System.out.printf("%-21s ","Du an chua co quan ly");
-            name = list.isOffcialEmployee(mainengineerid);
+            name = list.getOfficialEmployee(mainengineerid);
             if (name != null)
                 System.out.printf("%-18s %-7s%n",name.getName(),name.getId());
             else System.out.printf("%-26s%n","Du an chua co ki su truong");
@@ -81,14 +81,14 @@ public class Project implements Serializable{
             System.out.println("Nhan vien tham gia du an: " + employeeid.length);
             System.out.printf("%-25s %-7s%n","Name","ID");
             for (String b: employeeid) {
-                name = list.isOffcialEmployee(b);
+                name = list.getOfficialEmployee(b);
                 if (name != null)
                     System.out.printf("%-25s %-7s%n",name.getSurname() + " " + name.getName(),name.getId());
             }
             System.out.println("________________________________________________________________________________________");
     }
 
-    public double projectAllowanceSalary(OffcialEmployee employee) {
+    public double projectAllowanceSalary(OfficialEmployee employee) {
         if(employee.getId().equals(managerid))
             return employee.getBasicSalary() * managerallowancerate;//tra ve muc phu cap cua quan ly du an
         else if(employee.getId().equals(mainengineerid))
