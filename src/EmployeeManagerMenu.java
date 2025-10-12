@@ -1,4 +1,3 @@
-import javax.xml.transform.Source;
 import java.util.Scanner;
 
 public class EmployeeManagerMenu {
@@ -145,16 +144,85 @@ public class EmployeeManagerMenu {
                 list.putOffcialEmployee();
                 break;
             }
-            case 5: {
+            case 5: {//nhap id -> ktr co trong list vs la nv chinh thuc khong -> chay menu sua
                 System.out.print("Employee ID That You Want To Change: ");String id = sc.nextLine();
-                if (!list.isOfficialEmployee(id)) {
-                    System.out.println("There No Official Employ");
+                //ktr co trong list ko
+                int locate = -1;
+                for (int i = 0;i < list.getData().length;i++) {
+                    if (id.equals(list.getData()[i].getId()) && list.getData()[i] instanceof OfficialEmployee) {
+                        locate = i;
+                        break;
+                    }
                 }
-                do {
-                    changeOfficialEmployeeMenu();
-                    mode = sc.nextInt();
-                    sc.nextLine();
-                } while (mode != 0);
+                if (locate == -1) {
+                    System.out.println("There No Official Employ Have That ID.");
+                    break;
+                }
+
+                //chay menu chinh sua
+                else {
+                    do {
+                        changeOfficialEmployeeMenu();
+                        mode = sc.nextInt();
+                        sc.nextLine();
+                        runChangeOfficialEmployeeInformation(mode,locate,list);
+                    } while (mode != 0);
+                }
+
+                break;
+            }
+            default: {
+                System.out.println("khong co chuc nang nay, xin vui long nhap lai.");
+                break;
+            }
+        }
+    }
+
+    public void runChangeOfficialEmployeeInformation (int mode, int locate, ListEmployee list) {
+        switch (mode) {
+            case 0: {
+                break;
+            }
+            case 1: {
+                System.out.println("New Surname: ");String surname = sc.nextLine();
+                System.out.println("New LastName: ");String lastname = sc.nextLine();
+                surname = surname.trim();
+                lastname = lastname.trim();
+                list.getData()[locate].setSurname(surname);
+                list.getData()[locate].setName(lastname);
+                break;
+            }
+            case 2: {
+                if (list.getData()[locate].getGender().equals("nam")) {
+                    list.getData()[locate].setGender("nu");
+                } else {
+                    list.getData()[locate].setGender("nam");
+                }
+
+                System.out.println("Done!");
+                break;
+            }
+            case 3: {
+                System.out.println("New Phone Number: ");String newphonenumber = sc.nextLine();
+                list.getData()[locate].setPhoneNumber(newphonenumber);
+                break;
+            }
+            case 4: {
+                System.out.println("New Email: ");String newemail = sc.nextLine();
+                list.getData()[locate].setEmail(newemail);
+                break;
+            }
+            case 5: {
+                System.out.println("Alter Stark Working Day: ");String newday = sc.nextLine();
+                list.getData()[locate].setStartWorkingDay(newday);
+                break;
+            }
+            case 6: {
+                System.out.println("New Basic Salary: ");
+                double salary = sc.nextDouble();
+                sc.nextLine();
+                list.getData()[locate] = (OfficialEmployee) list.getData()[locate];
+                ((OfficialEmployee) list.getData()[locate]).setBasicSalary(salary);
                 break;
             }
             default: {
