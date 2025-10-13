@@ -158,7 +158,7 @@ public class ListEmployee implements Serializable{
             return;
         }
 
-        for (int i = locate;i < data.length;i++) {
+        for (int i = locate;i < data.length - 1;i++) {
             data[i] = data[i + 1];
         }
 

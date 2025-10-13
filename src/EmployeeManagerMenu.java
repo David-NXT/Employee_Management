@@ -147,9 +147,14 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 2: {
-                OfficialEmployee a = new OfficialEmployee();
-                a.get();
-                list.add(a);
+                System.out.println("Number Employee You Want To Add: ");
+                int n = sc.nextInt();
+                sc.nextLine();
+                for (int i = 0;i < n;i++) {
+                    OfficialEmployee a = new OfficialEmployee();
+                    a.get();
+                    list.add(a);
+                }
                 break;
             }
             case 3: {
@@ -267,9 +272,14 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 2: {
-                SeasonalStaff a = new SeasonalStaff();
-                a.get();
-                list.add(a);
+                System.out.println("Number Employee You Want To Add: ");
+                int n = sc.nextInt();
+                sc.nextLine();
+                for (int i = 0;i < n;i++) {
+                    SeasonalStaff a = new SeasonalStaff();
+                    a.get();
+                    list.add(a);
+                }
                 break;
             }
             case 3: {
