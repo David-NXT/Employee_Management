@@ -52,6 +52,22 @@ public class Project implements Serializable{
         System.out.println("Participant Allowance rate: ");participantallowancerate = sc.nextFloat();
         sc.nextLine();//bo \n thua trong buffer
         System.out.println("Project Id: ");projectid = sc.nextLine();
+        ListProject l = new ListProject();
+        l.readFromFile();
+        while(true) {
+            boolean flag = false;
+            for (int i = 0;i < l.getData().length;i++) {
+                if (projectid.equals(l.getData()[i].projectid)) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (!flag) break;
+
+            System.out.println("This ID Already Exist");
+            projectid = sc.nextLine();
+        }
         System.out.println("Project Name: ");projectname = sc.nextLine();
         System.out.println("Start Day: ");startday = sc.nextLine();
         System.out.println("Accomplish Day: ");accomplishday = sc.nextLine();
@@ -61,7 +77,14 @@ public class Project implements Serializable{
         sc.nextLine();//bo \n thua trong buffer
         employeeid = Arrays.copyOf(employeeid,n);
         for (int i = 0;i < employeeid.length;i++) {
-            employeeid[i] = sc.nextLine();
+            while (true) {
+                String temp = sc.nextLine();
+                if (!isEmployeeInProject(temp)) {
+                    employeeid[i] = temp;
+                    break;
+                }
+                System.out.println("This Employee ID Already in List");
+            }
         }
     }
 
