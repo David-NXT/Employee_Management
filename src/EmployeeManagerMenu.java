@@ -57,7 +57,7 @@ public class EmployeeManagerMenu {
                 }
                 case 5: {
                     do {
-                        //them chuc nang cho quan ly phong ban nha bao
+                        //them chuc nang cho quan ly phong ban nha Nghi
                         mode =sc.nextInt();
                         sc.nextLine();// xoa \n thua trong buffer
                     } while(mode != 0);
