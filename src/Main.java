@@ -5,5 +5,8 @@ public class Main {
         a.writeToFile();
         a.readFromFile();
         a.put();
+
+        Salary_menu sm = new Salary_menu();
+        sm.showMenu();
     }
 }
