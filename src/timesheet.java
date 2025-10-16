@@ -11,6 +11,59 @@ public class timesheet
     private int n;
     Scanner sc=new Scanner(System.in);
 
+
+    public timesheet() 
+    {
+        id_clock = "";
+        id_employee = "";
+        day = null;
+        month = 0;
+        year = 0;
+        time_in = null;
+        time_out = null;
+        n = 0;
+    }
+    public timesheet(String id_clock, String id_employee, int[] day, int month, int year, String[] time_in, String[] time_out, int n) 
+    {
+        this.id_clock = id_clock;
+        this.id_employee = id_employee;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.time_in = time_in;
+        this.time_out = time_out;
+        this.n = n;
+    }
+    public timesheet(timesheet ts) 
+    {
+        this.id_clock = ts.id_clock;
+        this.id_employee = ts.id_employee;
+        this.day = ts.day;
+        this.month = ts.month;
+        this.year = ts.year;
+        this.time_in = ts.time_in;
+        this.time_out = ts.time_out;
+        this.n = ts.n;
+    }
+
+
+    public int dayinmonth(int month,int year)
+    {
+        switch (month) 
+        {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                return 31;
+            case 4: case 6: case 9: case 11:
+                return 30;
+            case 2:
+                if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+                    return 29;
+                else
+                    return 28;
+            default:
+                return 0;
+        }
+    }
     public void enter()
     {
         System.out.print("id timesheet: ");
@@ -21,21 +74,9 @@ public class timesheet
         year=sc.nextInt();
         System.out.print("month: ");
         month=sc.nextInt();
-        int dayinmonth=0;
-        if (month==2)
-        {
-            if(year%4==0&&year%100!=0)
-                dayinmonth=29;
-            else 
-                dayinmonth=28;
-        }
-        else if (month==4||month==6||month==9||month==11)
-            dayinmonth=30;
-        else 
-            dayinmonth=31;
-        day=new int[dayinmonth];
         System.out.print("number of working day: ");
         n=sc.nextInt();
+        day = new int[n];
         time_in = new String[n];
         time_out = new String[n];
         for (int i = 0; i < n; i++) 
@@ -43,6 +84,12 @@ public class timesheet
             System.out.print("day: ");
             day[i] = sc.nextInt();
             sc.nextLine();
+            if (day[i] > dayinmonth(month, year)) 
+            {
+                System.out.println("Error: Invalid day. Try again!");
+                i--; // Decrement i to repeat this iteration
+                continue;
+            }
             System.out.print("time in (HH:MM): ");
             time_in[i] = sc.nextLine();
             System.out.print("time out (HH:MM): ");
@@ -57,19 +104,22 @@ public class timesheet
         for (int i = 0; i < n; i++) 
         {
             String status=checkclock(i);
-            System.out.printf("%1d %6d %8d     %s\n", day[i], month, year, status);
+            System.out.printf("%1d %6d %7d     %s\n", day[i], month, year, status);
         }
     }
     public String checkclock(int i) 
     {
         boolean late = time_in[i].compareTo("08:00") > 0;
         boolean missingout = time_out[i].isEmpty();
+        boolean missingin=time_in[i].isEmpty();
         if(late&&missingout)
             return "late and missingout";
         else if(late)
             return "late";
+        else if(missingin)
+            return "missing in";
         else if(missingout)
-            return "missingout";
+            return "missing out";
         else 
             return "ok";
     }
@@ -78,6 +128,7 @@ public class timesheet
     public String getId_employee() {return id_employee;}
     public int[] getDay() {return day;}
     public int getMonth() {return month;}
+    public int getYear() {return year;}
     public String[] getTime_in() {return time_in;}
     public String[] getTime_out() {return time_out;}
     //set
