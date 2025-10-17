@@ -6,15 +6,15 @@ import java.util.*;
 public class listtimesheet 
 {
     private timesheet[] ts;
-    private int n;
-    Scanner sc=new Scanner(System.in);
+    private int n;//bo
+    private final Scanner sc=new Scanner(System.in);
     
    
     public listtimesheet()
     {
         ts=new timesheet[0];
     }
-    public listtimesheet(listtimesheet lt)
+    public listtimesheet(listtimesheet lt)//sua
     {
         this.n=lt.n;
     }
@@ -102,7 +102,7 @@ public class listtimesheet
             System.out.println("error file: "+e.getMessage());
         }
     }
-    public void readfile()
+    public void readfile()// sua
     {
         try
         {
