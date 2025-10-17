@@ -27,20 +27,20 @@ public class ListSeasonalStaff implements Serializable {
 
         for(int i = 0;i < n;i++){
             data[i] = new SeasonalStaff();
-            data[i].getSeasonalStaff();
+            data[i].get();
         }
     }
 
     public void put() {
         System.out.println("Number of Seasonal Staff: " + n);
         for(int i = 0;i < n;i++){
-            data[i].putSeasonalStaff();
+            data[i].put();
         }
     }
 
     public void add() {
         SeasonalStaff a = new SeasonalStaff();
-        a.getSeasonalStaff();
+        a.get();
 
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
@@ -95,7 +95,7 @@ public class ListSeasonalStaff implements Serializable {
         File file = new File(basepath + File.separator + "data" + File.separator + "data_SeasonalStaff");
 
         if (!file.exists()) {
-//            System.out.println("file khong ton tai");
+            System.out.println("file khong ton tai");
             return;
         }
 

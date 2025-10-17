@@ -1,9 +1,11 @@
-import javax.xml.transform.Source;
+import java.io.Serial;
 import java.util.Scanner;
 import java.io.Serializable;
 
 public class Employee implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String id;
     private String surname;
     private String name;
@@ -37,26 +39,51 @@ public class Employee implements Serializable {
 
     public Employee(){}
 
-    public void getEmployee(){
+    public void get(){
         System.out.println("ID: ");id = sc.nextLine();
+        ListEmployee l = new ListEmployee();
+        l.readFromFile();
+        while(true) {
+            boolean flag = false;
+            for (int i = 0;i < l.getData().length;i++) {
+                if (id.equals(l.getData()[i].id)) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (!flag) break;
+
+            System.out.println("This ID Already Exist");
+            id = sc.nextLine();
+        }
         System.out.println("Surname: ");surname = sc.nextLine();
+        surname = surname.trim();
         System.out.println("Name: ");name = sc.nextLine();
-        System.out.println("Gender: ");gender = sc.nextLine();
+        name = name.trim();
+        System.out.println("Gender: (male|female)");gender = sc.nextLine();
+        while (true) {
+            if (gender.equals("male") || gender.equals("female")) break;
+            System.out.println("Invalid! (male|female)");
+            gender = sc.nextLine();
+        }
         System.out.println("Address: ");address = sc.nextLine();
         System.out.println("Phone Number: ");phonenumber = sc.nextLine();
         System.out.println("Email: "); email = sc.nextLine();
+        while (true) {
+            if (email.endsWith("@gmail.com")) {
+                break;
+            }
+            else {
+                System.out.println("Invalid Email!");
+                email = sc.nextLine();
+            }
+        }
         System.out.println("Start Working Day: ");startworkingday = sc.nextLine();
     }
 
-    public void putEmployee(){
-        System.out.println("ID: " + id);
-        System.out.println("Surname: " + surname);
-        System.out.println("Name: " + name);
-        System.out.println("Gender: " + gender);
-        System.out.println("Address: " + address);
-        System.out.println("Phone Number: " + phonenumber);
-        System.out.println("Email: " + email);
-        System.out.println("Start Working Day: " + startworkingday);
+    public void put(){
+        System.out.printf("%-10s %-20s %-10s %-8s %-50s %-12s %-20s %-17s ",id,surname,name,gender,address,phonenumber,email,startworkingday);
     }
 
     public String getId(){

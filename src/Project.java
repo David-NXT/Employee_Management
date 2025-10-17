@@ -52,6 +52,22 @@ public class Project implements Serializable{
         System.out.println("Participant Allowance rate: ");participantallowancerate = sc.nextFloat();
         sc.nextLine();//bo \n thua trong buffer
         System.out.println("Project Id: ");projectid = sc.nextLine();
+        ListProject l = new ListProject();
+        l.readFromFile();
+        while(true) {
+            boolean flag = false;
+            for (int i = 0;i < l.getData().length;i++) {
+                if (projectid.equals(l.getData()[i].projectid)) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (!flag) break;
+
+            System.out.println("This ID Already Exist");
+            projectid = sc.nextLine();
+        }
         System.out.println("Project Name: ");projectname = sc.nextLine();
         System.out.println("Start Day: ");startday = sc.nextLine();
         System.out.println("Accomplish Day: ");accomplishday = sc.nextLine();
@@ -61,37 +77,41 @@ public class Project implements Serializable{
         sc.nextLine();//bo \n thua trong buffer
         employeeid = Arrays.copyOf(employeeid,n);
         for (int i = 0;i < employeeid.length;i++) {
-            employeeid[i] = sc.nextLine();
+            while (true) {
+                String temp = sc.nextLine();
+                if (!isEmployeeInProject(temp)) {
+                    employeeid[i] = temp;
+                    break;
+                }
+                System.out.println("This Employee ID Already in List");
+            }
         }
     }
 
-    public void putProject(ListOffcialEmployee list) {
-        System.out.println("Manager Allowance Rate: " + managerallowancerate);
-        System.out.println("Main Engineer Allowance Rate: " + mainengineerallowancerate);
-        System.out.println("Participant Allowance rate: " + participantallowancerate);
-        System.out.println("Project Id: " + projectid);
-        System.out.println("Project Name: " + projectname);
-        System.out.println("Start Day: " + startday);
-        System.out.println("Accomplish Day: " + accomplishday);
-        System.out.println("Number of Employee: " + employeeid.length);
-        OffcialEmployee name = list.isInList(managerid);
-            if (name != null)
-                System.out.println("Quan ly du an: " + name.getName() + " " + name.getId());
-            else System.out.println("Du an chua co quan ly");
-            name = list.isInList(mainengineerid);
-            if (name != null)
-                System.out.println("Ky su truong du an: " + name.getName() + " " + name.getId());
-            else System.out.println("Du an chua co ki su truong");
+    public void putProject(ListEmployee list) {
+        System.out.println("________________________________________________________________________________________");
+        System.out.printf("%-22s %-28s %-26s %-10s %-12s %-9s %-14s ",managerallowancerate,mainengineerallowancerate,participantallowancerate,projectid,projectname,startday,accomplishday);
 
-            System.out.println("Nhan vien tham gia du an: ");
+        OfficialEmployee name = list.getOfficialEmployee(managerid);
+            if (name != null)
+                System.out.printf("%-13s %-7s ",name.getName(),name.getId());
+            else System.out.printf("%-21s ","Du an chua co quan ly");
+            name = list.getOfficialEmployee(mainengineerid);
+            if (name != null)
+                System.out.printf("%-18s %-7s%n",name.getName(),name.getId());
+            else System.out.printf("%-26s%n","Du an chua co ki su truong");
+
+            System.out.println("Nhan vien tham gia du an: " + employeeid.length);
+            System.out.printf("%-25s %-7s%n","Name","ID");
             for (String b: employeeid) {
-                name = list.isInList(b);
+                name = list.getOfficialEmployee(b);
                 if (name != null)
-                    System.out.println("\t" + name.getName() + " " + name.getId());
+                    System.out.printf("%-25s %-7s%n",name.getSurname() + " " + name.getName(),name.getId());
             }
+            System.out.println("________________________________________________________________________________________");
     }
 
-    public double projectAllowanceSalary(OffcialEmployee employee) {
+    public double projectAllowanceSalary(OfficialEmployee employee) {
         if(employee.getId().equals(managerid))
             return employee.getBasicSalary() * managerallowancerate;//tra ve muc phu cap cua quan ly du an
         else if(employee.getId().equals(mainengineerid))
@@ -103,6 +123,59 @@ public class Project implements Serializable{
             }
             return 0;//neu khong co trong danh sach tra ve 0 dong
         }
+    }
+
+    public boolean isEmployeeInProject(OfficialEmployee employee) {
+        if(employee.getId().equals(managerid))
+            return true;
+        else if(employee.getId().equals(mainengineerid))
+            return true;
+        else {
+            for(String a : employeeid) {
+                if(employee.getId().equals(a))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public boolean isEmployeeInProject(String id) {
+        if(id.equals(managerid))
+            return true;
+        else if(id.equals(mainengineerid))
+            return true;
+        else {
+            for(String a : employeeid) {
+                if(id.equals(a))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public void addEmployeeId(String id) {
+        employeeid = Arrays.copyOf(employeeid,employeeid.length + 1);
+        employeeid[employeeid.length - 1] = id;
+    }
+
+    public void deleteEmployeeId(String id) {
+        int locate = -1;
+        for (int i = 0;i < employeeid.length;i++) {
+            if (employeeid[i].equals(id)) {
+                locate = i;
+                break;
+            }
+        }
+
+        if (locate == -1) {
+            System.out.println("There Is No Employee Have That ID");
+            return;
+        }
+
+        for (int i = locate;i < employeeid.length;i++) {
+            employeeid[i] = employeeid[i + 1];
+        }
+        employeeid = Arrays.copyOf(employeeid,employeeid.length - 1);
     }
 
     public float getManagerAllowanceRate() {

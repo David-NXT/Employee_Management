@@ -31,7 +31,7 @@ public class Employee_Salary extends Employee implements Serializable {
     }
 
     private void calculateAutoSalary(Employee a) {
-        if (a instanceof OffcialEmployee offcialEm) {
+        if (a instanceof OfficialEmployee offcialEm) {
             this.baseSalary = offcialEm.getBasicSalary();
             double jobAllowance = offcialEm.getSalaryAllowance();
             double projectAllowance = baseSalary * 0.05;
