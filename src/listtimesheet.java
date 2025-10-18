@@ -1,29 +1,22 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
-public class listtimesheet 
+import java.io.*;
+public class listtimesheet implements Serializable 
 {
+    private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
     private timesheet[] ts;
-    private int n;//bo
-    private final Scanner sc=new Scanner(System.in);
     
    
     public listtimesheet()
     {
         ts=new timesheet[0];
     }
-    public listtimesheet(listtimesheet lt)//sua
-    {
-        this.n=lt.n;
-    }
-    
     
     public void enter()
     {
         System.out.print("enter number of employee: ");
-        n=sc.nextInt();
+        int n=sc.nextInt();
         ts=new timesheet[n];
         for (int i=0;i<n;i++)
         {
@@ -34,24 +27,22 @@ public class listtimesheet
     public void out()
     {
         System.out.println("data timesheet employee");
-        for (int i=0;i<n;i++)
+        for (int i=0;i<ts.length;i++)
         {
             System.out.println("timesheet "+(i+1)+":");
             ts[i].out();
             System.out.println("---------------------------");
         }
     }
-    public timesheet add(timesheet nts)
+    public void add(timesheet nts)
     {
         ts=Arrays.copyOf(ts,ts.length+1);
-        ts[n]=nts;
-        n++;
-        return nts;
+        ts[ts.length-1]=nts;
     }
-    public int deleted(String idx)
+    public void deleted(String idx)
     {
         int pos=-1;
-        for (int i=0;i<n;i++)
+        for (int i=0;i<ts.length;i++)
         {
             if(idx.equals(ts[i].getId_employee()))
             {
@@ -62,67 +53,47 @@ public class listtimesheet
         if (pos==-1)
         {
             System.out.println("employee not on the list");
-            return n;
+            return;
         }
-        for (int i=pos;i<n-1;i++)
+        for (int i=pos;i<ts.length-1;i++)
             ts[i]=ts[i+1];
-        n--;
-        return n;
+        ts=Arrays.copyOf(ts,ts.length-1);
     }
-    public void writetofile()
+    public void writeToFile() 
     {
-        File file=new File("timesheet.txt");
-        try
+        String basepath = System.getProperty("user.dir");
+        File dir = new File(basepath + File.separator + "data");
+        if (!dir.exists()) 
         {
-            if (!file.exists())
-            {
-                file.createNewFile();
-                System.out.println("File 'timesheet.txt' created successfully");
-            }
-            FileWriter fw=new FileWriter("timesheet.txt",true);
-            for (int i=0;i<n;i++)
-            {
-                timesheet t=ts[i];
-                fw.write("ID clock: "+t.getId_clock()+"\n");
-                fw.write("ID employee: "+t.getId_employee()+"\n");
-                fw.write("Month: " + t.getMonth() + ", Year: " + t.getYear() + "\n");
-                fw.write("Days worked: ");
-                int[] days = t.getDay();
-                for (int j = 0; j < days.length; j++)
-                {
-                    fw.write(days[j] + " ");
-                }
-                fw.write("\n---------------------------\n");
-            }
-            fw.close();
-            System.out.println("Data written to 'timesheet.txt' successfully");
+            dir.mkdir();
         }
-        catch (IOException e)
+        File file = new File(dir,"data_timesheet_Employee");
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) 
         {
-            System.out.println("error file: "+e.getMessage());
+            oos.writeObject(this);
+            System.out.println("Saved!");
+        }
+        catch (IOException e) 
+        {
+            System.out.println("File chua duoc ghi " + e);
         }
     }
-    public void readfile()// sua
+    public void readFromFile() 
     {
-        try
-        {
-            File file=new File("timesheet.txt");
-            if (!file.exists())
-            {
-                System.out.println("File 'timesheet.txt' haven't found");
-                return;
-            }
-            Scanner reader=new Scanner(file);
-            while(reader.hasNextLine())
-            {
-                String line=reader.nextLine();
-                System.out.println(line);
-            }
-            reader.close();
+        String basepath = System.getProperty("user.dir");
+        File file = new File(basepath + File.separator + "data" + File.separator + "data_timesheet_Employee");
+
+        if (!file.exists()) {
+            System.out.println("file is not exist");
+            return;
         }
-        catch(FileNotFoundException e)
-        {
-            System.out.println("error file: "+e.getMessage());
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            listtimesheet lts = (listtimesheet) ois.readObject();
+            this.ts=lts.ts;
+        }
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
     //get
