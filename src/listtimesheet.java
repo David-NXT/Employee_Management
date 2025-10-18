@@ -5,9 +5,9 @@ public class listtimesheet implements Serializable
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
+    
     private timesheet[] ts;
     
-   
     public listtimesheet()
     {
         ts=new timesheet[0];
@@ -107,3 +107,4 @@ public class listtimesheet implements Serializable
         this.ts = ts;
     }
 }
+
