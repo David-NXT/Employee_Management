@@ -1,6 +1,11 @@
 import java.util.*;
-public class timesheet 
+import java.io.*;
+public class timesheet implements Serializable
 {
+    private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String id_clock;
     private String id_employee;
     private int[] day;
@@ -8,8 +13,6 @@ public class timesheet
     private int year;
     private String[] time_in;
     private String[] time_out;
-    private int n;
-    Scanner sc=new Scanner(System.in);
 
 
     public timesheet() 
@@ -21,9 +24,8 @@ public class timesheet
         year = 0;
         time_in = null;
         time_out = null;
-        n = 0;
     }
-    public timesheet(String id_clock, String id_employee, int[] day, int month, int year, String[] time_in, String[] time_out, int n) 
+    public timesheet(String id_clock, String id_employee, int[] day, int month, int year, String[] time_in, String[] time_out) 
     {
         this.id_clock = id_clock;
         this.id_employee = id_employee;
@@ -32,7 +34,6 @@ public class timesheet
         this.year = year;
         this.time_in = time_in;
         this.time_out = time_out;
-        this.n = n;
     }
     public timesheet(timesheet ts) 
     {
@@ -43,7 +44,6 @@ public class timesheet
         this.year = ts.year;
         this.time_in = ts.time_in;
         this.time_out = ts.time_out;
-        this.n = ts.n;
     }
 
 
@@ -75,7 +75,7 @@ public class timesheet
         System.out.print("month: ");
         month=sc.nextInt();
         System.out.print("number of working day: ");
-        n=sc.nextInt();
+        int n=sc.nextInt();
         day = new int[n];
         time_in = new String[n];
         time_out = new String[n];
@@ -101,7 +101,7 @@ public class timesheet
         System.out.printf("%-15s %-15s\n", "Timesheet ID", "Employee ID");
         System.out.printf("%-15s %-15s\n", id_clock, id_employee);
         System.out.println("Day   Month  Year   Status");
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i <day.length ; i++) 
         {
             String status=checkclock(i);
             System.out.printf("%1d %6d %7d     %s\n", day[i], month, year, status);
