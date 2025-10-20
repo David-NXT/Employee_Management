@@ -5,9 +5,9 @@ public class listtimesheet implements Serializable
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
-    
     private timesheet[] ts;
     
+   
     public listtimesheet()
     {
         ts=new timesheet[0];
@@ -96,6 +96,27 @@ public class listtimesheet implements Serializable
             e.printStackTrace();
         }
     }
+    public void search(String idx)
+    {
+        int pos=-1;
+        for (int i=0;i<ts.length;i++)
+        {
+            if(idx.equals(ts[i].getId_employee()))
+            {
+                pos=i;
+                break;
+            }
+        }
+        if (pos==-1)
+        {
+            System.out.println("employee not on the list");
+            return;
+        }
+        System.out.println("data timesheet employee");
+        System.out.println("timesheet "+(pos+1)+":");
+        ts[pos].out();
+        System.out.println("---------------------------");
+    }
     //get
     public timesheet[] getTs() 
     {
@@ -107,4 +128,3 @@ public class listtimesheet implements Serializable
         this.ts = ts;
     }
 }
-
