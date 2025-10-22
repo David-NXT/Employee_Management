@@ -31,7 +31,21 @@ public class SeasonalStaff extends Employee implements Serializable {
     @Override
     public void get(String id) {
         super.get(id);
-        System.out.println("Hourly Salary: ");hourlysalary = sc.nextDouble();
+        int random = (int) (Math.random() * 3);
+        switch (random) {
+            case 0: {
+                hourlysalary = 25;
+                break;
+            }
+            case 1: {
+                hourlysalary = 35;
+                break;
+            }
+            case 2: {
+                hourlysalary = 50;
+                break;
+            }
+        }
     }
 
     @Override
