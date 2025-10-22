@@ -2,22 +2,22 @@ import java.io.Serial;
 import java.util.Scanner;
 import java.io.Serializable;
 
-public class OffcialEmployee extends Employee implements Serializable{
+public class OfficialEmployee extends Employee implements Serializable{
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
     private double basicsalary;
-    private double salaryallowance;
+    private double salaryallowance = 0.0;
 
-    public OffcialEmployee(){}
+    public OfficialEmployee(){}
 
-    public OffcialEmployee(OffcialEmployee a){
+    public OfficialEmployee(OfficialEmployee a){
         super(a);
         basicsalary = a.basicsalary;
         salaryallowance = a.salaryallowance;
     }
 
-    public OffcialEmployee(String id, String surname, String name, String gender, String address, String phonenumber, String email, String startworkingday, double basicsalary, double salaryallowance){
+    public OfficialEmployee(String id, String surname, String name, String gender, String address, String phonenumber, String email, String startworkingday, double basicsalary, double salaryallowance){
         super(id,surname,name,gender,address,phonenumber,email,startworkingday);
         this.basicsalary = basicsalary;
         this.salaryallowance = salaryallowance;
@@ -27,7 +27,6 @@ public class OffcialEmployee extends Employee implements Serializable{
     public void get(){
         super.get();
         System.out.println("Basic Salary: ");basicsalary = sc.nextDouble();
-        System.out.println("Salary Allowance: ");salaryallowance = sc.nextDouble();
     }
 
     @Override

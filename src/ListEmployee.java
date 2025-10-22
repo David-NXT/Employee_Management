@@ -38,7 +38,7 @@ public class ListEmployee implements Serializable{
         data = Arrays.copyOf(data,n);
 
         for (int i = 0;i < n;i++) {
-            data[i] = new OffcialEmployee();
+            data[i] = new OfficialEmployee();
             data[i].get();
             System.out.println();
         }
@@ -73,7 +73,7 @@ public class ListEmployee implements Serializable{
         System.out.printf("%-10s %-20s %-10s %-8s %-50s %-12s %-20s %-17s %-15s %-15s%n","ID","Surname","Name","Gender","Address","Phone Number","Email","Start Working Day","Basic Salary","Salary Allowance");
 
         for(int i = 0;i < data.length;i++) {
-            if (data[i] instanceof OffcialEmployee) {
+            if (data[i] instanceof OfficialEmployee) {
                 data[i].put();
             }
         }
@@ -95,7 +95,7 @@ public class ListEmployee implements Serializable{
     public int numOffcialEmployee() {
         int d = 0;
         for (int i = 0;i < data.length;i++) {
-            if (data[i] instanceof OffcialEmployee) d++;
+            if (data[i] instanceof OfficialEmployee) d++;
         }
         return d;
     }
@@ -108,7 +108,7 @@ public class ListEmployee implements Serializable{
         return d;
     }
 
-    public void add(OffcialEmployee a) {
+    public void add(OfficialEmployee a) {
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
     }
@@ -118,13 +118,22 @@ public class ListEmployee implements Serializable{
         data[data.length - 1] = a;
     }
 
-    public OffcialEmployee isOffcialEmployee(String id) {
+    public OfficialEmployee getOfficialEmployee(String id) {
         for (int i = 0;i < data.length;i++) {
-            if (data[i].getId().equals(id) && data[i] instanceof OffcialEmployee) {
-                return (OffcialEmployee) data[i];
+            if (data[i].getId().equals(id) && data[i] instanceof OfficialEmployee) {
+                return (OfficialEmployee) data[i];
             }
         }
         return null;
+    }
+
+    public boolean isOfficialEmployee(String id) {
+        for (int i = 0;i < data.length;i++) {
+            if (data[i].getId().equals(id) && data[i] instanceof OfficialEmployee) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int isEmployee(String id) {//check if there is an employee with that ID
@@ -149,7 +158,7 @@ public class ListEmployee implements Serializable{
             return;
         }
 
-        for (int i = locate;i < data.length;i++) {
+        for (int i = locate;i < data.length - 1;i++) {
             data[i] = data[i + 1];
         }
 
