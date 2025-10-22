@@ -2,7 +2,7 @@ import java.io.Serial;
 import java.util.Scanner;
 import java.io.Serializable;
 
-public class Employee implements Serializable {
+abstract class Employee implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
@@ -57,6 +57,33 @@ public class Employee implements Serializable {
             System.out.println("This ID Already Exist");
             id = sc.nextLine();
         }
+        System.out.println("Surname: ");surname = sc.nextLine();
+        surname = surname.trim();
+        System.out.println("Name: ");name = sc.nextLine();
+        name = name.trim();
+        System.out.println("Gender: (male|female)");gender = sc.nextLine();
+        while (true) {
+            if (gender.equals("male") || gender.equals("female")) break;
+            System.out.println("Invalid! (male|female)");
+            gender = sc.nextLine();
+        }
+        System.out.println("Address: ");address = sc.nextLine();
+        System.out.println("Phone Number: ");phonenumber = sc.nextLine();
+        System.out.println("Email: "); email = sc.nextLine();
+        while (true) {
+            if (email.endsWith("@gmail.com")) {
+                break;
+            }
+            else {
+                System.out.println("Invalid Email!");
+                email = sc.nextLine();
+            }
+        }
+        System.out.println("Start Working Day: ");startworkingday = sc.nextLine();
+    }
+
+    public void get(String id){
+        this.id = id;
         System.out.println("Surname: ");surname = sc.nextLine();
         surname = surname.trim();
         System.out.println("Name: ");name = sc.nextLine();

@@ -30,6 +30,12 @@ public class OfficialEmployee extends Employee implements Serializable{
     }
 
     @Override
+    public void get(String id){
+        super.get(id);
+        System.out.println("Basic Salary: ");basicsalary = sc.nextDouble();
+    }
+
+    @Override
     public void put(){
         super.put();
         System.out.printf("%-15.2f %-15.2f %n",basicsalary,salaryallowance);

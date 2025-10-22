@@ -24,13 +24,26 @@ public class ListEmployee implements Serializable{
         data = Arrays.copyOf(data,n);
 
         for(int i = 0;i < n;i++){
-            data[i] = new Employee();
-            data[i].get();
-            System.out.println();
+            System.out.println("1. Official Employee");
+            System.out.println("2. Seasonal Staff");
+            int mode = sc.nextInt();
+            if (mode == 1) {
+                data[i] = new OfficialEmployee();
+                String newid = getIdAutoForOE();
+                data[i].get(newid);
+                System.out.println();
+            } else if (mode == 2) {
+                data[i] = new SeasonalStaff();
+                data[i].get();
+                System.out.println();
+            } else {
+                System.out.println("Invalid! Please choose again");
+                i--;
+            }
         }
     }
 
-    public void getOffcialEmployee() {
+    public void getOfficialEmployee() {
         int n;
         System.out.println("Number of new Offcial Employee: ");n = sc.nextInt();
         sc.nextLine();
@@ -111,11 +124,39 @@ public class ListEmployee implements Serializable{
     public void add(OfficialEmployee a) {
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
+        quickSort(0, data.length - 1);
     }
 
     public void add(SeasonalStaff a) {
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
+        quickSort(0, data.length - 1);
+    }
+
+    public String getIdAutoForOE() {//OE = Official Employee
+        int baseid = 1000;
+
+        for (int i = 0;i < data.length;i++) {//kiem tra tu dau mang de phong co id da bi xoa va chua co ai dung
+            if (data[i] instanceof OfficialEmployee) {
+                if (Integer.toString(baseid).equals(data[i].getId())) {
+                    baseid++;//neu id goc bang id cua nhan vien thi tang them 1
+                    i--;
+                }
+            }
+        }
+        return Integer.toString(baseid);
+    }
+
+    public String getIdAutoForST() {//ST = Seasonal Staff
+        int baseid = 2000;
+
+        for (int i = 0;i < data.length;i++) {
+            if (Integer.toString(baseid).equals(data[i].getId())) {
+                baseid++;//neu id goc bang id cua nhan vien thi tang them 1
+                i--;
+            }
+        }
+        return Integer.toString(baseid);
     }
 
     public OfficialEmployee getOfficialEmployee(String id) {
@@ -200,6 +241,37 @@ public class ListEmployee implements Serializable{
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    //QuickSort
+    public void quickSort (int l, int r) {
+        if (l < r) {
+            int idx = partition(l,r);
+            quickSort(l,idx - 1);
+            quickSort(idx + 1,r);
+        }
+    }
+
+    private int partition (int l, int r) {
+        int pivot = Integer.parseInt(data[r].getId());
+        int i = l - 1;
+
+        for (int j = l;j < r;j++) {
+            if (Integer.parseInt(data[j].getId()) < pivot) {
+                i++;
+                swap(i, j);
+            }
+        }
+
+        swap(i + 1,r);
+        return i + 1;
+    }
+
+    private void swap(int i, int j) {
+        Employee tmp = data[j];
+        data[j] = data[i];
+        data[i] = tmp;
+
     }
 
     public Employee[] getData(){
