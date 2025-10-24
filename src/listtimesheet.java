@@ -38,6 +38,18 @@ public class listtimesheet implements Serializable
     {
         ts=Arrays.copyOf(ts,ts.length+1);
         ts[ts.length-1]=nts;
+        quicksort(ts,0,ts.length - 1);
+    }
+    public String getIdAutoForTS() {
+        int baseid = 5000;//5xxx id cua timesheet
+
+        for (int i = 0;i < ts.length;i++) {//kiem tra tu dau mang de phong co id da bi xoa va chua co ai dung
+                if (Integer.toString(baseid).equals(ts[i].getId_clock())) {
+                    baseid++;//neu id goc bang id cua nhan vien thi tang them 1
+                    i--;
+                }
+        }
+        return Integer.toString(baseid);
     }
     public void deleted(String idx)
     {
