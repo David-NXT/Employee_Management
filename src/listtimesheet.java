@@ -38,6 +38,7 @@ public class listtimesheet implements Serializable
     {
         ts=Arrays.copyOf(ts,ts.length+1);
         ts[ts.length-1]=nts;
+        quicksort(ts,0,ts.length-1);
     }
     public void deleted(String idx)
     {
@@ -167,3 +168,4 @@ public class listtimesheet implements Serializable
         this.ts = ts;
     }
 }
+
