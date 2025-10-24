@@ -1,4 +1,0 @@
-3
-PC01 PhuCapA HoTroAnTrua 500000 2021-01-01 true
-PC02 PhuCapB XangXe 300000 2020-05-15 true
-PC03 PhuCapC DiLai 250000 2022-03-10 false
