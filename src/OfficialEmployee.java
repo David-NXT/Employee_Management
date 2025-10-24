@@ -30,6 +30,26 @@ public class OfficialEmployee extends Employee implements Serializable{
     }
 
     @Override
+    public void get(String id){
+        super.get(id);
+        int random = (int) (Math.random() * 3);
+        switch (random) {
+            case 0: {
+                basicsalary = 300;
+                break;
+            }
+            case 1: {
+                basicsalary = 350;
+                break;
+            }
+            case 2: {
+                basicsalary = 500;
+                break;
+            }
+        }
+    }
+
+    @Override
     public void put(){
         super.put();
         System.out.printf("%-15.2f %-15.2f %n",basicsalary,salaryallowance);

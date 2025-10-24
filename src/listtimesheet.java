@@ -1,5 +1,5 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 public class listtimesheet implements Serializable 
 {
     private transient final Scanner sc = new Scanner(System.in);
@@ -116,6 +116,45 @@ public class listtimesheet implements Serializable
         System.out.println("timesheet "+(pos+1)+":");
         ts[pos].out();
         System.out.println("---------------------------");
+    }
+    public int partision(timesheet ts[],int l,int r)
+    {
+        timesheet privot=ts[r];
+        int i=l-1;
+        for (int j=l;j<r;j++)
+        {
+            if (ts[j].getId_employee().compareToIgnoreCase(privot.getId_employee()) <= 0)
+            {
+                i++;
+                timesheet temp = ts[i];
+                ts[i] = ts[j];
+                ts[j] = temp;
+            }
+        }
+        ++i;
+        timesheet temp = ts[i];
+        ts[i] = ts[r];
+        ts[r] = temp;
+        return i;
+    }
+    public void quicksort(timesheet ts[],int l,int r)
+    {
+        if (l<r)
+        {
+            int p=partision(ts, l, r);
+            quicksort(ts,l,p-1);
+            quicksort(ts,p+1,r);
+        }
+    }
+    public void sortById() 
+    {
+        if (ts.length == 0) 
+        {
+            System.out.println("Danh sach rong");
+            return;
+        }
+        quicksort(ts, 0, ts.length - 1);
+        System.out.println("da sap xep theo id nhan vien");
     }
     //get
     public timesheet[] getTs() 

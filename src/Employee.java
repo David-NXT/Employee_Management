@@ -2,7 +2,7 @@ import java.io.Serial;
 import java.util.Scanner;
 import java.io.Serializable;
 
-public class Employee implements Serializable {
+abstract class Employee implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
@@ -79,7 +79,102 @@ public class Employee implements Serializable {
                 email = sc.nextLine();
             }
         }
+        email = email.toLowerCase();
         System.out.println("Start Working Day: ");startworkingday = sc.nextLine();
+    }
+
+    public void get(String id){
+        this.id = id;
+        System.out.println("Surname: ");surname = sc.nextLine();
+        surname = surname.trim();
+        System.out.println("Name: ");name = sc.nextLine();
+        name = name.trim();
+        System.out.println("Gender: (male|female)");gender = sc.nextLine();
+        while (true) {
+            if (gender.equals("male") || gender.equals("female")) break;
+            System.out.println("Invalid! (male|female)");
+            gender = sc.nextLine();
+        }
+        address = randomAdress();
+        phonenumber = randomPhoneNumber();
+        System.out.println("Email: "); email = sc.nextLine();
+        while (true) {
+            if (email.endsWith("@gmail.com")) {
+                break;
+            }
+            else {
+                System.out.println("Invalid Email!");
+                email = sc.nextLine();
+            }
+        }
+        email = email.toLowerCase();
+        startworkingday = randomDay();
+    }
+    
+    private String randomAdress() {
+        int idx = (int) (Math.random() * 10);
+        String result = "";
+        switch (idx) {
+            case 0: {
+                result = "HCM";
+                break;
+            }
+            case 1: {
+                result = "Nghe An";
+                break;
+            }
+            case 2: {
+                result = "Tra Vinh";
+                break;
+            }
+            case 3: {
+                result = "Long An";
+                break;
+            }
+            case 4: {
+                result = "Hung Yen";
+                break;
+            }
+            case 5: {
+                result = "Vinh Phuc";
+                break;
+            }
+            case 6: {
+                result = "Ha Noi";
+                break;
+            }
+            case 7: {
+                result = "Da Nang";
+                break;
+            }
+            case 8: {
+                result = "Ben Tre";
+                break;
+            }
+            case 9: {
+                result = "Tay Ninh";
+                break;
+            }
+        }
+        return result;
+    }
+
+    private String randomPhoneNumber() {
+        int num = (int) (Math.random() * 1000000000);
+        return String.format("0%09d",num);
+    }
+
+    private String randomDay() {
+        int day;
+        int year = 1990 + (int) (Math.random() * 30);
+        int month = 1 + (int) (Math.random() * 12);
+        if (month == 2) {
+            day = 1 + (int) (Math.random() * 27);
+        } else {
+            day = 1 + (int) (Math.random() * 29);
+        }
+
+        return String.format("%02d/%02d/%04d",day,month,year);
     }
 
     public void put(){

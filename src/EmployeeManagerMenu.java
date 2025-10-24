@@ -143,7 +143,7 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 1: {
-                list.getOffcialEmployee();
+                list.getOfficialEmployee();
                 break;
             }
             case 2: {
@@ -152,7 +152,8 @@ public class EmployeeManagerMenu {
                 sc.nextLine();
                 for (int i = 0;i < n;i++) {
                     OfficialEmployee a = new OfficialEmployee();
-                    a.get();
+                    String id = list.getIdAutoForOE();
+                    a.get(id);
                     list.add(a);
                 }
                 break;
@@ -277,7 +278,8 @@ public class EmployeeManagerMenu {
                 sc.nextLine();
                 for (int i = 0;i < n;i++) {
                     SeasonalStaff a = new SeasonalStaff();
-                    a.get();
+                    String id = list.getIdAutoForST();
+                    a.get(id);
                     list.add(a);
                 }
                 break;

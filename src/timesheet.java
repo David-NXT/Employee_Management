@@ -96,6 +96,16 @@ public class timesheet implements Serializable
             time_out[i] = sc.nextLine();
         }
     }
+    private String randomInTime() {
+        int hour = 6 + (int) (Math.random() * 4);//tu 6 - 9 gio
+        int minute =(int) (Math.random() * 60);//tu 0 - 59 phut
+        return String.format("%02d:%02d",hour,minute);
+    }
+    private String randomTimeOut() {
+        int hour = 16 + (int) (Math.random() * 3);//tu 16 - 18
+        int minute = (int) (Math.random() + 59);// tu 0 - 59 phut
+        return String.format("%02d:%02d",hour,minute);
+    }
     public void out() 
     {
         System.out.printf("%-15s %-15s\n", "Timesheet ID", "Employee ID");
@@ -107,7 +117,7 @@ public class timesheet implements Serializable
             System.out.printf("%1d %6d %7d     %s\n", day[i], month, year, status);
         }
     }
-    public String checkclock(int i) 
+    public String checkclock(int i) //ra ve luc may h
     {
         boolean late = time_in[i].compareTo("08:00") > 0;
         boolean missingout = time_out[i].isEmpty();
