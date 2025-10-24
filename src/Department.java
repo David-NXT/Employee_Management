@@ -47,32 +47,48 @@ public class Department{
     }
 
     //(Ogri phuong thuc de tuong tac thong tin lay tu class khac)
-    public void addDepartment_Employee(Employee e){
+    class ConcreteEmployee extends Employee {
+        public ConcreteEmployee(){ super();} 
+    }
+    public void addDepartment_Employee(Employee e){ 
         nv.add(e);
     }
+    public void addEmployeeById(ListEmployee list){
+        System.out.print("Nhap ID nhan vien muon them vao phong ban: ");
+        String employee_id = sc.nextLine();
+        Employee found = list.findById(employee_id);
+
+    }
+
+
     public void printDepartmentInfo(){
-        System.out.printf("Department: %s (ID: %s)%n", name, id);
+        System.out.printf("======Department: %s (ID: %s)========%n", name, id);
         if (nv.isEmpty()){
             System.out.println("Khong co nv nao trong phong ban");
             System.out.println("Co muon them nhan vien?");
             System.out.println("1. Them nhan vien (add new data template)");
             System.out.println("2. Them nhan vien (add Employee from the data file)");
             System.out.println("0. Khong them nhan vien");
-            System.out.println(">> Chon: ");
+            System.out.print(">> Chon: ");
             int chon= sc.nextInt();
             switch (chon) {
                 case 1 ->{
                      System.out.print("Nhap so luong nhan vien muon them: ");
                     int n = sc.nextInt();
                     for(int i = 0;i < n;i++){
-                        Employee e = new Employee();
+                        Employee e = new ConcreteEmployee();
                         e.get();
                         nv.add(e);
                     }
                     break;
                 }
                 case 2 ->{
+                    System.out.print("Nhap so luong nhan vien muon them: ");
+                    int n = sc.nextInt();
+                     for(int i = 0;i < n;i++){
 
+                    }
+                    break;
                 }
                 case 0 -> System.out.println("Khong them nhan vien.");
                 default -> System.out.println("ERROR!");
