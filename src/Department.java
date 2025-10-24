@@ -53,12 +53,6 @@ public class Department{
     public void addDepartment_Employee(Employee e){ 
         nv.add(e);
     }
-    public void addEmployeeById(ListEmployee list){
-        System.out.print("Nhap ID nhan vien muon them vao phong ban: ");
-        String employee_id = sc.nextLine();
-        Employee found = list.findById(employee_id);
-
-    }
 
 
     public void printDepartmentInfo(){
