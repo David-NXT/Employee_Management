@@ -1,13 +1,13 @@
 public class test {
     public static void main(String[] args) {
-        listtimesheet a = new listtimesheet();
+        ListTimeSheet a = new ListTimeSheet();
         a.enter();
         a.writeToFile();
-        timesheet b = new timesheet();
+        TimeSheet b = new TimeSheet();
         b.enter();
         a.add(b);
         a.writeToFile();
-        a.readFromFile();
+        a.ReadFromFile();
         a.out();
     }
 }

@@ -1,26 +1,26 @@
 import java.util.*;
 import java.io.*;
-public class listtimesheet implements Serializable 
+public class ListTimeSheet implements Serializable
 {
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
-    private timesheet[] ts;
+    private TimeSheet[] ts;
     
    
-    public listtimesheet()
+    public ListTimeSheet()
     {
-        ts=new timesheet[0];
+        ts=new TimeSheet[0];
     }
     
     public void enter()
     {
         System.out.print("enter number of employee: ");
         int n=sc.nextInt();
-        ts=new timesheet[n];
+        ts=new TimeSheet[n];
         for (int i=0;i<n;i++)
         {
-            ts[i]=new timesheet();
+            ts[i]=new TimeSheet();
             ts[i].enter();
         }
     }
@@ -34,10 +34,11 @@ public class listtimesheet implements Serializable
             System.out.println("---------------------------");
         }
     }
-    public void add(timesheet nts)
+    public void add(TimeSheet nts)
     {
         ts=Arrays.copyOf(ts,ts.length+1);
         ts[ts.length-1]=nts;
+        quicksort(ts,0,ts.length-1);
     }
     public void deleted(String idx)
     {
@@ -78,10 +79,10 @@ public class listtimesheet implements Serializable
             System.out.println("File chua duoc ghi " + e);
         }
     }
-    public void readFromFile() 
+    public void ReadFromFile()
     {
         String basepath = System.getProperty("user.dir");
-        File file = new File(basepath + File.separator + "data" + File.separator + "data_timesheet_Employee");
+        File file = new File(basepath + File.separator + "data" + File.separator + "data_Employee");
 
         if (!file.exists()) {
             System.out.println("file is not exist");
@@ -89,7 +90,7 @@ public class listtimesheet implements Serializable
         }
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            listtimesheet lts = (listtimesheet) ois.readObject();
+            ListTimeSheet lts = (ListTimeSheet) ois.readObject();
             this.ts=lts.ts;
         }
         catch (IOException | ClassNotFoundException e) {
@@ -117,27 +118,27 @@ public class listtimesheet implements Serializable
         ts[pos].out();
         System.out.println("---------------------------");
     }
-    public int partision(timesheet ts[],int l,int r)
+    public int partision(TimeSheet ts[], int l, int r)
     {
-        timesheet privot=ts[r];
+        TimeSheet privot=ts[r];
         int i=l-1;
         for (int j=l;j<r;j++)
         {
             if (ts[j].getId_employee().compareToIgnoreCase(privot.getId_employee()) <= 0)
             {
                 i++;
-                timesheet temp = ts[i];
+                TimeSheet temp = ts[i];
                 ts[i] = ts[j];
                 ts[j] = temp;
             }
         }
         ++i;
-        timesheet temp = ts[i];
+        TimeSheet temp = ts[i];
         ts[i] = ts[r];
         ts[r] = temp;
         return i;
     }
-    public void quicksort(timesheet ts[],int l,int r)
+    public void quicksort(TimeSheet ts[], int l, int r)
     {
         if (l<r)
         {
@@ -157,12 +158,12 @@ public class listtimesheet implements Serializable
         System.out.println("da sap xep theo id nhan vien");
     }
     //get
-    public timesheet[] getTs() 
+    public TimeSheet[] getTs()
     {
         return ts;
     }
     //set
-    public void setTs(timesheet[] ts) 
+    public void setTs(TimeSheet[] ts)
     {
         this.ts = ts;
     }

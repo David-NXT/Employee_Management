@@ -1,6 +1,7 @@
 public class Main {
-    public static void main(String[] args) {
-        EmployeeManagerMenu a = new EmployeeManagerMenu();
-        a.menu();
+    public static void main(String[] args)
+    {
+        ManageTimeSheet mt = new ManageTimeSheet();
+        mt.menu();
     }
 }
