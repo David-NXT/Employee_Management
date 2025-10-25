@@ -93,8 +93,7 @@ public class TimeSheet implements Serializable
         id_clock = sc.nextLine();
         ListEmployee l=new ListEmployee();
         l.readFromFile();
-        for (int i=0;i<l.getData().length;i++)
-            l.put();
+        l.put();
         System.out.print("enter your id: ");
         id_employee=sc.nextLine();
         int check_id=l.isEmployee(id_employee);
