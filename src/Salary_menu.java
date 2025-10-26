@@ -5,7 +5,7 @@ public class Salary_menu {
     private ListSalary salaryList = new ListSalary();
 
     public void showMenu() {
-        int choice;
+        int choice=-1;
         do {
             System.out.println("\n===== SALARY MENU =====");
             System.out.println("1. Export this month's payroll");
@@ -14,6 +14,9 @@ public class Salary_menu {
             System.out.println("4. View wage deductions (violations) by ID");
             System.out.println("0.Exit");
             System.out.print("→ Enter your choice: ");
+            while(!sc.hasNextInt()){
+                sc.next();
+            }
             choice = sc.nextInt();
             sc.nextLine();
 
@@ -42,4 +45,5 @@ public class Salary_menu {
 
         } while (choice != 0);
     }
+
 }

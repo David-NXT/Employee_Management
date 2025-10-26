@@ -16,7 +16,6 @@ public class ListEmployee implements Serializable{
     public ListEmployee(){
         data = new Employee[0];
     }
-
     public void get(){
         int n;
         System.out.print("Number of employee: ");n = sc.nextInt();
