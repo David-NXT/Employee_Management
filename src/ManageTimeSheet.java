@@ -1,7 +1,7 @@
 import java.util.*;
 public class ManageTimeSheet
 {
-       Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(System.in);
         public void menu()
         {
             ListTimeSheet lt = new ListTimeSheet();
@@ -51,4 +51,5 @@ public class ManageTimeSheet
             }
             while (x!=0);
         }
+
 }

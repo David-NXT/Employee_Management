@@ -1,6 +1,8 @@
 public class test {
     public static void main(String[] args) {
-        ManageTimeSheet mt=new ManageTimeSheet();
-        mt.menu();
+       ListPosition lp = new ListPosition();
+        lp.ReadFromFile();
+        lp.update();
+        lp.out();
     }
 }
