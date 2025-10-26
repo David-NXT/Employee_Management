@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 public class rollcall
 {
-    private timesheet[] ts;
+    private TimeSheet[] ts;
     private String result=" ";
     Scanner sc=new Scanner(System.in);
 
@@ -21,7 +21,7 @@ public class rollcall
         StringBuilder sb = new StringBuilder();
         for (int i=0;i<ts.length;i++)
         {
-            timesheet t=ts[i];
+            TimeSheet t=ts[i];
             if (t.getMonth()==monthcheck && t.getYear()==yearcheck)
             {
                 int[] days=t.getDay();
@@ -83,7 +83,7 @@ public class rollcall
         }
     }
     //set
-    public void setTs(timesheet[] ts) {this.ts = ts;}
+    public void setTs(TimeSheet[] ts) {this.ts = ts;}
     //get
-    public timesheet[] getTs() {return ts;}
+    public TimeSheet[] getTs() {return ts;}
 }
