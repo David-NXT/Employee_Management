@@ -148,16 +148,6 @@ public class ListTimeSheet implements Serializable
             quicksort(ts,p+1,r);
         }
     }
-    public void sortById() 
-    {
-        if (ts.length == 0) 
-        {
-            System.out.println("Danh sach rong");
-            return;
-        }
-        quicksort(ts, 0, ts.length - 1);
-        System.out.println("da sap xep theo id nhan vien");
-    }
     public void rollcall()
     {
         System.out.print("Enter month: ");
