@@ -31,6 +31,7 @@ public class ListTimeSheet implements Serializable
         {
             System.out.println("timesheet "+(i+1)+":");
             ts[i].out();
+            quicksort(ts,i+1,ts.length-1);
             System.out.println("---------------------------");
         }
     }
@@ -82,7 +83,7 @@ public class ListTimeSheet implements Serializable
     public void ReadFromFile()
     {
         String basepath = System.getProperty("user.dir");
-        File file = new File(basepath + File.separator + "data" + File.separator + "data_Employee");
+        File file = new File(basepath + File.separator + "data" + File.separator + "data_timesheet_Employee");
 
         if (!file.exists()) {
             System.out.println("file is not exist");
@@ -157,6 +158,19 @@ public class ListTimeSheet implements Serializable
         quicksort(ts, 0, ts.length - 1);
         System.out.println("da sap xep theo id nhan vien");
     }
+    public void rollcall()
+    {
+        System.out.print("Enter month: ");
+        int monthcheck=sc.nextInt();
+        for (int i=0;i<ts.length;i++)
+        {
+            if (monthcheck==ts[i].getMonth())
+            {
+                ts[i].out();
+            }
+        }
+    }
+
     //get
     public TimeSheet[] getTs()
     {
