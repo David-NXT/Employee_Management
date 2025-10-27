@@ -1,12 +1,33 @@
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Scanner;
-class position
+public class Position implements Serializable
 {
+    private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String position_id;
     private String job_title;
     private String job_descripsion;
     private String required_skills;
-    Scanner sc=new Scanner(System.in);
-    //ham nhap
+
+    public Position(String position_id,String job_title,String job_descripsion,String required_skills)
+    {
+        this.position_id=position_id;
+        this.job_title=job_title;
+        this.job_descripsion=job_descripsion;
+        this.required_skills=required_skills;
+    }
+    public Position(Position p)
+    {
+        this.position_id=p.position_id;
+        this.job_title=p.job_title;
+        this.job_descripsion=p.job_descripsion;
+        this.required_skills=p.required_skills;
+    }
+    public Position(){}
+
+
     public void enter()
     {
         System.out.print("nhap ma vi tri: ");
@@ -18,7 +39,7 @@ class position
         System.out.print("nhap ky nang can thiet: ");
         required_skills=sc.nextLine();
     }
-    //ham xuat
+
     public void out()
     {
         System.out.printf("%-15s %-20s %-25s %-20s\n",position_id,job_title,job_descripsion,required_skills);
