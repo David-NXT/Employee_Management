@@ -19,20 +19,20 @@ public class ManagePosition
             System.out.print("choose your option: ");
             x=sc.nextInt();
             sc.nextLine();
-            System.out.println("Enter to continue");
+            System.out.print("Enter to continue");
             sc.nextLine();
             if (x==1)
             {
                 ltp.enter();
                 ltp.writeToFile();
-                System.out.println("Enter to continue");
+                System.out.print("Enter to continue");
                 sc.nextLine();
             }
             if  (x==2)
             {
                 ltp.ReadFromFile();
                 ltp.out();
-                System.out.println("Enter to continue");
+                System.out.print("Enter to continue");
                 sc.nextLine();
             }
             if (x==3)
@@ -41,7 +41,7 @@ public class ManagePosition
                 pos.enter();
                 ltp.add(pos);
                 ltp.writeToFile();
-                System.out.println("Enter to continue");
+                System.out.print("Enter to continue");
                 sc.nextLine();
             }
             if (x==4)
@@ -62,14 +62,16 @@ public class ManagePosition
                 String idx=sc.nextLine();
                 ltp.find(idx);
                 ltp.out();
-                System.out.println("Enter to continue");
+                System.out.print("Enter to continue");
                 sc.nextLine();
             }
             if (x==6)
             {
+                ltp.ReadFromFile();
+                ltp.out();
                 ltp.update();
-                ltp .writeToFile();
-                System.out.println("Enter to continue");
+                ltp.writeToFile();
+                System.out.print("Enter to continue");
                 sc.nextLine();
             }
         }
