@@ -8,44 +8,56 @@ public class ManageTimeSheet
             int x;
             do
             {
-                System.out.println("0.save and exit");
                 System.out.println("1. Enter list Timesheet");
-                System.out.println("2. Out list Timesheet");
+                System.out.println("2. Print list Timesheet");
                 System.out.println("3. Add Timesheet");
                 System.out.println("4. Delete Timesheet");
+                System.out.println("5. Check employee");
+                System.out.println("0. Exit");
                 System.out.print("Choose an option: ");
                 x=sc.nextInt();
-                System.out.println("enter to continue...");
-                System.console().readLine();
-                if(x==0)
-                    lt.writeToFile();
+                sc.nextLine();
+                System.out.println("Enter to continue...");
+                sc.nextLine();
                 if (x==1)
                 {
                     lt.enter();
-                    System.out.println("enter to continue...");
-                    System.console().readLine();
+                    lt.writeToFile();
+                    System.out.println("Enter to continue...");
+                    sc.nextLine();
                 }
                 if (x==2)
                 {
+                    lt.ReadFromFile();
                     lt.out();
-                    System.out.println("enter to continue...");
-                    System.console().readLine();
+                    System.out.println("Enter to continue...");
+                    sc.nextLine();
                 }
                 if (x==3)
                 {
                     TimeSheet nts=new TimeSheet();
                     nts.enter();
                     lt.add(nts);
-                    System.out.println("enter to continue...");
-                    System.console().readLine();
+                    lt.writeToFile();
+                    System.out.println("Enter to continue...");
+                    sc.nextLine();
                 }
                 if (x==4)
                 {
-                    System.out.print("enter id employee to delete: ");
+                    lt.ReadFromFile();
+                    lt.out();
+                    System.out.print("Enter id employee to delete: ");
                     String idx=System.console().readLine();
                     lt.deleted(idx);
-                    System.out.println("enter to continue...");
-                    System.console().readLine();
+                    lt.writeToFile();
+                    System.out.println("Enter to continue...");
+                    sc.nextLine();
+                }
+                if (x==5)
+                {
+                    lt.rollcall();
+                    System.out.println("Enter to continue...");
+                    sc.nextLine();
                 }
 
             }

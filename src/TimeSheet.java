@@ -144,18 +144,25 @@ public class TimeSheet implements Serializable
     public String checkclock(int i) //ra ve luc may h
     {
         boolean late = time_in[i].compareTo("08:00") > 0;
-        boolean missingout = time_out[i].isEmpty();
-        boolean missingin=time_in[i].isEmpty();
-        if(late&&missingout)
-            return "late and missingout";
-        else if(late)
-            return "late";
-        else if(missingin)
-            return "missing in";
-        else if(missingout)
-            return "missing out";
+        boolean missingout = time_out[i].compareTo("00:00") == 0;
+        boolean missingin = time_in[i].compareTo("00:00") == 0;
+        boolean overtime = time_out[i].compareTo("17:00") > 0;
+        if (missingin && missingout)
+            return "Missing both";
+        else if (late && missingout)
+            return "Late and missingout";
+        else if (late && overtime)
+            return "Late and overtime";
+        else if (late)
+            return "Late";
+        else if (missingin)
+            return "Missing in";
+        else if (missingout)
+            return "Missing out";
+        else if (overtime)
+            return "Over time";
         else 
-            return "ok";
+            return "Ok";
     }
     private int Partision(int[] day,int l,int r)
     {
