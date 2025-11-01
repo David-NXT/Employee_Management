@@ -42,6 +42,13 @@ public class EmployeeManagerMenu {
                     } while(mode != 0);
                     break;
                 }
+//                case 6: {
+//                    do{
+//
+//                    }
+//                    while(mode!=0);
+//                    break;
+//                }
                 default: {
                     System.out.println("khong co chuc nang nay, voi long nhap lai");
                     break;
