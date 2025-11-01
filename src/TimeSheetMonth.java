@@ -3,17 +3,20 @@ public class TimeSheetMonth
 {
     Scanner sc=new Scanner(System.in);
     private String id_clock;
+    private String id_employee;
     private TimeSheetDay[] td;
 
 
     public TimeSheetMonth(){}
-    public TimeSheetMonth(String id_clock)
+    public TimeSheetMonth(String id_clock,String id_employee)
     {
         this.id_clock=id_clock;
+        this.id_employee=id_employee;
     }
     public TimeSheetMonth(TimeSheetMonth t)
     {
         this.id_clock=t.id_clock;
+        this.id_employee=t.id_employee;
     }
 
     public void enter()
@@ -24,7 +27,7 @@ public class TimeSheetMonth
         l.readFromFile();
         l.put();
         System.out.print("Enter ID employee: ");
-        String id_employee=sc.nextLine();
+        id_employee=sc.nextLine();
         int check_id=l.isEmployee(id_employee);
         if (check_id==-1)
         {
@@ -45,7 +48,7 @@ public class TimeSheetMonth
             int d;
             do
             {
-                d=td[i].randomDay(month,year);
+                d=randomDay(month,year);
                 check=false;
                 for (int j=0;j<i;j++)
                 {
@@ -63,7 +66,9 @@ public class TimeSheetMonth
     }
     public void out()
     {
-        System.out.printf("%-15s %-15s %-15s %-15s %-15s\n","ID","Date","Time in","Time out","Status");
+        System.out.printf("%-15s %-15s\n","ID","ID Clock");
+        System.out.printf("%-15s %-15s\n",id_employee,id_clock);
+        System.out.printf(" %-15s %-15s %-15s %-15s\n","Date","Time in","Time out","Status");
         quickSort(td,0,td.length-1);
         for (int i=0;i<td.length;i++)
         {
@@ -71,7 +76,7 @@ public class TimeSheetMonth
         }
     }
     private int partition(TimeSheetDay[] arr, int l, int r) {
-        int pivot = arr[r].getDay(); // giả sử có getDay()
+        int pivot = arr[r].getDay();
         int i = l - 1;
         for (int j = l; j < r; j++) {
             if (arr[j].getDay() <= pivot) {
@@ -103,6 +108,31 @@ public class TimeSheetMonth
     {
         return 2025+(int)(Math.random()*41);
     }
+    public int randomDay(int month,int year)
+    {
+        int maxday;
+        switch (month)
+        {
+            case 4: case 6: case 9: case 11:
+            maxday=30;
+            break;
+            case 2:
+                if (year%400==0||(year%4==0&& year%100!=0))
+                    maxday=29;
+                else
+                    maxday=28;
+                break;
+            default:
+                maxday=31;
+        }
+        return 1+(int)(Math.random()*maxday);
+    }
 
 
+//    get
+    public String getId_clock() {return id_clock;}
+    public String getId_employee() {return id_employee;}
+//    set
+    public void setId_clock(String id_clock) {this.id_clock=id_clock;}
+    public void setId_employee(String id_employee) {this.id_employee=id_employee;}
 }
