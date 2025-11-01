@@ -28,7 +28,10 @@ public class ListAllowanceRule implements Serializable {
     public void delete(String id) {
         int locate = -1;
         for (int i = 0;i < n;i++) {
-            if (data[i].getId().equals(id)) locate = i;
+            if (data[i].getId().equals(id)){
+                locate = i;
+                break;
+            }
         }
         if (locate == -1) {
             System.out.println("This ID Does Not Exit");
@@ -93,7 +96,7 @@ public class ListAllowanceRule implements Serializable {
 
         File file = new File(dir,"data_Allowance_Rule.bin");
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            ListAllowanceRule a =(ListAllowanceRule) ois.readObject();
+            ListAllowanceRule a = (ListAllowanceRule) ois.readObject();
             data = a.data;
             n = a.n;
         } catch (IOException | ClassNotFoundException e) {

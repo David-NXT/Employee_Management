@@ -11,6 +11,13 @@ public class AllowanceRule implements Serializable {
     private String day;// dd  mm
     private double allowancerate;
 
+    public AllowanceRule() {
+        id = "";
+        name = "";
+        day = "";
+        allowancerate = 0.0;
+    }
+
     public AllowanceRule(String id, String name, String day, double allowancerate) {
         this.id = id;
         this.name = name;
