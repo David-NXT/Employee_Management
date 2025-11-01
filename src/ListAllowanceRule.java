@@ -49,6 +49,21 @@ public class ListAllowanceRule implements Serializable {
         return null;
     }
 
+    public ListAllowanceRule findAllowanceInMonth(String month) {//tim tat ca cac phu cap trong thang
+        ListAllowanceRule result = new ListAllowanceRule();
+        String day;
+        int k = 0;
+
+        while (k < n) {
+            for (int i = 1;i < 32;i++) {
+                day = String.format("%02d/%s",i,month);
+                if (day.equals(data[k++].getDay())) result.add(data[k - 1]);//vi k++ nen phai tru 1 moi la phan tu vua tim ra
+            }
+        }
+
+        return result;
+    }
+
     public void writeToFile() {
         String basepath = System.getProperty("user.dir");
         File dir = new File(basepath + File.separator + "data");
