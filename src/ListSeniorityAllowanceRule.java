@@ -1,5 +1,7 @@
 import java.io.*;
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class ListSeniorityAllowanceRule implements Serializable {
@@ -41,6 +43,21 @@ public class ListSeniorityAllowanceRule implements Serializable {
             data[i] = data[i + 1];
         data = Arrays.copyOf(data,n - 1);
         n--;
+    }
+
+    public double employeeHaveSeniorityAllowance(String id) {
+        ListEmployee employee = new ListEmployee();
+        employee.readFromFile();
+        int locate = employee.isEmployee(id);
+        if (locate == -1) {
+            return 0;//neu khong tim thay nhan vien thi muc phu cap cua thanh nien do bang 0
+        }
+
+        int yearofwork = LocalDate.now().getYear() - Integer.parseInt(employee.getData()[locate].getStartWorkingDay().substring(6,10));
+        for (int i = n - 1;i >= 0;i--) {// mang duoc sap xep tu be den lon nen duyet tu cuoi mang de tim ra muc phu cap lon nhat
+            if (yearofwork > data[i].getYearofwork()) return data[i].getAllowancerate();
+        }
+        return 0;// neu chay het mang ma khong co thi tra ve 0
     }
 
     public void writeToFile() {
