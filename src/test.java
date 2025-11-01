@@ -1,13 +1,11 @@
+import java.util.Scanner;
 public class test {
     public static void main(String[] args) {
-        listtimesheet a = new listtimesheet();
-        a.enter();
-        a.writeToFile();
-        timesheet b = new timesheet();
-        b.enter();
-        a.add(b);
-        a.writeToFile();
-        a.readFromFile();
-        a.out();
+        Scanner sc= new Scanner(System.in);
+        ListAllowance l = new ListAllowance();
+        l.get();
+        l.put();
+        String empId=sc.nextLine();
+        l.showAllowanceByEmployeeId(empId);
     }
 }

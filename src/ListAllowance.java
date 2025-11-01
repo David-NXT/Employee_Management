@@ -8,7 +8,7 @@ public class ListAllowance implements Serializable {
 
     private transient final Scanner sc = new Scanner(System.in);
     private Allowance[] data;
-    private final String FILE_PATH = System.getProperty("user.dir") + File.separator + "data" + File.separator + "allowance.dat";
+    private final String FILE_PATH = System.getProperty("user.dir") + File.separator + "data" + File.separator + "data_allowance.dat";
 
     public ListAllowance() {
         data = new Allowance[0];
@@ -20,7 +20,7 @@ public class ListAllowance implements Serializable {
         int n = sc.nextInt();
         sc.nextLine();
         for (int i = 0; i < n; i++) {
-            Allowance a = new Allowance();
+            Allowance a = new Allowance(this);
             a.get();
             add(a);
         }
@@ -104,6 +104,24 @@ public class ListAllowance implements Serializable {
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error reading allowance data: " + e.getMessage());
             data = new Allowance[0];
+        }
+    }
+
+    public void showAllowanceByEmployeeId(String empId) {
+        boolean found = false;
+        for (Allowance a : data) {
+            if (a.getEmployeeId() != null && a.getEmployeeId().equalsIgnoreCase(empId)) {
+                System.out.println("Allowance for Employee ID: " + empId);
+                System.out.printf("%-10s %-20s %-15.2f %-15.2f %-15.2f %-15s%n",
+                        a.getAllowanceId(), a.getAllowanceName(),
+                        a.getJobAllowance(), a.getProjectAllowance(),
+                        a.getAnnualAllowance(), a.getDayMonthYear());
+                System.out.println("---------------------------------------------------");
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No allowance found for employee ID: " + empId);
         }
     }
 

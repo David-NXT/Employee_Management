@@ -4,21 +4,23 @@ import java.util.Scanner;
 public class Allowance implements Serializable{
     @Serial
     private static final long SerialVersionUID = 1L;
+    private String employeeId;
     private String allowanceId;
     private String allowanceName;
-    private double dayMonthYear;
+    private String dayMonthYear;
     private double jobAllowance;
     private double projectAllowance;
     private double annualAllowance;
 
     public Allowance(){}
-    public Allowance(String allowanceId, double jobAllowance, double projectAllowance, double annualAllowance, double dayMonthYear, String allowanceName ){
+    public Allowance(String employeeId, double jobAllowance, double projectAllowance, double annualAllowance, String dayMonthYear, String allowanceName ){
         this.allowanceId=allowanceId;
         this.jobAllowance=jobAllowance;
         this.allowanceName=allowanceName;
         this.dayMonthYear=dayMonthYear;
         this.projectAllowance=projectAllowance;
         this.annualAllowance=annualAllowance;
+        this.employeeId=employeeId;
     }
     public Allowance(Allowance a){
         allowanceId=a.allowanceId;
@@ -27,6 +29,10 @@ public class Allowance implements Serializable{
         dayMonthYear=a.dayMonthYear;
         projectAllowance=a.projectAllowance;
         annualAllowance=a.annualAllowance;
+        employeeId=a.employeeId;
+    }
+    public String getEmployeeId() {
+        return employeeId;
     }
     public String getAllowanceId() {
         return allowanceId;
@@ -41,15 +47,18 @@ public class Allowance implements Serializable{
     public double getAnnualAllowance() {
         return annualAllowance;
     }
-    public double getDayMonthYear(){ return dayMonthYear;}
+    public String getDayMonthYear(){ return dayMonthYear;}
     public void setAllowanceId(String allowanceId) {
         this.allowanceId = allowanceId;
+    }
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
     public void setAllowanceName(String allowanceName){this.allowanceName=allowanceName;}
     public void setJobAllowance(double jobAllowance) {
         this.jobAllowance = jobAllowance;
     }
-    public void setDayMonthYear(double dayMonthYear){this.dayMonthYear=dayMonthYear;}
+    public void setDayMonthYear(String dayMonthYear){this.dayMonthYear=dayMonthYear;}
     public void setProjectAllowance(double projectAllowance) {
         this.projectAllowance = projectAllowance;
     }
@@ -65,7 +74,11 @@ public class Allowance implements Serializable{
 
     public void get() {
         Scanner sc = new Scanner(System.in);
-
+        ListEmployee l = new ListEmployee();
+        l.readFromFile();
+        l.put();
+        System.out.println("Enter Employee ID for this Allowance: ");
+        employeeId=sc.nextLine();
         System.out.println("Enter Allowance Name:");
         allowanceName=sc.nextLine();
         System.out.print("Enter Job Allowance: ");
@@ -75,7 +88,8 @@ public class Allowance implements Serializable{
         System.out.print("Enter Annual Allowance: ");
         annualAllowance = sc.nextDouble();
         System.out.println("Enter Allowance Date (dd-mm-yyyy): ");
-        dayMonthYear=sc.nextDouble();
+        sc.nextLine();
+        dayMonthYear=sc.nextLine();
     }
 
     public void put() {
