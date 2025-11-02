@@ -42,15 +42,18 @@ public class EmployeeManagerMenu {
                     } while(mode != 0);
                     break;
                 }
-//                case 6: {
-//                    do{
-//
-//                    }
-//                    while(mode!=0);
-//                    break;
-//                }
+                case 6: {
+                    ManageTimeSheet mt=new ManageTimeSheet();
+                    mt.menu();
+                    break;
+                }
+                case 7: {
+                    ManagePosition mp=new ManagePosition();
+                    mp.menuPosition();
+                    break;
+                }
                 default: {
-                    System.out.println("khong co chuc nang nay, voi long nhap lai");
+                    System.out.println("khong co chuc nang nay, vui long nhap lai");
                     break;
                 }
             }
@@ -64,6 +67,8 @@ public class EmployeeManagerMenu {
         System.out.println("3. Project Manager");
         System.out.println("4. Salary Manager");
         System.out.println("5. Department Manager");
+        System.out.println("6. Time sheet Manager");
+        System.out.println("7. Position Manager");
     }
 
     public void offcialEmployeeMenu() {
