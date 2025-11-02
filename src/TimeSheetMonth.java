@@ -1,7 +1,11 @@
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
-public class TimeSheetMonth
+public class TimeSheetMonth implements Serializable
 {
-    Scanner sc=new Scanner(System.in);
+    private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String id_clock;
     private String id_employee;
     private TimeSheetDay[] td;
@@ -75,7 +79,8 @@ public class TimeSheetMonth
             td[i].out();
         }
     }
-    private int partition(TimeSheetDay[] arr, int l, int r) {
+    private int partition(TimeSheetDay[] arr, int l, int r)
+    {
         int pivot = arr[r].getDay();
         int i = l - 1;
         for (int j = l; j < r; j++) {
@@ -93,13 +98,41 @@ public class TimeSheetMonth
         return i;
     }
 
-    private void quickSort(TimeSheetDay[] arr, int l, int r) {
+    private void quickSort(TimeSheetDay[] arr, int l, int r)
+    {
         if (l < r) {
             int p = partition(arr, l, r);
             quickSort(arr, l, p - 1);
             quickSort(arr, p + 1, r);
         }
     }
+
+    public void monthcheck(int monthx)
+    {
+        for (int i=0;i<td.length;i++)
+        {
+            if(monthx==td[i].getMonth())
+            {
+                String date = String.format("%02d/%02d/%04d", td[i].getDay(),td[i].getMonth(),td[i].getYear());
+                String status=td[i].check();
+                System.out.printf("%-15s %-15s %-15s %-15s %-15s\n",id_employee,date,td[i].getTime_in(),td[i].getTime_out(),status);
+            }
+        }
+
+    }
+
+    public void daycheck(int dayx)
+    {
+        for (int i=0;i<td.length;i++)
+        {
+            if(dayx==td[i].getDay())
+            {
+                String status=td[i].check();
+                System.out.printf("%-15s %-15s %-15s %-15s\n",td[i].getId_employee(),td[i].getTime_in(),td[i].getTime_out(),status);
+            }
+        }
+    }
+
     public int randomMonth()
     {
         return 1+(int)(Math.random()*12);
