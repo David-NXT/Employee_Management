@@ -55,6 +55,7 @@ public class Department{
     }
 
 
+
     public void printDepartmentInfo(){
         System.out.printf("======Department: %s (ID: %s)========%n", name, id);
         if (nv.isEmpty()){

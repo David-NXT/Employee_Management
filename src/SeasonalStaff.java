@@ -16,8 +16,8 @@ public class SeasonalStaff extends Employee implements Serializable {
         worktime = a.worktime;
     }
 
-    public SeasonalStaff(String id, String surname, String name, String gender, String address, String phonenumber, String email, String startworkingday, double hourlysalary, float worktime) {
-        super(id,surname,name,gender,address,phonenumber,email,startworkingday);
+    public SeasonalStaff(String id, String surname, String name, String gender, String address, String phonenumber, String email, String startworkingday, double hourlysalary, float worktime, String positionId) {
+        super(id,surname,name,gender,address,phonenumber,email,startworkingday,positionId);
         this.hourlysalary = hourlysalary;
         this.worktime = worktime;
     }

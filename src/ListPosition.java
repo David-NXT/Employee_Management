@@ -197,4 +197,14 @@ public class ListPosition implements Serializable
             quicksort(po,p+1,r);
         }
     }
+    public Position findById(String id){
+        for(Position pos: p  ){
+            if(pos.getPosition_id().equalsIgnoreCase(id)){
+                return pos;
+            }
+        }
+        return null;
+    }
+
+
 }

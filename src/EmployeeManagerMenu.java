@@ -15,36 +15,15 @@ public class EmployeeManagerMenu {
                     break;
                 }
                 case 1: {
-                    ListEmployee list = new ListEmployee();
-                    list.readFromFile();
-                    do {
-                        offcialEmployeeMenu();
-                        mode = sc.nextInt();
-                        sc.nextLine();
-                        runOfficialEmployeeManager(mode, list);
-                    } while (mode != 0);
+                    doOfficalEmploy(mainmode);
                     break;
                 }
                 case 2: {
-                    ListEmployee list = new ListEmployee();
-                    list.readFromFile();
-                    do {
-                        seasonalStaffMenu();
-                        mode = sc.nextInt();
-                        sc.nextLine();
-                        runSeasonalStaffManager(mode, list);
-                    } while (mode != 0);
+                    doSeasonalStaff(mainmode);
                     break;
                 }
                 case 3: {
-                    ListProject list = new ListProject();
-                    list.readFromFile();
-                    do {
-                        projectMenu();
-                        mode = sc.nextInt();
-                        sc.nextLine();
-                        runProjectManager(mode, list);
-                    } while (mode != 0);
+                    doProject(mainmode);
                     break;
                 }
                 case 4: {
@@ -63,6 +42,13 @@ public class EmployeeManagerMenu {
                     } while(mode != 0);
                     break;
                 }
+//                case 6: {
+//                    do{
+//
+//                    }
+//                    while(mode!=0);
+//                    break;
+//                }
                 default: {
                     System.out.println("khong co chuc nang nay, voi long nhap lai");
                     break;
@@ -147,15 +133,7 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 2: {
-                System.out.println("Number Employee You Want To Add: ");
-                int n = sc.nextInt();
-                sc.nextLine();
-                for (int i = 0;i < n;i++) {
-                    OfficialEmployee a = new OfficialEmployee();
-                    String id = list.getIdAutoForOE();
-                    a.get(id);
-                    list.add(a);
-                }
+                addOfficialEmployee(list);
                 break;
             }
             case 3: {
@@ -168,30 +146,9 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 5: {//nhap id -> ktr co trong list vs la nv chinh thuc khong -> chay menu sua
-                System.out.print("Employee ID That You Want To Change: ");String id = sc.nextLine();
-                //ktr co trong list ko
-                int locate = -1;
-                for (int i = 0;i < list.getData().length;i++) {
-                    if (id.equals(list.getData()[i].getId()) && list.getData()[i] instanceof OfficialEmployee) {
-                        locate = i;
-                        break;
-                    }
-                }
-                if (locate == -1) {
-                    System.out.println("There Is No Official Employ Have That ID.");
-                    break;
-                }
-
-                //chay menu chinh sua
-                else {
-                    do {
-                        changeEmployeeMenu(1);
-                        mode = sc.nextInt();
-                        sc.nextLine();
-                        runChangeEmployeeInformation(mode,locate,list,1);
-                    } while (mode != 0);
-                }
-
+                int locate = checkIfOfficialInList(list);
+                if (locate == -1) break;
+                else doChangeInfor(locate,list,1);//chay menu chinh sua
                 break;
             }
             default: {
@@ -207,22 +164,11 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 1: {
-                System.out.println("New Surname: ");String surname = sc.nextLine();
-                System.out.println("New LastName: ");String lastname = sc.nextLine();
-                surname = surname.trim();
-                lastname = lastname.trim();
-                list.getData()[locate].setSurname(surname);
-                list.getData()[locate].setName(lastname);
+                changeName(locate,list);
                 break;
             }
             case 2: {
-                if (list.getData()[locate].getGender().equals("nam")) {
-                    list.getData()[locate].setGender("nu");
-                } else {
-                    list.getData()[locate].setGender("nam");
-                }
-
-                System.out.println("Done!");
+                changeGender(locate,list);
                 break;
             }
             case 3: {
@@ -241,18 +187,7 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 6: {
-                if (type == 1) {
-                    System.out.println("New Basic Salary: ");
-                    double salary = sc.nextDouble();
-                    sc.nextLine();
-                    ((OfficialEmployee) list.getData()[locate]).setBasicSalary(salary);
-                } else if (type == 2) {
-                    System.out.println("New Hourly Salary: ");
-                    double salary = sc.nextDouble();
-                    sc.nextLine();
-                    ((SeasonalStaff) list.getData()[locate]).setHourlySalary(salary);
-                }
-
+                changeMoney(locate,list,type);
                 break;
             }
             default: {
@@ -273,15 +208,7 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 2: {
-                System.out.println("Number Employee You Want To Add: ");
-                int n = sc.nextInt();
-                sc.nextLine();
-                for (int i = 0;i < n;i++) {
-                    SeasonalStaff a = new SeasonalStaff();
-                    String id = list.getIdAutoForST();
-                    a.get(id);
-                    list.add(a);
-                }
+                addSeasonalStaff(list);
                 break;
             }
             case 3: {
@@ -294,30 +221,9 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 5: {
-                System.out.print("Employee ID That You Want To Change: ");String id = sc.nextLine();
-                //ktr co trong list ko
-                int locate = -1;
-                for (int i = 0;i < list.getData().length;i++) {
-                    if (id.equals(list.getData()[i].getId()) && list.getData()[i] instanceof SeasonalStaff) {
-                        locate = i;
-                        break;
-                    }
-                }
-                if (locate == -1) {
-                    System.out.println("There Is No Seasonal Staff Have That ID.");
-                    break;
-                }
-
-                //chay menu chinh sua
-                else {
-                    do {
-                        changeEmployeeMenu(2);
-                        mode = sc.nextInt();
-                        sc.nextLine();
-                        runChangeEmployeeInformation(mode,locate,list,2);
-                    } while (mode != 0);
-                }
-
+                int locate = checkIfSeasonalInList(list);
+                if (locate == -1) break;
+                else doChangeInfor(locate,list,2);//chay menu chinh sua
                 break;
             }
             default: {
@@ -353,28 +259,9 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 5: {
-                System.out.println("Project ID That You Want To Change: ");
-                String id = sc.nextLine();
-
-                int locate = -1;
-                for (int i = 0;i < list.getData().length;i++) {
-                    if (id.equals(list.getData()[i].getProjectId())) {
-                        locate = i;
-                        break;
-                    }
-                }
-
-                if (locate == -1) {
-                    System.out.println("There Is No Project Have That ID");
-                    break;
-                }
-
-                do {
-                    changeProjectMenu();
-                    mode = sc.nextInt();
-                    sc.nextLine();
-                    runChangeProject(mode,locate,list);
-                } while (mode != 0);
+                int locate = checkIfProjectInList(list);
+                if (locate == -1) break;
+                else doChangeProjectInfor(locate,list);
                 break;
             }
             default: {
@@ -441,50 +328,215 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 9: {
-                do {
-                    System.out.println("0. Exit");
-                    System.out.println("1. Add");
-                    System.out.println("2. Remove");
-                    mode = sc.nextInt();
-                    sc.nextLine();
-                    switch (mode) {
-                        case 0: {
-                            break;
-                        }
-                        case 1: {
-                            System.out.println("Numbers Of ID You Want To Add: ");
-                            int numbers = sc.nextInt();
-                            sc.nextLine();
-                            for (int i = 0;i < numbers;i++) {
-                                System.out.println("ID You Want To Add: ");
-                                String id = sc.nextLine();
-                                list.getData()[locate].addEmployeeId(id);
-                            }
-                            break;
-                        }
-                        case 2: {
-                            System.out.println("Numbers Of ID You Want To Delete: ");
-                            int numbers = sc.nextInt();
-                            sc.nextLine();
-                            for (int i = 0;i < numbers;i++) {
-                                System.out.println("ID You Want To Delete: ");
-                                String id = sc.nextLine();
-                                list.getData()[locate].deleteEmployeeId(id);
-                            }
-                            break;
-                        }
-                        default: {
-                            System.out.println("khong co che do nay");
-                            break;
-                        }
-                    }
-                } while (mode != 0);
+                doChangeParticipant(locate,list);
                 break;
             }
             default: {
                 System.out.println("khong co chuc nang nay");
                 break;
             }
+        }
+    }
+
+    public void doOfficalEmploy(int mode) {
+        ListEmployee list = new ListEmployee();
+        list.readFromFile();
+        do {
+            offcialEmployeeMenu();
+            mode = sc.nextInt();
+            sc.nextLine();
+            runOfficialEmployeeManager(mode, list);
+        } while (mode != 0);
+    }
+
+    public void doSeasonalStaff(int mode) {
+        ListEmployee list = new ListEmployee();
+        list.readFromFile();
+        do {
+            seasonalStaffMenu();
+            mode = sc.nextInt();
+            sc.nextLine();
+            runSeasonalStaffManager(mode, list);
+        } while (mode != 0);
+    }
+
+    public void doProject(int mode) {
+        ListProject list = new ListProject();
+        list.readFromFile();
+        do {
+            projectMenu();
+            mode = sc.nextInt();
+            sc.nextLine();
+            runProjectManager(mode, list);
+        } while (mode != 0);
+    }
+
+    public void addOfficialEmployee(ListEmployee list) {
+        System.out.println("Number Employee You Want To Add: ");
+        int n = sc.nextInt();
+        sc.nextLine();
+        for (int i = 0;i < n;i++) {
+            OfficialEmployee a = new OfficialEmployee();
+            String id = list.getIdAutoForOE();
+            a.get(id);
+            list.add(a);
+        }
+    }
+
+    public void addSeasonalStaff(ListEmployee list) {
+        System.out.println("Number Employee You Want To Add: ");
+        int n = sc.nextInt();
+        sc.nextLine();
+        for (int i = 0;i < n;i++) {
+            SeasonalStaff a = new SeasonalStaff();
+            String id = list.getIdAutoForST();
+            a.get(id);
+            list.add(a);
+        }
+    }
+
+    public int checkIfOfficialInList(ListEmployee list) {
+        System.out.print("Employee ID That You Want To Change: ");String id = sc.nextLine();
+        //ktr co trong list ko
+        int locate;
+        for (int i = 0;i < list.getData().length;i++) {
+            if (id.equals(list.getData()[i].getId()) && list.getData()[i] instanceof OfficialEmployee) {
+                locate = i;
+                return locate;
+            }
+        }
+        System.out.println("There Is No Official Employ Have That ID.");
+        return -1;
+    }
+
+    public int checkIfSeasonalInList(ListEmployee list) {
+        System.out.print("Employee ID That You Want To Change: ");String id = sc.nextLine();
+        //ktr co trong list ko
+        int locate;
+        for (int i = 0;i < list.getData().length;i++) {
+            if (id.equals(list.getData()[i].getId()) && list.getData()[i] instanceof SeasonalStaff) {
+                locate = i;
+                return locate;
+            }
+        }
+        System.out.println("There Is No Seasonal Staff Have That ID.");
+        return -1;
+    }
+
+    public void doChangeInfor(int locate, ListEmployee list, int type) {
+        int mode;
+        do {
+            changeEmployeeMenu(type);
+            mode = sc.nextInt();
+            sc.nextLine();
+            runChangeEmployeeInformation(mode,locate,list,type);
+        } while (mode != 0);
+    }
+
+    public void changeName(int locate, ListEmployee list) {
+        System.out.println("New Surname: ");String surname = sc.nextLine();
+        System.out.println("New LastName: ");String lastname = sc.nextLine();
+        surname = surname.trim();
+        lastname = lastname.trim();
+        list.getData()[locate].setSurname(surname);
+        list.getData()[locate].setName(lastname);
+    }
+
+    public void changeGender(int locate, ListEmployee list) {
+        if (list.getData()[locate].getGender().equals("male")) {
+            list.getData()[locate].setGender("female");
+        } else {
+            list.getData()[locate].setGender("male");
+        }
+
+        System.out.println("Done!");
+    }
+
+    public void changeMoney(int locate, ListEmployee list, int type) {
+        if (type == 1) {
+            System.out.println("New Basic Salary: ");
+            double salary = sc.nextDouble();
+            sc.nextLine();
+            ((OfficialEmployee) list.getData()[locate]).setBasicSalary(salary);
+        } else if (type == 2) {
+            System.out.println("New Hourly Salary: ");
+            double salary = sc.nextDouble();
+            sc.nextLine();
+            ((SeasonalStaff) list.getData()[locate]).setHourlySalary(salary);
+        }
+    }
+
+    public int checkIfProjectInList(ListProject list) {
+        System.out.println("Project ID That You Want To Change: ");String id = sc.nextLine();
+        //ktr co trong list ko
+        int locate;
+        for (int i = 0;i < list.getData().length;i++) {
+            if (id.equals(list.getData()[i].getProjectId())) {
+                locate = i;
+                return locate;
+            }
+        }
+        System.out.println("There Is No Project Have That ID");
+        return -1;
+    }
+
+    public void doChangeProjectInfor(int locate, ListProject list) {
+        int mode;
+        do {
+            changeProjectMenu();
+            mode = sc.nextInt();
+            sc.nextLine();
+            runChangeProject(mode,locate,list);
+        } while (mode != 0);
+    }
+
+    public void doChangeParticipant(int locate, ListProject list) {
+        int mode;
+        do {
+            System.out.println("0. Exit");
+            System.out.println("1. Add");
+            System.out.println("2. Remove");
+            mode = sc.nextInt();
+            sc.nextLine();
+            switch (mode) {
+                case 0: {
+                    break;
+                }
+                case 1: {
+                    doAddParticipant(locate,list);
+                    break;
+                }
+                case 2: {
+                    doDeleteParticipant(locate,list);
+                    break;
+                }
+                default: {
+                    System.out.println("khong co che do nay");
+                    break;
+                }
+            }
+        } while (mode != 0);
+    }
+
+    public void doAddParticipant(int locate, ListProject list) {
+        System.out.println("Numbers Of ID You Want To Add: ");
+        int numbers = sc.nextInt();
+        sc.nextLine();
+        for (int i = 0;i < numbers;i++) {
+            System.out.println("ID You Want To Add: ");
+            String id = sc.nextLine();
+            list.getData()[locate].addEmployeeId(id);
+        }
+    }
+
+    public void doDeleteParticipant(int locate, ListProject list) {
+        System.out.println("Numbers Of ID You Want To Delete: ");
+        int numbers = sc.nextInt();
+        sc.nextLine();
+        for (int i = 0;i < numbers;i++) {
+            System.out.println("ID You Want To Delete: ");
+            String id = sc.nextLine();
+            list.getData()[locate].deleteEmployeeId(id);
         }
     }
 }

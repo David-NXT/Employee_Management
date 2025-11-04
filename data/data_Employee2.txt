@@ -1,4 +1,0 @@
-E01, Dan Thien Bao, Sales Manager, D01
-E02, Nguyen Viet Long, Accountant, D02
-E03, Nguyen Xuan Thanh, HR Officer, D03
-E04, Pham Minh Tri, Sales Assistant, D01

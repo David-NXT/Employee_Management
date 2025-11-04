@@ -8,17 +8,19 @@ public class ListProject implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private Project[] data;
+    private int n;
 
     public ListProject() {
         data = new Project[0];
+        n = 0;
     }
 
     public ListProject(ListProject list) {
         data = list.data;
+        n = list.n;
     }
 
     public void get() {
-        int n;
         System.out.println("Nhap so luong du an: ");n = sc.nextInt();
         sc.nextLine();//xoa \n thua trong buffer
         data = Arrays.copyOf(data,n);
@@ -39,19 +41,20 @@ public class ListProject implements Serializable {
         Project a = new Project();
         a.getProject();
 
-        data = Arrays.copyOf(data,data.length + 1);
-
-        data[data.length - 1] = a;
+        data = Arrays.copyOf(data,n + 1);
+        data[n] = a;
+        n++;
     }
 
     public void add(Project newproject) {
-        data = Arrays.copyOf(data,data.length + 1);
-        data[data.length - 1] = newproject;
+        data = Arrays.copyOf(data,n + 1);
+        data[n] = newproject;
+        n++;
     }
 
     public void delete(String projectid) {
         int locate = -1;
-        for (int i = 0;i < data.length;i++) {
+        for (int i = 0;i < n;i++) {
             if (data[i].getProjectId().equals(projectid)){
                 locate = i;
                 break;
@@ -63,10 +66,11 @@ public class ListProject implements Serializable {
             return;
         }
 
-        for (int i = locate;i < data.length - 1;i++) {
+        n--;
+        for (int i = locate;i < n;i++) {
             data[i] = data[i + 1];
         }
-        data = Arrays.copyOf(data,data.length - 1);
+        data = Arrays.copyOf(data,n);
     }
 
     public void writeToFile() {
@@ -100,11 +104,21 @@ public class ListProject implements Serializable {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             ListProject a = (ListProject) ois.readObject();
             this.data = a.data;
+            this.n = a.n;
         }
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
+    public Project find(String projectId) {
+        for (Project p : data ) {
+            if (p.getProjectId().equalsIgnoreCase(projectId)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
 
     public Project[] getData() {
         return data;

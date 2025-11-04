@@ -71,7 +71,7 @@ public class Employee_Salary extends Employee implements Serializable {
         if (allowc != null) {
             System.out.println("  Job Allowance: " + allowc.getJobAllowance());
             System.out.println("  Project Allowance: " + allowc.getProjectAllowance());
-            System.out.println("  Annual Allowance: " + allowc.getAnnualAllowance());
+            System.out.println("  Annual Allowance: " + allowc.getTotalAllowance());
             System.out.println("  Total Allowance: " + allowc.getTotalAllowance());
         }
         System.out.println("Bonus: " + bonus);

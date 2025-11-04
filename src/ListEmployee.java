@@ -272,6 +272,17 @@ public class ListEmployee implements Serializable{
         data[i] = tmp;
 
     }
+    // Trả về Employee nếu tìm thấy, ngược lại trả về null
+    public Employee findById(String id) {
+        if (data == null) return null;
+        for (Employee e : data) {
+            if (e != null && e.getId() != null && e.getId().equalsIgnoreCase(id)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
 
     public Employee[] getData(){
         return data;
