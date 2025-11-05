@@ -110,6 +110,15 @@ public class ListProject implements Serializable {
             e.printStackTrace();
         }
     }
+    public Project find(String projectId) {
+        for (Project p : data ) {
+            if (p.getProjectId().equalsIgnoreCase(projectId)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
 
     public Project[] getData() {
         return data;

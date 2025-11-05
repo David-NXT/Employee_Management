@@ -103,6 +103,13 @@ public class ListSeniorityAllowanceRule implements Serializable {
             e.printStackTrace();
         }
     }
+    public SeniorityAllowanceRule findByYear(int years) {
+        for (SeniorityAllowanceRule r : data) {
+            if (years >= r.getYearofwork())
+                return r;
+        }
+        return null;
+    }
 
     public SeniorityAllowanceRule[] getData() {
         return data;

@@ -1,55 +1,104 @@
+import java.io.Serial;
 import java.io.Serializable;
-public class Allowance implements Serializable{
+import java.time.LocalDate;
+
+public class Allowance implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String allowanceId;
-    private double jobAllowance;
-    private double projectAllowance;
+    private String employeeId;
+    private String employeeName;
+    private String positionId;
+    private String projectId;
     private double annualAllowance;
 
-    public Allowance(){}
-    public Allowance(String allowanceId, double jobAllowance, double projectAllowance, double annualAllowance ){
-        this.allowanceId=allowanceId;
-        this.jobAllowance=jobAllowance;
-        this.projectAllowance=projectAllowance;
+    private double jobAllowance;
+    private double projectAllowance;
+    private double seniorityAllowance;
+    private double totalAllowance;
+    private LocalDate createdDate;
+
+    // --- Constructors ---
+    public Allowance(String s, double jobAllowance, double projectAllowance, double annualAllowance, String string, String officialEmployeeAllowance) {}
+
+    public Allowance() {
+        this.allowanceId = allowanceId;
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.positionId = positionId;
+        this.projectId = projectId;
         this.annualAllowance=annualAllowance;
+        this.jobAllowance = jobAllowance;
+        this.projectAllowance = projectAllowance;
+        this.seniorityAllowance = seniorityAllowance;
+        this.totalAllowance = jobAllowance + projectAllowance + seniorityAllowance;
+        this.createdDate = LocalDate.now();
     }
-    public Allowance(Allowance a){
-        allowanceId=a.allowanceId;
-        jobAllowance=a.jobAllowance;
-        projectAllowance=a.projectAllowance;
-        annualAllowance=a.annualAllowance;
+
+    // --- Display ---
+    public void display() {
+        System.out.printf("%-10s %-10s %-20s %-10s %-10s %-12.0f %-12.0f %-12.0f %-12.0f %-12s\n",
+                allowanceId, employeeId, employeeName, positionId, projectId,
+                jobAllowance, projectAllowance, seniorityAllowance, totalAllowance, createdDate);
     }
-    public String getAllowanceId() {
-        return allowanceId;
-    }
-    public double getJobAllowance() {
-        return jobAllowance;
-    }
-    public double getProjectAllowance() {
-        return projectAllowance;
-    }
+
+    // --- Getters & Setters ---
+    public String getAllowanceId() { return allowanceId; }
+    public void setAllowanceId(String allowanceId) { this.allowanceId = allowanceId; }
+
+    public String getEmployeeId() { return employeeId; }
+    public void setEmployeeId(String employeeId) { this.employeeId = employeeId; }
+
+    public String getEmployeeName() { return employeeName; }
+    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
+
+    public String getPositionId() { return positionId; }
+    public void setPositionId(String positionId) { this.positionId = positionId; }
+
+    public String getProjectId() { return projectId; }
+    public void setProjectId(String projectId) { this.projectId = projectId; }
+
+    public double getJobAllowance() { return jobAllowance; }
+    public void setJobAllowance(double jobAllowance) { this.jobAllowance = jobAllowance; }
+
+    public double getProjectAllowance() { return projectAllowance; }
     public double getAnnualAllowance() {
         return annualAllowance;
     }
-    public void setAllowanceId(String allowanceId) {
-        this.allowanceId = allowanceId;
-    }
-    public void setJobAllowance(double jobAllowance) {
-        this.jobAllowance = jobAllowance;
-    }
-    public void setProjectAllowance(double projectAllowance) {
-        this.projectAllowance = projectAllowance;
-    }
+    public void setProjectAllowance(double projectAllowance) { this.projectAllowance = projectAllowance; }
+
+    public double getSeniorityAllowance() { return seniorityAllowance; }
+    public void setSeniorityAllowance(double seniorityAllowance) { this.seniorityAllowance = seniorityAllowance; }
+
+    public double getTotalAllowance() { return totalAllowance; }
+    public void setTotalAllowance(double totalAllowance) { this.totalAllowance = totalAllowance; }
+
+    public LocalDate getCreatedDate() { return createdDate; }
+    public void setCreatedDate(LocalDate createdDate) { this.createdDate = createdDate; }
+
     public void setAnnualAllowance(double annualAllowance) {
         this.annualAllowance = annualAllowance;
     }
-    public double getTotalAllowance() {
-        return jobAllowance + projectAllowance + annualAllowance;
+    @Override
+    public String toString() {
+        return String.format(
+                "Allowance ID: %s | ID : %s | Name : %s | Position: %s\n" +
+                        "  - Allowance Position: %.2f\n" +
+                        "  - Seniority Allowance: %.2f\n" +
+                        "  - Allowance Project: %.2f\n" +
+                        "  => Total Allowance: %.2f\n" +
+                        "  Date: %s\n",
+                allowanceId,
+                employeeId,
+                employeeName,
+                positionId,
+                jobAllowance,
+                seniorityAllowance,
+                projectAllowance,
+                totalAllowance,
+                createdDate
+        );
     }
-    public void displayAllowance() {
-        System.out.println("Allowance Id: " + allowanceId);
-        System.out.println("Job Allowance: " + jobAllowance);
-        System.out.println("Project allowance: " + projectAllowance);
-        System.out.println("Annual allowance: " + annualAllowance);
-        System.out.println("Total allowance: " + getTotalAllowance());
-    }
+
 }

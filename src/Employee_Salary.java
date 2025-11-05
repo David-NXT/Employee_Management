@@ -41,21 +41,23 @@ public class Employee_Salary extends Employee implements Serializable {
                     "A" + offcialEm.getId(),
                     jobAllowance,
                     projectAllowance,
-                    annualAllowance
+                    annualAllowance,
+                    LocalDate.now().toString(),
+                    "Official Employee Allowance "
             );
             this.bonus = baseSalary * 0.1;
             this.deductions = baseSalary * 0.005;
 
         } else if (a instanceof SeasonalStaff seaEmp) {
             this.baseSalary = seaEmp.getHourlySalary() * seaEmp.getWorkTime();
-            this.allowc = new Allowance("A" + seaEmp.getId(), 0, 0, 0);
+            this.allowc = new Allowance("A" + seaEmp.getId(),0, 0, 0, " ","Season Staff Allowance ");
             this.bonus = this.baseSalary > 15000000 ? baseSalary * 0.02 : 0;
             this.deductions = 0;
 
         } else {
             // Truong hop khong xac dinh (Employee thường)
             this.baseSalary = 0;
-            this.allowc = new Allowance("A0", 0, 0, 0);
+            this.allowc = new Allowance("A0",0 ,0, 0, " ","No Allowance");
             this.bonus = 0;
             this.deductions = 0;
         }
@@ -69,7 +71,7 @@ public class Employee_Salary extends Employee implements Serializable {
         if (allowc != null) {
             System.out.println("  Job Allowance: " + allowc.getJobAllowance());
             System.out.println("  Project Allowance: " + allowc.getProjectAllowance());
-            System.out.println("  Annual Allowance: " + allowc.getAnnualAllowance());
+            System.out.println("  Annual Allowance: " + allowc.getTotalAllowance());
             System.out.println("  Total Allowance: " + allowc.getTotalAllowance());
         }
         System.out.println("Bonus: " + bonus);
@@ -82,4 +84,14 @@ public class Employee_Salary extends Employee implements Serializable {
     public double getDeductions() { return deductions; }
     public double getTotalSalary() { return totalSalary; }
     public Allowance getAllowance() { return allowc; }
+
+    public String getSalaryId() {
+        return salaryId;
+    }
+    public double getBaseSalary() {
+        return baseSalary;
+    }
+    public double getBonus() {
+        return bonus;
+    }
 }

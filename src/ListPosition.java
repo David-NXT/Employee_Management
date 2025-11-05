@@ -23,11 +23,11 @@ public class ListPosition implements Serializable
     }
     public void out()
     {
-        System.out.printf("%-15s %-20s %-25s %-20s\n","ID","Job Title","Job Descrip","Required Skills");
+        quicksort(p,0,p.length-1);
+        System.out.printf("%-15s %-25s %-30s %-20s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
         for (int i=0;i<p.length;i++)
         {
             p[i].out();
-            quicksort(p,0,p.length-1);
         }
     }
     public void add(Position np)
@@ -41,7 +41,7 @@ public class ListPosition implements Serializable
         int pos=-1;
         for (int i=0;i<p.length;i++)
         {
-            if (idx.equals(p[i].getPosition_id()))
+            if (idx.equals(p[i].getId_employee()))
             {
                 pos=i;
                 break;
@@ -49,7 +49,7 @@ public class ListPosition implements Serializable
         }
         if (pos==-1)
         {
-            System.out.println("Position not found");
+            System.out.println("ID employee not found");
             return;
         }
         for (int i=pos;i<p.length-1;i++)
@@ -60,7 +60,7 @@ public class ListPosition implements Serializable
     {
         for (int i=0;i<p.length;i++)
         {
-            if(idx.equals(p[i].getPosition_id()))
+            if(idx.equals(p[i].getId_employee()))
             {
                 return p[i];
             }
@@ -74,7 +74,7 @@ public class ListPosition implements Serializable
         int pos=-1;
         for (int i=0;i<p.length;i++)
         {
-            if (idx.equals(p[i].getPosition_id()))
+            if (idx.equals(p[i].getId_employee()))
             {
                 pos=i;
                 break;
@@ -88,39 +88,28 @@ public class ListPosition implements Serializable
         int x;
         do
         {
-
-            System.out.println("0.save and exit");
-            System.out.println("1.fix id");
-            System.out.println("2.fix job title");
-            System.out.println("3.fix job description");
-            System.out.println("4.fix required_skills");
+            System.out.println("1.fix job title");
+            System.out.println("2.fix job description");
+            System.out.println("3.fix required_skills");
+            System.out.println("0.Exit");
             System.out.println("choose option; ");
             x=sc.nextInt();
             sc.nextLine();
-            System.out.print("Enter to continue");
-            sc.nextLine();
             if (x==1)
-            {
-                System.out.print("Enter position id to update: ");
-                p[pos].setPosition_id(sc.nextLine());
-                System.out.print("Enter to continue");
-                sc.nextLine();
-            }
-            if (x==2)
             {
                 System.out.print("Enter job title to update: ");
                 p[pos].setJob_title(sc.nextLine());
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==3)
+            if (x==2)
             {
                 System.out.print("Enter job description to update: ");
                 p[pos].setJob_desciption(sc.nextLine());
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==4)
+            if (x==3)
             {
                 System.out.print("Enter required skills to update: ");
                 p[pos].setRequired_skills(sc.nextLine());
@@ -129,6 +118,26 @@ public class ListPosition implements Serializable
             }
         }
         while (x!=0);
+    }
+    public void numberofemployeeposition()
+    {
+        System.out.print("Enter the position: ");
+        String positionx=sc.nextLine();
+        boolean check=false;
+        System.out.printf("%-15s %-25s %-30s %-20s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
+        for (int i=0;i<p.length;i++)
+        {
+            if(positionx.equals(p[i].getJob_title()))
+            {
+                p[i].out();
+                check=true;
+            }
+        }
+        if (!check)
+        {
+            System.out.println("Position not found");
+            return;
+        }
     }
 
     public void writeToFile()
@@ -168,24 +177,24 @@ public class ListPosition implements Serializable
             e.printStackTrace();
         }
     }
-    public int partision(Position p[], int l, int r)
+    public int partision(Position ep[], int l, int r)
     {
-        Position privot=p[r];
+        Position privot=ep[r];
         int i=l-1;
         for (int j=l;j<r;j++)
         {
-            if (p[j].getPosition_id().compareToIgnoreCase(privot.getPosition_id()) <= 0)
+            if (ep[j].getId_employee().compareToIgnoreCase(privot.getId_employee()) <= 0)
             {
                 i++;
-                Position temp = p[i];
-                p[i] = p[j];
-                p[j] = temp;
+                Position temp = ep[i];
+                ep[i] = ep[j];
+                ep[j] = temp;
             }
         }
         ++i;
-        Position temp = p[i];
-        p[i] = p[r];
-        p[r] = temp;
+        Position temp = ep[i];
+        ep[i] = ep[r];
+        ep[r] = temp;
         return i;
     }
     public void quicksort(Position po[], int l, int r)
@@ -197,4 +206,14 @@ public class ListPosition implements Serializable
             quicksort(po,p+1,r);
         }
     }
+    public Position findById(String id){
+        for(Position pos: p){
+            if(pos.getId_employee().equalsIgnoreCase(id)){
+                return pos;
+            }
+        }
+        return null;
+    }
+
+
 }

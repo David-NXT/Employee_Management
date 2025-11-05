@@ -12,34 +12,33 @@ public class ManageTimeSheet
                 System.out.println("2. Print list Timesheet");
                 System.out.println("3. Add Timesheet");
                 System.out.println("4. Delete Timesheet");
-                System.out.println("5. Check employee");
+                System.out.println("5. Check employee month");
+                System.out.println("6. Check employee day");
                 System.out.println("0. Exit");
                 System.out.print("Choose an option: ");
                 x=sc.nextInt();
-                sc.nextLine();
-                System.out.println("Enter to continue...");
                 sc.nextLine();
                 if (x==1)
                 {
                     lt.enter();
                     lt.writeToFile();
-                    System.out.println("Enter to continue...");
+                    System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
                 if (x==2)
                 {
                     lt.ReadFromFile();
                     lt.out();
-                    System.out.println("Enter to continue...");
+                    System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
                 if (x==3)
                 {
-                    TimeSheet nts=new TimeSheet();
+                    TimeSheetMonth nts=new TimeSheetMonth();
                     nts.enter();
                     lt.add(nts);
                     lt.writeToFile();
-                    System.out.println("Enter to continue...");
+                    System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
                 if (x==4)
@@ -47,7 +46,7 @@ public class ManageTimeSheet
                     lt.ReadFromFile();
                     lt.out();
                     System.out.print("Enter id employee to delete: ");
-                    String idx=System.console().readLine();
+                    String idx=sc.nextLine();
                     lt.deleted(idx);
                     lt.writeToFile();
                     System.out.println("Enter to continue...");
@@ -55,8 +54,14 @@ public class ManageTimeSheet
                 }
                 if (x==5)
                 {
-                    lt.rollcall();
-                    System.out.println("Enter to continue...");
+                    lt.rollcallmonth();
+                    System.out.print("Enter to continue...");
+                    sc.nextLine();
+                }
+                if (x==6)
+                {
+                    lt.rollcallday();
+                    System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
 

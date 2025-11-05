@@ -17,8 +17,8 @@ public class OfficialEmployee extends Employee implements Serializable{
         salaryallowance = a.salaryallowance;
     }
 
-    public OfficialEmployee(String id, String surname, String name, String gender, String address, String phonenumber, String email, String startworkingday, double basicsalary, double salaryallowance){
-        super(id,surname,name,gender,address,phonenumber,email,startworkingday);
+    public OfficialEmployee(String id, String surname, String name, String gender, String address, String phonenumber, String email, String startworkingday, double basicsalary, double salaryallowance, String positionId){
+        super(id,surname,name,gender,address,phonenumber,email,startworkingday,positionId);
         this.basicsalary = basicsalary;
         this.salaryallowance = salaryallowance;
     }

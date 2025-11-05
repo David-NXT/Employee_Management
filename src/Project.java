@@ -15,6 +15,7 @@ public class Project implements Serializable{
     private String managerid;
     private String mainengineerid;
     private String[] employeeid;//save employee id
+    private double projectBudget;
 
     public Project() {
         employeeid = new String[0];
@@ -31,9 +32,10 @@ public class Project implements Serializable{
         managerid = a.managerid;
         mainengineerid = a.mainengineerid;
         employeeid = a.employeeid;
+        projectBudget=a.projectBudget;
     }
 
-    public Project(float managerallowancerate, float mainengineerallowancerate, float participantallowancerate, String projectid, String projectname, String startday, String accomplishday, String managerid, String mainengineerid, String[] employeeid) {
+    public Project(float managerallowancerate, float mainengineerallowancerate, float participantallowancerate, String projectid, String projectname, String startday, String accomplishday, String managerid, String mainengineerid, double projectBudget, String[] employeeid) {
         this.managerallowancerate = managerallowancerate;
         this.mainengineerallowancerate = mainengineerallowancerate;
         this.participantallowancerate = participantallowancerate;
@@ -44,6 +46,7 @@ public class Project implements Serializable{
         this.managerid = managerid;
         this.mainengineerid = mainengineerid;
         this.employeeid = employeeid;
+        this.projectBudget = projectBudget;
     }
 
     public void getProject() {
@@ -73,6 +76,7 @@ public class Project implements Serializable{
         System.out.println("Accomplish Day: ");accomplishday = sc.nextLine();
         System.out.println("Manager Id: ");managerid = sc.nextLine();
         System.out.println("Main Engineer Id: ");mainengineerid = sc.nextLine();
+        System.out.println("Enter Project Budget:"); projectBudget=sc.nextDouble();
         System.out.println("Number of Employee: ");int n = sc.nextInt();
         sc.nextLine();//bo \n thua trong buffer
         employeeid = Arrays.copyOf(employeeid,n);
@@ -213,6 +217,9 @@ public class Project implements Serializable{
     public String getMainengineerId() {
         return mainengineerid;
     }
+    public double getProjectBudget() {
+        return projectBudget;
+    }
 
     public String[] getEmployeeId(){
         return employeeid;
@@ -257,4 +264,41 @@ public class Project implements Serializable{
     public void setEmployee(String[] employeeid) {
         this.employeeid = employeeid;
     }
+
+    public boolean hasEmployee(String empId) {
+        if (employeeid == null || employeeid.length == 0)
+            return false;
+        for (String id : employeeid) {
+            if (id.equalsIgnoreCase(empId))
+                return true;
+        }
+        return false;
+    }
+    public double getAllowanceRateFor(String empId) {
+        if (empId == null) return 0;
+
+        // Nếu nhân viên là quản lý dự án
+        if (empId.equalsIgnoreCase(managerid)) {
+            return managerallowancerate;
+        }
+
+        // Nếu nhân viên là kỹ sư trưởng
+        if (empId.equalsIgnoreCase(mainengineerid)) {
+            return mainengineerallowancerate;
+        }
+
+        // Nếu nhân viên là thành viên tham gia dự án
+        if (employeeid != null) {
+            for (String id : employeeid) {
+                if (empId.equalsIgnoreCase(id)) {
+                    return participantallowancerate;
+                }
+            }
+        }
+
+        // Nếu không có trong dự án → phụ cấp = 0
+        return 0;
+    }
+
+
 }

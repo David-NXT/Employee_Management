@@ -1,61 +1,45 @@
 import java.io.*;
+import java.util.Arrays;
+
 public class ListSalary implements Serializable {
-    private Employee_Salary[] slr;
-    private int n;
+    @Serial
+    private static final long serialVersionUID = 1L;
+    private Employee_Salary[] data;
     private final String FILE_PATH="salary.dat";
 
     public ListSalary(){
-        slr= new Employee_Salary[0];
+        data= new Employee_Salary[0];
         loadFromFile();
     }
 
-    public void generateFromEmployees(Employee []employees){
-        if(employees==null || employees.length == 0){
-            System.out.println("Not!");
-            return;
-        }
-        for (Employee emp : employees){
-            Employee_Salary salary=new Employee_Salary(emp);
-            addSalary(salary);
-        }
-        saveFile();
-    }
-
     public void addSalary(Employee_Salary s){
-        Employee_Salary[]temp = new Employee_Salary[n+1];
-        for(int i=0;i<n;i++) temp[i] = slr[i];
-        temp[n]=s;
-        slr=temp;
-        n++;
+        data = Arrays.copyOf(data, data.length+1);
+        data[data.length -1]=s;
+        saveToFile();
     }
 
     public void displayAll(){
-        if(n==0){
-            System.out.println("Not!");
-            return;
-        } System.out.println("==== LIST SALARY ====");
-        for(int i=0;i<n;i++){
-            System.out.println("No #"+(i+1));
-            slr[i].displaySalaryInfo();
+        for(Employee_Salary s : data){
+            s.displaySalaryInfo();
         }
     }
 
     public void displaySalaryByEmployeeId(String id){
         boolean found=false;
-        for(int i=0;i<n;i++){
-            if(slr[i].getId().equalsIgnoreCase(id)){
-                slr[i].displaySalaryInfo();
+        for(Employee_Salary s : data){
+            if(s.getId().equalsIgnoreCase(id)){
+                s.displaySalaryInfo();
                 found=true;
-            } if (!found)
-                System.out.println("Not!");
-        }
+            }
+        }if (!found)
+            System.out.println("Not!");
     }
 
     public void displayByMonthYear(int month, int year){
         boolean found=false;
-        for(int i=0;i<n;i++){
-            if(slr[i].getMonth() == month && slr[i].getYear()==year)
-                slr[i].displaySalaryInfo();
+        for(Employee_Salary s : data){
+            if(s.getMonth() == month && s.getYear()==year)
+                s.displaySalaryInfo();
             found=true;
         } if(!found)
             System.out.println("Not!");
@@ -63,38 +47,56 @@ public class ListSalary implements Serializable {
 
     public void displayViolations(String id){
         boolean found=false;
-        for(int i=0;i<n;i++){
-            if(slr[i].getId().equalsIgnoreCase(id)){
-                System.out.println("Employee: "+slr[i].getSurname()+" "+slr[i].getName());
-                System.out.println("Violations: "+slr[i].getDeductions());
+        for(Employee_Salary s : data){
+            if(s.getId().equalsIgnoreCase(id)){
+                System.out.println("Employee: "+s.getSurname()+" "+s.getName());
+                System.out.println("Violations: "+s.getDeductions());
                 found=true;
-            } if(!found)
-                System.out.println("Not!");
-        }
+            }
+        }if(!found)
+            System.out.println("Not!");
     }
 
-    public void saveFile(){
+    public void saveToFile(){
+        String basePath=System.getProperty("user.dir");
+        File dir = new File(basePath + File.separator+"data");
+        if(!dir.exists())
+            dir.mkdir();
+        File file = new File(dir,"salary.dat");
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))){
-            oos.writeObject(slr);
+            oos.writeObject(data);
         }catch (IOException e){
             System.out.println("Error "+e.getMessage());
         }
     }
 
     public void loadFromFile(){
+        String basepath=System.getProperty("user.dir");
+        File file=new File(basepath + File.separator+"data"+File.separator+"salary.dat");
+        if(!file.exists()){
+            return;
+        }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_PATH))){
-            slr=(Employee_Salary[]) ois.readObject();
-            n=slr.length;
+            data=(Employee_Salary[]) ois.readObject();
         } catch (Exception e){
-            slr=new Employee_Salary[0];
-            n=0;
+            data=new Employee_Salary[0];
         }
     }
+    public String getAutoSalaryId() {
+        int baseId = 1000;
+        for (Employee_Salary s : data) {
+            if (s.getSalaryId().equalsIgnoreCase("S" + baseId)) {
+                baseId++;
+            }
+        }
+        return "S" + baseId;
+    }
 
-    public Employee_Salary[] getSlr() {
-        return slr;
+
+    public Employee_Salary[] getAll() {
+        return data;
     }
     public int getCount() {
-        return n;
+        return data.length;
     }
 }

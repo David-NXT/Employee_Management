@@ -5,22 +5,22 @@ public class ListTimeSheet implements Serializable
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
-    private TimeSheet[] ts;
-    
-   
+    private TimeSheetMonth[] ts;
+
+
     public ListTimeSheet()
     {
-        ts=new TimeSheet[0];
+        ts=new TimeSheetMonth[0];
     }
-    
+
     public void enter()
     {
         System.out.print("enter number of employee: ");
         int n=sc.nextInt();
-        ts=new TimeSheet[n];
+        ts=new TimeSheetMonth[n];
         for (int i=0;i<n;i++)
         {
-            ts[i]=new TimeSheet();
+            ts[i]=new TimeSheetMonth();
             ts[i].enter();
         }
     }
@@ -35,7 +35,7 @@ public class ListTimeSheet implements Serializable
             System.out.println("---------------------------");
         }
     }
-    public void add(TimeSheet nts)
+    public void add(TimeSheetMonth nts)
     {
         ts=Arrays.copyOf(ts,ts.length+1);
         ts[ts.length-1]=nts;
@@ -61,21 +61,21 @@ public class ListTimeSheet implements Serializable
             ts[i]=ts[i+1];
         ts=Arrays.copyOf(ts,ts.length-1);
     }
-    public void writeToFile() 
+    public void writeToFile()
     {
         String basepath = System.getProperty("user.dir");
         File dir = new File(basepath + File.separator + "data");
-        if (!dir.exists()) 
+        if (!dir.exists())
         {
             dir.mkdir();
         }
         File file = new File(dir,"data_timesheet_Employee");
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) 
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file)))
         {
             oos.writeObject(this);
             System.out.println("Saved!");
         }
-        catch (IOException e) 
+        catch (IOException e)
         {
             System.out.println("File chua duoc ghi " + e);
         }
@@ -119,27 +119,27 @@ public class ListTimeSheet implements Serializable
         ts[pos].out();
         System.out.println("---------------------------");
     }
-    public int partision(TimeSheet ts[], int l, int r)
+    public int partision(TimeSheetMonth ts[], int l, int r)
     {
-        TimeSheet privot=ts[r];
+        TimeSheetMonth privot=ts[r];
         int i=l-1;
         for (int j=l;j<r;j++)
         {
             if (ts[j].getId_employee().compareToIgnoreCase(privot.getId_employee()) <= 0)
             {
                 i++;
-                TimeSheet temp = ts[i];
+                TimeSheetMonth temp = ts[i];
                 ts[i] = ts[j];
                 ts[j] = temp;
             }
         }
         ++i;
-        TimeSheet temp = ts[i];
+        TimeSheetMonth temp = ts[i];
         ts[i] = ts[r];
         ts[r] = temp;
         return i;
     }
-    public void quicksort(TimeSheet ts[], int l, int r)
+    public void quicksort(TimeSheetMonth ts[], int l, int r)
     {
         if (l<r)
         {
@@ -148,26 +148,34 @@ public class ListTimeSheet implements Serializable
             quicksort(ts,p+1,r);
         }
     }
-    public void rollcall()
+    public void rollcallmonth()
     {
         System.out.print("Enter month: ");
         int monthcheck=sc.nextInt();
+        System.out.printf("%-15s %-15s %-15s %-15s %-15s\n","ID","Date","Time in ","Time out","Status");
         for (int i=0;i<ts.length;i++)
         {
-            if (monthcheck==ts[i].getMonth())
-            {
-                ts[i].out();
-            }
+            ts[i].monthcheck(monthcheck);
+        }
+    }
+    public void rollcallday()
+    {
+        System.out.print("Enter day: ");
+        int daycheck=sc.nextInt();
+        System.out.printf("%-15s %-15s %-15s %-15s\n","ID","Time in","Time out","Status");
+        for (int i=0;i<ts.length;i++)
+        {
+            ts[i].daycheck(daycheck);
         }
     }
 
     //get
-    public TimeSheet[] getTs()
+    public TimeSheetMonth[] getTs()
     {
         return ts;
     }
     //set
-    public void setTs(TimeSheet[] ts)
+    public void setTs(TimeSheetMonth[] ts)
     {
         this.ts = ts;
     }
