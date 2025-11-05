@@ -25,6 +25,13 @@ public class ListAllowanceRule implements Serializable {
         n++;
     }
 
+    public void put() {
+        System.out.printf("%s-10%s-15%s-15%s-15%n","id","name","day","allowancerate");
+        for (int i = 0;i < n;i++) {
+            data[i].put();
+        }
+    }
+
     public void delete(String id) {
         int locate = -1;
         for (int i = 0;i < n;i++) {
@@ -57,11 +64,14 @@ public class ListAllowanceRule implements Serializable {
         String day;
         int k = 0;
 
-        while (k < n) {
+
             for (int i = 1;i < 32;i++) {
                 day = String.format("%02d/%s",i,month);
-                if (day.equals(data[k++].getDay())) result.add(data[k - 1]);//vi k++ nen phai tru 1 moi la phan tu vua tim ra
-            }
+                for (int j = 0;j < n;j++){
+                    if (day.equals(data[j].getDay())) result.add(data[j]);//vi k++ nen phai tru 1 moi la phan tu vua tim ra
+
+                }
+
         }
 
         return result;

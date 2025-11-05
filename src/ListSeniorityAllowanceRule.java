@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ListSeniorityAllowanceRule implements Serializable {
-    private final Scanner sc = new Scanner(System.in);
+    private transient final Scanner sc = new Scanner(System.in);
     private SeniorityAllowanceRule[] data;
     private int n;
 
@@ -17,6 +17,13 @@ public class ListSeniorityAllowanceRule implements Serializable {
     public ListSeniorityAllowanceRule(ListSeniorityAllowanceRule a) {
         data = a.data;
         n = a.n;
+    }
+
+    public void put() {
+        System.out.printf("%-10s %-5s %-15s%n","id", "yearofwork","allowancerate");
+        for (int i = 0;i < n;i++) {
+            data[i].put();
+        }
     }
 
     public void add(SeniorityAllowanceRule a) {
@@ -55,7 +62,7 @@ public class ListSeniorityAllowanceRule implements Serializable {
 
         int yearofwork = LocalDate.now().getYear() - Integer.parseInt(employee.getData()[locate].getStartWorkingDay().substring(6,10));
         for (int i = n - 1;i >= 0;i--) {// mang duoc sap xep tu be den lon nen duyet tu cuoi mang de tim ra muc phu cap lon nhat
-            if (yearofwork > data[i].getYearofwork()) return data[i].getAllowancerate();
+            if (yearofwork >= data[i].getYearofwork()) return data[i].getAllowancerate();
         }
         return 0;// neu chay het mang ma khong co thi tra ve 0
     }

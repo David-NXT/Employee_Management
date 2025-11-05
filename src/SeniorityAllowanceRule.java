@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Scanner;
 
 public class SeniorityAllowanceRule implements Serializable {
-    private final Scanner sc = new Scanner(System.in);
+    private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
     private String id;
@@ -37,7 +37,7 @@ public class SeniorityAllowanceRule implements Serializable {
     }
 
     public void put() {
-        System.out.printf("%s-10%d-5%f-15%n",id, yearofwork,allowancerate);
+        System.out.printf("%-10s %-5d %-15f%n",id, yearofwork,allowancerate);
     }
 
     public String getId() {
