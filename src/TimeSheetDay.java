@@ -1,7 +1,10 @@
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
-public class TimeSheetDay
+public class TimeSheetDay implements Serializable
 {
-    Scanner sc = new Scanner(System.in);
+    private transient final Scanner sc = new Scanner(System.in);
+    @Serial
     private String id_employee;
     private int day;
     private int month;
