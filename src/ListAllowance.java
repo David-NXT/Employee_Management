@@ -135,8 +135,8 @@ public class ListAllowance implements Serializable {
         if (pos == null) return 0;
         String job = pos.getJob_title().toLowerCase();
         if (job.contains("lap trinh")) return 2000000;
-        if (job.contains("Maketing")) return 1500000;
-        if (job.contains("Sale")) return 800000;
+        if (job.contains("maketing")) return 1500000;
+        if (job.contains("sale")) return 800000;
         return 500000;
     }
 
@@ -153,26 +153,24 @@ public class ListAllowance implements Serializable {
             data[i].display();
         }
     }
+
     public void generateAllowances(ListEmployee listEmp, ListProject listPro) {
         // Khởi tạo danh sách phụ cấp rỗng
         data = new Allowance[0];
         n = 0;
 
-        // Duyệt qua toàn bộ nhân viên trong danh sách
         for (Employee e : listEmp.getData()) {
-            // Chỉ tính cho nhân viên chính thức (OfficialEmployee)
             if (e instanceof OfficialEmployee) {
                 OfficialEmployee emp = (OfficialEmployee) e;
 
                 Allowance a = new Allowance();
+                a.setAllowanceId(getIdAuto());
                 a.setEmployeeId(emp.getId());
                 a.setEmployeeName(emp.getSurname() + " " + emp.getName());
                 a.setCreatedDate(LocalDate.now());
 
-                // 🧮 Tính phụ cấp thâm niên
                 double seniority = calculateSeniorityAllowance(emp);
 
-                // 🧮 Tính phụ cấp dự án
                 double projectAllowance = 0;
                 for (Project p : listPro.getData()) {
                     if (p.hasEmployee(emp.getId())) {
@@ -180,12 +178,10 @@ public class ListAllowance implements Serializable {
                     }
                 }
 
-                // Gán giá trị
                 a.setSeniorityAllowance(seniority);
                 a.setProjectAllowance(projectAllowance);
                 a.setTotalAllowance(seniority + projectAllowance);
 
-                // Thêm vào danh sách
                 data = Arrays.copyOf(data, n + 1);
                 data[n] = a;
                 n++;
@@ -195,39 +191,25 @@ public class ListAllowance implements Serializable {
         System.out.println(" Đã tạo danh sách phụ cấp tự động cho " + n + " nhân viên chính thức.");
     }
 
-    // 📘 Tính phụ cấp thâm niên (seniority allowance)
     private double calculateSeniorityAllowance(OfficialEmployee emp) {
         if (emp == null) return 0;
-
         try {
-            // 1️⃣ Lấy ngày bắt đầu làm việc từ Employee (kiểu String, vd: "12/08/2015")
             String startDayStr = emp.getStartWorkingDay();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate startDate = LocalDate.parse(startDayStr, formatter);
             LocalDate currentDate = LocalDate.now();
 
-            // 2️⃣ Tính số năm làm việc
             int yearsOfWork = Period.between(startDate, currentDate).getYears();
+            double basicSalary = emp.getSalary() != null ? emp.getSalary().getBaseSalary() : emp.getBasicSalary();
 
-            // 3️⃣ Lấy lương cơ bản từ đối tượng Employee_Salary
-            double basicSalary = 0;
-            Employee_Salary salaryInfo = emp.getSalary();
-            if (salaryInfo != null) {
-                basicSalary = salaryInfo.getBaseSalary();
-            } else {
-                // Nếu chưa có salary thì tạm lấy giá trị basicSalary trong Employee (nếu có)
-                basicSalary = emp.getBasicSalary();
-            }
-
-            // 4️⃣ Tính phụ cấp thâm niên: 2% mỗi năm
             double ratePerYear = 0.02;
             return basicSalary * ratePerYear * yearsOfWork;
-
         } catch (Exception e) {
             System.err.println("❌ Lỗi khi tính phụ cấp thâm niên cho nhân viên " + emp.getId() + ": " + e.getMessage());
             return 0;
         }
     }
+
     public void findByEmployeeId(String id) {
         boolean found = false;
         for (Allowance a : data) {
@@ -242,5 +224,45 @@ public class ListAllowance implements Serializable {
     }
 
 
+    public void calculateMonthlyAllowance(ListAllowanceRule listRule, String month) {
+        ListAllowanceRule rulesInMonth = listRule.findAllowanceInMonth(month);
+        if (rulesInMonth.getN() == 0) {
+            System.out.println("❌ Không có quy tắc phụ cấp nào trong tháng " + month);
+            return;
+        }
+
+        double total = 0;
+        boolean found = false;
+
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM");
+
+        System.out.println("📅 Danh sách phụ cấp trong tháng " + month + ":");
+        System.out.printf("%-10s %-10s %-20s %-10s %-12s %-12s %-12s %-12s %-12s\n",
+                "ID", "EmpID", "Name", "PosID",
+                "Job", "Project", "Seniority", "Total", "Date");
+
+        for (int i = 0; i < n; i++) {
+            Allowance a = data[i];
+            String createdDateStr = a.getCreatedDate().format(fmt); // ví dụ: "01/05"
+
+            for (int j = 0; j < rulesInMonth.getN(); j++) {
+                AllowanceRule rule = rulesInMonth.getData()[j];
+
+                if (createdDateStr.equals(rule.getDay())) {
+                    a.display();
+                    total += a.getTotalAllowance();
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        if (!found) {
+            System.out.println("❌ Không có phụ cấp nào được áp dụng trong tháng này.");
+        } else {
+            System.out.println("-------------------------------------------------------------");
+            System.out.printf("Tổng phụ cấp tháng %s là: %.2f%n", month, total);
+        }
+    }
 
 }
