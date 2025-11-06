@@ -24,7 +24,7 @@ public class ListPosition implements Serializable
     public void out()
     {
         quicksort(p,0,p.length-1);
-        System.out.printf("%-15s %-25s %-30s %-20s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
+        System.out.printf("%-12s %-20s %-45s %-30s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
         for (int i=0;i<p.length;i++)
         {
             p[i].out();
@@ -124,7 +124,7 @@ public class ListPosition implements Serializable
         System.out.print("Enter the position: ");
         String positionx=sc.nextLine();
         boolean check=false;
-        System.out.printf("%-15s %-25s %-30s %-20s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
+        System.out.printf("%-12s %-20s %-45s %-30s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
         for (int i=0;i<p.length;i++)
         {
             if(positionx.equals(p[i].getJob_title()))
