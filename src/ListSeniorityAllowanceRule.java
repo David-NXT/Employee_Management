@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class ListSeniorityAllowanceRule implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = 6093134262717247092L;
     private SeniorityAllowanceRule[] data;
     private int n;
 
