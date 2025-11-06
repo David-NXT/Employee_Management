@@ -58,14 +58,14 @@ public class Allowance_Menu {
 
         Employee emp = listEmp.findById(id);
         if (emp != null) {
-            listAllow.createAllowance(id, listEmp, listPos, listPro, listRule);
+            listAllow.createAllowance(id, listEmp, listPos, listPro, listRule, listAllowRule);
         } else {
             System.out.println("❌ Không tìm thấy nhân viên có ID " + id);
         }
     }
 
     private void generateAllowances() {
-        listAllow.generateAllowances(listEmp, listPro);
+        listAllow.generateAllowances(listEmp, listPro,listAllowRule);
         System.out.println("✅ Đã tính phụ cấp tự động cho toàn bộ nhân viên.");
     }
 
@@ -88,6 +88,9 @@ public class Allowance_Menu {
         String month = String.format("%02d", m);
 
         System.out.println("📆 Đang tính phụ cấp cho tháng " + month + "...");
+        for (Allowance a : listAllow.getData()) {
+            System.out.println("Phụ cấp: " + a.getAllowanceId() + " - Ngày tạo: " + a.getCreatedDate());
+        }
         listAllow.calculateMonthlyAllowance(listAllowRule, month);
     }
 }
