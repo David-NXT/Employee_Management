@@ -1,10 +1,13 @@
 import javax.xml.transform.Source;
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.io.Serializable;
 
 public class Project implements Serializable{
     private transient final Scanner sc = new Scanner(System.in);
+    @Serial
+    private static final long serialVersionUID = -1821691918350626398L;
     private float managerallowancerate;
     private float mainengineerallowancerate;
     private float participantallowancerate;
