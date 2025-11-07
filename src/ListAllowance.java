@@ -143,63 +143,74 @@ public class ListAllowance implements Serializable {
             data[i].display();
         }
     }
-    public void generateAllowances(ListEmployee listEmp, ListProject listProj, ListAllowanceRule listAllowRule) {
+    public void generateAllowances(ListEmployee listEmp, ListProject listProj, ListPosition listPos, ListAllowanceRule listAllowRule) {
         data = new Allowance[0];
         n = 0;
 
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM");
         String todayStr = LocalDate.now().format(fmt);
 
-        for (Employee e : listEmp.getData()) {
-            if (e instanceof OfficialEmployee) {
-                OfficialEmployee emp = (OfficialEmployee) e;
+        for (Employee emp : listEmp.getData()) {
+            String posId = emp.getPositionId();
+            Position pos = (posId != null) ? listPos.find(posId) : null;
+            double jobAllowance = calcJobAllowance(pos);
 
-                double seniority = calculateSeniorityAllowance(emp);
-
-                double projectAllowance = 0;
-                for (Project p : listProj.getData()) {
-                    if (p.isEmployeeInProject(emp.getId())) {
-                        double rate = p.getAllowanceRateFor(emp.getId());
-                        projectAllowance += emp.getBasicSalary() * rate;
-                    }
-                }
-                double holidayAllowance = 0;
-                for (AllowanceRule rule : listAllowRule.getData()) {
-                    if (rule != null && rule.getDay().trim().equals(todayStr)) {
-                        holidayAllowance = rule.getAllowancerate();
-                        break;
-                    }
-                }
-                double total = seniority + projectAllowance + holidayAllowance;
-                Allowance a = new Allowance();
-                a.setAllowanceId(getIdAuto());
-                a.setEmployeeId(emp.getId());
-                a.setEmployeeName(emp.getSurname() + " " + emp.getName());
-                a.setCreatedDate(LocalDate.now());
-                a.setSeniorityAllowance(seniority);
-                a.setProjectAllowance(projectAllowance);
-                a.setAnnualAllowance(holidayAllowance);
-                a.setTotalAllowance(total);
-                data = Arrays.copyOf(data, n + 1);
-                data[n] = a;
-                n++;
+            double basicSalary = 0;
+            if (emp instanceof OfficialEmployee) {
+                basicSalary = ((OfficialEmployee) emp).getBasicSalary();
+            } else if (emp instanceof SeasonalStaff) {
+                SeasonalStaff s = (SeasonalStaff) emp;
+                basicSalary = s.getHourlySalary() * s.getWorkTime();
             }
+
+            double seniorityAllowance = calculateSeniorityAllowance(emp, basicSalary);
+
+            double projectAllowance = 0;
+            for (Project p : listProj.getData()) {
+                if (p.isEmployeeInProject(emp.getId())) {
+                    double rate = p.getAllowanceRateFor(emp.getId());
+                    projectAllowance += basicSalary * rate;
+                }
+            }
+
+            double holidayAllowance = 0;
+            for (AllowanceRule rule : listAllowRule.getData()) {
+                if (rule != null && rule.getDay().trim().equals(todayStr)) {
+                    holidayAllowance = rule.getAllowancerate();
+                    break;
+                }
+            }
+
+            double total = jobAllowance + seniorityAllowance + projectAllowance + holidayAllowance;
+
+            Allowance a = new Allowance();
+            a.setAllowanceId(getIdAuto());
+            a.setEmployeeId(emp.getId());
+            a.setEmployeeName(emp.getSurname() + " " + emp.getName());
+            a.setPositionId(posId);
+            a.setJobAllowance(jobAllowance);
+            a.setSeniorityAllowance(seniorityAllowance);
+            a.setProjectAllowance(projectAllowance);
+            a.setAnnualAllowance(holidayAllowance);
+            a.setTotalAllowance(total);
+            a.setCreatedDate(LocalDate.now());
+
+            data = Arrays.copyOf(data, n + 1);
+            data[n] = a;
+            n++;
         }
-        System.out.println("Đã tạo danh sách phụ cấp tự động cho " + n + " nhân viên chính thức.");
+
+        System.out.println("✅ Đã tạo phụ cấp cho toàn bộ nhân viên (" + n + " người).");
     }
-    private double calculateSeniorityAllowance(OfficialEmployee emp) {
-        if (emp == null) return 0;
+    private double calculateSeniorityAllowance(Employee emp, double basicSalary) {
         try {
             String startDayStr = emp.getStartWorkingDay();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate startDate = LocalDate.parse(startDayStr, formatter);
-            LocalDate currentDate = LocalDate.now();
-            int yearsOfWork = Period.between(startDate, currentDate).getYears();
-            double basicSalary = emp.getSalary() != null ? emp.getSalary().getBaseSalary() : emp.getBasicSalary();
-            double ratePerYear = 0.02;
-            return basicSalary * ratePerYear * yearsOfWork;
+            int years = Period.between(startDate, LocalDate.now()).getYears();
+            return basicSalary * 0.02 * years;
         } catch (Exception e) {
-            System.err.println("Lỗi khi tính phụ cấp thâm niên cho nhân viên " + emp.getId() + ": " + e.getMessage());
+            System.err.println("❌ Lỗi thâm niên cho " + emp.getId() + ": " + e.getMessage());
             return 0;
         }
     }

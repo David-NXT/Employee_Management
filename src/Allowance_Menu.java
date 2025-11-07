@@ -65,7 +65,7 @@ public class Allowance_Menu {
     }
 
     private void generateAllowances() {
-        listAllow.generateAllowances(listEmp, listPro,listAllowRule);
+        listAllow.generateAllowances(listEmp, listPro,listPos,listAllowRule);
         System.out.println("✅ Đã tính phụ cấp tự động cho toàn bộ nhân viên.");
     }
 

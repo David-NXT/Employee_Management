@@ -1,8 +1,7 @@
-import java.util.Scanner;
 import java.io.Serializable;
 import java.time.LocalDate;
+
 public class Employee_Salary extends Employee implements Serializable {
-    private final Scanner sc= new Scanner(System.in);
     private double baseSalary;
     private String salaryId;
     private Allowance allowc;
@@ -12,86 +11,101 @@ public class Employee_Salary extends Employee implements Serializable {
     private int month;
     private int year;
 
-    public Employee_Salary(){}
-    public Employee_Salary(Employee a) {
-        super(a);
+    public Employee_Salary() {}
+
+    public Employee_Salary(Employee emp, Allowance allowc, TimeSheetMonth timesheet, ListSalary listSalary) {
+        super(emp);
         LocalDate today = LocalDate.now();
-        this.month= today.getMonthValue();
-        this.year=today.getYear();
-        this.salaryId = "S" + getId() + "-" + month + "-" + year;
-        calculateAutoSalary(a);
+        this.month = today.getMonthValue();
+        this.year = today.getYear();
+        this.salaryId = listSalary.getAutoSalaryId(); // truyền ListSalary vào constructor
+
+        this.allowc = allowc;
+        this.baseSalary = calculateBaseSalary(emp, timesheet);
+        this.bonus = calculateBonus(emp, timesheet);
+        this.deductions = calculateDeductions(emp, timesheet);
         this.totalSalary = calculateTotal();
     }
 
-    // tinh tong luong thuc nhan
+    private double calculateBaseSalary(Employee emp, TimeSheetMonth timesheet) {
+        int workDays = countValidDays(timesheet);
+        if (emp instanceof OfficialEmployee offEmp) {
+            return offEmp.getBasicSalary(); // có thể nhân với workDays / 26 nếu muốn tính theo ngày
+        } else if (emp instanceof SeasonalStaff seaEmp) {
+            return seaEmp.getHourlySalary() * seaEmp.getWorkTime();
+        }
+        return 0;
+    }
+
+    private double calculateBonus(Employee emp, TimeSheetMonth timesheet) {
+        int overtimeDays = countOvertimeDays(timesheet);
+        double overtimeBonus = overtimeDays * 50000; // ví dụ: 50k/ngày
+        return baseSalary * 0.05 + overtimeBonus;
+    }
+
+    private double calculateDeductions(Employee emp, TimeSheetMonth timesheet) {
+        int lateDays = countLateDays(timesheet);
+        int missingDays = countMissingDays(timesheet);
+        return (lateDays * 20000) + (missingDays * 50000); // ví dụ: trừ 20k đi muộn, 50k vắng
+    }
+
+    private int countValidDays(TimeSheetMonth sheet) {
+        int count = 0;
+        for (TimeSheetDay day : sheet.getData()) {
+            String status = day.check();
+            if (!status.contains("Missing")) count++;
+        }
+        return count;
+    }
+
+    private int countOvertimeDays(TimeSheetMonth sheet) {
+        int count = 0;
+        for (TimeSheetDay day : sheet.getData()) {
+            if (day.check().equals("Over time")) count++;
+        }
+        return count;
+    }
+
+    private int countLateDays(TimeSheetMonth sheet) {
+        int count = 0;
+        for (TimeSheetDay day : sheet.getData()) {
+            if (day.check().contains("Late")) count++;
+        }
+        return count;
+    }
+
+    private int countMissingDays(TimeSheetMonth sheet) {
+        int count = 0;
+        for (TimeSheetDay day : sheet.getData()) {
+            String status = day.check();
+            if (status.contains("Missing")) count++;
+        }
+        return count;
+    }
+
     public double calculateTotal() {
         double totalAllowance = (allowc != null) ? allowc.getTotalAllowance() : 0;
-        totalSalary = baseSalary + totalAllowance + bonus - deductions;
-        return totalSalary;
-    }
-
-    private void calculateAutoSalary(Employee a) {
-        if (a instanceof OfficialEmployee offcialEm) {
-            this.baseSalary = offcialEm.getBasicSalary();
-            double jobAllowance = offcialEm.getSalaryAllowance();
-            double projectAllowance = baseSalary * 0.05;
-            double annualAllowance = baseSalary * 0.03;
-
-            this.allowc = new Allowance(
-                    "A" + offcialEm.getId(),
-                    jobAllowance,
-                    projectAllowance,
-                    annualAllowance,
-                    LocalDate.now().toString(),
-                    "Official Employee Allowance "
-            );
-            this.bonus = baseSalary * 0.1;
-            this.deductions = baseSalary * 0.005;
-
-        } else if (a instanceof SeasonalStaff seaEmp) {
-            this.baseSalary = seaEmp.getHourlySalary() * seaEmp.getWorkTime();
-            this.allowc = new Allowance("A" + seaEmp.getId(),0, 0, 0, " ","Season Staff Allowance ");
-            this.bonus = this.baseSalary > 15000000 ? baseSalary * 0.02 : 0;
-            this.deductions = 0;
-
-        } else {
-            // Truong hop khong xac dinh (Employee thường)
-            this.baseSalary = 0;
-            this.allowc = new Allowance("A0",0 ,0, 0, " ","No Allowance");
-            this.bonus = 0;
-            this.deductions = 0;
-        }
-        this.totalSalary = calculateTotal();
+        return baseSalary + totalAllowance + bonus - deductions;
     }
 
     public void displaySalaryInfo() {
-        System.out.println("ID: " + getId());
-        System.out.println("Name: " + getSurname() + " " + getName());
-        System.out.println("Base Salary: " + baseSalary);
+        System.out.printf("ID: %s | Name: %s %s | Month: %d/%d\n", getId(), getSurname(), getName(), month, year);
+        System.out.printf("Base Salary: %.2f | Bonus: %.2f | Deductions: %.2f\n", baseSalary, bonus, deductions);
         if (allowc != null) {
-            System.out.println("  Job Allowance: " + allowc.getJobAllowance());
-            System.out.println("  Project Allowance: " + allowc.getProjectAllowance());
-            System.out.println("  Annual Allowance: " + allowc.getTotalAllowance());
-            System.out.println("  Total Allowance: " + allowc.getTotalAllowance());
+            System.out.printf("Allowance: %.2f (Job: %.2f, Project: %.2f, Annual: %.2f)\n",
+                    allowc.getTotalAllowance(), allowc.getJobAllowance(), allowc.getProjectAllowance(), allowc.getAnnualAllowance());
         }
-        System.out.println("Bonus: " + bonus);
-        System.out.println("Deductions: " + deductions);
-        System.out.println("Total Salary: " + calculateTotal());
-        System.out.println("------------------------");
+        System.out.printf("Total Salary: %.2f\n", calculateTotal());
+        System.out.println("--------------------------------------------------");
     }
+
+    // Getters
     public int getMonth() { return month; }
     public int getYear() { return year; }
     public double getDeductions() { return deductions; }
     public double getTotalSalary() { return totalSalary; }
     public Allowance getAllowance() { return allowc; }
-
-    public String getSalaryId() {
-        return salaryId;
-    }
-    public double getBaseSalary() {
-        return baseSalary;
-    }
-    public double getBonus() {
-        return bonus;
-    }
+    public String getSalaryId() { return salaryId; }
+    public double getBaseSalary() { return baseSalary; }
+    public double getBonus() { return bonus; }
 }

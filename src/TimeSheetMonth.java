@@ -168,4 +168,8 @@ public class TimeSheetMonth implements Serializable
 //    set
     public void setId_clock(String id_clock) {this.id_clock=id_clock;}
     public void setId_employee(String id_employee) {this.id_employee=id_employee;}
+
+    public TimeSheetDay[] getData() {
+        return td;
+    }
 }
