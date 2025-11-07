@@ -69,7 +69,6 @@ public class Position implements Serializable
         if (p.equals("Truong phong"))
         {
             return "quan ly va dan dat mot nhom lam viec";
-
         }
         else  if (p.equals("Pho phong"))
         {
@@ -121,7 +120,9 @@ public class Position implements Serializable
             }
         }
         jobx=job_title;
-        if (jobx.equalsIgnoreCase("truong phong"))
+        if (jobx.equalsIgnoreCase("giam doc"))
+            return totalsalary*0.20;
+        else if (jobx.equalsIgnoreCase("truong phong"))
             return totalsalary*0.15;
         else if (jobx.equalsIgnoreCase("pho phong"))
             return totalsalary*0.10;
