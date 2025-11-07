@@ -4,18 +4,18 @@ public class Allowance_Menu {
     private final ListEmployee listEmp;
     private final ListProject listPro;
     private final ListAllowance listAllow;
-//    private final ListPosition listPos;
+    private final ListPosition listPos;
     private final ListSeniorityAllowanceRule listRule;
 
     public Allowance_Menu(ListEmployee listEmp,
                           ListProject listPro,
                           ListAllowance listAllow,
-//                          ListPosition listPos,
+                          ListPosition listPos,
                           ListSeniorityAllowanceRule listRule) {
         this.listEmp = listEmp;
         this.listPro = listPro;
         this.listAllow = listAllow;
-//        this.listPos = listPos;
+        this.listPos = listPos;
         this.listRule = listRule;
     }
 
@@ -54,7 +54,7 @@ public class Allowance_Menu {
 
         Employee emp = listEmp.findById(id);
         if (emp != null) {
-//            listAllow.createAllowance(id, listEmp, listPos, listPro, listRule);
+            listAllow.createAllowance(id, listEmp, listPos, listPro, listRule);
         } else {
             System.out.println("❌ Không tìm thấy nhân viên có ID " + id);
         }
