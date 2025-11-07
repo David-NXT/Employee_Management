@@ -267,39 +267,12 @@ public class Project implements Serializable{
     public void setEmployee(String[] employeeid) {
         this.employeeid = employeeid;
     }
-
-    public boolean hasEmployee(String empId) {
-        if (employeeid == null || employeeid.length == 0)
-            return false;
+    public float getAllowanceRateFor(String empId) {
+        if (empId.equals(managerid)) return managerallowancerate;
+        if (empId.equals(mainengineerid)) return mainengineerallowancerate;
         for (String id : employeeid) {
-            if (id.equalsIgnoreCase(empId))
-                return true;
+            if (empId.equals(id)) return participantallowancerate;
         }
-        return false;
-    }
-    public double getAllowanceRateFor(String empId) {
-        if (empId == null) return 0;
-
-        // Nếu nhân viên là quản lý dự án
-        if (empId.equalsIgnoreCase(managerid)) {
-            return managerallowancerate;
-        }
-
-        // Nếu nhân viên là kỹ sư trưởng
-        if (empId.equalsIgnoreCase(mainengineerid)) {
-            return mainengineerallowancerate;
-        }
-
-        // Nếu nhân viên là thành viên tham gia dự án
-        if (employeeid != null) {
-            for (String id : employeeid) {
-                if (empId.equalsIgnoreCase(id)) {
-                    return participantallowancerate;
-                }
-            }
-        }
-
-        // Nếu không có trong dự án → phụ cấp = 0
         return 0;
     }
 

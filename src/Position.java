@@ -1,6 +1,6 @@
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Scanner;
+import java.util.*;
 public class Position implements Serializable
 {
     private transient final Scanner sc = new Scanner(System.in);
@@ -10,6 +10,7 @@ public class Position implements Serializable
     private String job_title;
     private String job_descripsion;
     private String required_skills;
+    private String[] nameposition={"Truong phong","Pho phong","nhan vien","thuc tap sinh"};
 
     public Position(String id_employee,String job_title,String job_descripsion,String required_skills)
     {
@@ -41,18 +42,71 @@ public class Position implements Serializable
             System.out.println("Invalid employee ID");
             enter();
         }
-        System.out.print("nhap ten cong viec: ");
+        System.out.print("Enter your job title: ");
         job_title=sc.nextLine();
-        System.out.print("nhap mo ta cong viec: ");
+        System.out.print("Enter your job description: ");
         job_descripsion=sc.nextLine();
-        System.out.print("nhap ky nang can thiet: ");
+        System.out.print("Enter your required skills: ");
         required_skills=sc.nextLine();
     }
 
     public void out()
     {
-        System.out.printf("%-15s %-25s %-35s %-25s\n",id_employee,job_title,job_descripsion,required_skills);
+        System.out.printf("%-12s %-20s %-45s %-30s\n",id_employee,job_title,job_descripsion,required_skills);
     }
+    public String randomPosition()
+    {
+        Random rand=new Random();
+        String randomposition=nameposition[rand.nextInt(nameposition.length)];
+        return randomposition;
+    }
+    public String ranjob_description()
+    {
+        String p=randomPosition();
+        if (p.equals("Truong phong"))
+        {
+            return "quan ly va dan dat mot nhom lam viec";
+        }
+        else  if (p.equals("Pho phong"))
+        {
+            return "phu tro truong phong";
+        }
+        else if (p.equals("nhan vien"))
+        {
+            return "lap trinh";
+        }
+        else if (p.equals("thuc tap sinh"))
+        {
+            return "dao tao";
+        }
+        else
+            return null;
+    }
+    public String ranrequired_skills()
+    {
+        String p=randomPosition();
+        if (p.equals("Truong phong"))
+        {
+            return "lanh dao nhom";
+        }
+        else  if (p.equals("Pho phong"))
+        {
+            return "thay mat truong phong";
+        }
+        else if (p.equals("nhan vien"))
+        {
+            return "cac ngon ngu lap trinh";
+        }
+        else if (p.equals("thuc tap sinh"))
+        {
+            return "dao duc va trach nhiem";
+        }
+        else
+            return null;
+    }
+
+
+
     //set
     public void setId_employee(String id_employee) {this.id_employee=id_employee;}
     public void setJob_title(String job_title){this.job_title=job_title;}

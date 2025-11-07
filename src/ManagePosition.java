@@ -15,6 +15,7 @@ public class ManagePosition
             System.out.println("4.Remove position");
             System.out.println("5.Find position");
             System.out.println("6.Updata position");
+            System.out.println("7.Number of positions");
             System.out.println("0.Exit");
             System.out.print("choose your option: ");
             x=sc.nextInt();
@@ -73,6 +74,11 @@ public class ManagePosition
                 ltp.writeToFile();
                 System.out.print("Enter to continue");
                 sc.nextLine();
+            }
+            if (x==7)
+            {
+                ltp.ReadFromFile();
+                ltp.numberofemployeeposition();
             }
         }
         while (x!=0);
