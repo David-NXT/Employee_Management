@@ -32,7 +32,7 @@ public class Allowance_Menu {
             System.out.println("3. Hiển thị toàn bộ danh sách phụ cấp");
             System.out.println("4. Tìm phụ cấp theo mã nhân viên");
             System.out.println("5. Lưu dữ liệu phụ cấp ra file");
-            System.out.println("6. Tính tổng phụ cấp theo tháng");
+            System.out.println("6. Tính phụ cấp theo tháng khi có lễ");
             System.out.println("0. Quay lại menu chính");
             System.out.print("Chọn: ");
             choice = sc.nextInt();
@@ -60,13 +60,14 @@ public class Allowance_Menu {
         if (emp != null) {
             listAllow.createAllowance(id, listEmp, listPos, listPro, listRule, listAllowRule);
         } else {
-            System.out.println("❌ Không tìm thấy nhân viên có ID " + id);
+            System.out.println(" Không tìm thấy nhân viên có ID " + id);
         }
     }
 
     private void generateAllowances() {
         listAllow.generateAllowances(listEmp, listPro,listPos,listAllowRule);
-        System.out.println("✅ Đã tính phụ cấp tự động cho toàn bộ nhân viên.");
+        listAllow.calculateProjectAllowance(listPro, listEmp);
+        System.out.println(" Đã tính phụ cấp tự động cho toàn bộ nhân viên.");
     }
 
     private void findAllowanceById(Scanner sc) {
@@ -77,7 +78,7 @@ public class Allowance_Menu {
 
     private void saveAllowances() {
         listAllow.writeToFile();
-        System.out.println("💾 Đã lưu danh sách phụ cấp vào file 'data_allowance'");
+        System.out.println(" Đã lưu danh sách phụ cấp vào file 'data_allowance'");
     }
 
     // ───────────────────────────────────────────────
@@ -87,7 +88,7 @@ public class Allowance_Menu {
         sc.nextLine();
         String month = String.format("%02d", m);
 
-        System.out.println("📆 Đang tính phụ cấp cho tháng " + month + "...");
+        System.out.println(" Đang tính phụ cấp cho tháng " + month + "...");
         for (Allowance a : listAllow.getData()) {
             System.out.println("Phụ cấp: " + a.getAllowanceId() + " - Ngày tạo: " + a.getCreatedDate());
         }

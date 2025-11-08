@@ -19,7 +19,7 @@ public class Salary_menu {
         int choice;
         do {
             System.out.println("\n===== SALARY MENU =====");
-            System.out.println("📊 Total salary records: " + salaryList.getCount());
+            System.out.println(" [#] Total salary records: " + salaryList.getCount());
             System.out.println("1. Generate payroll from timesheet");
             System.out.println("2. Display all payroll records");
             System.out.println("3. Search payroll by employee ID");
@@ -39,19 +39,19 @@ public class Salary_menu {
 
             switch (choice) {
                 case 1 -> {
-                    System.out.println("🔄 Generating payroll...");
+                    System.out.println("Generating payroll...");
                     salaryList.generateSalaries(employeeList, allowanceList, timeSheetList, salaryList);
                 }
                 case 2 -> salaryList.displayAll();
                 case 3 -> {
-                    System.out.print("🔍 Enter employee ID: ");
+                    System.out.print("Enter employee ID: ");
                     String id = sc.nextLine().trim();
                     salaryList.displaySalaryByEmployeeId(id);
                 }
                 case 4 -> {
-                    System.out.print("📅 Enter month (1–12): ");
+                    System.out.print("Enter month (1–12): ");
                     int month = sc.nextInt();
-                    System.out.print("📅 Enter year: ");
+                    System.out.print("Enter year: ");
                     int year = sc.nextInt();
                     sc.nextLine(); // clear buffer
                     salaryList.displayByMonthYear(month, year);
@@ -63,14 +63,14 @@ public class Salary_menu {
                 }
                 case 6 -> {
                     salaryList.saveToFile();
-                    System.out.println("✅ Payroll data saved to file.");
+                    System.out.println("Payroll data saved to file.");
                 }
                 case 7 -> {
                     salaryList.loadFromFile();
-                    System.out.println("✅ Payroll data reloaded from file.");
+                    System.out.println("Payroll data reloaded from file.");
                 }
-                case 0 -> System.out.println("👋 Exiting salary menu...");
-                default -> System.out.println("⚠ Invalid choice. Please try again.");
+                case 0 -> System.out.println("Exiting salary menu...");
+                default -> System.out.println("Invalid choice. Please try again.");
             }
 
         } while (choice != 0);

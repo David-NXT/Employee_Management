@@ -166,13 +166,14 @@ public class ListAllowance implements Serializable {
             double seniorityAllowance = calculateSeniorityAllowance(emp, basicSalary);
 
             double projectAllowance = 0;
-            for (Project p : listProj.getData()) {
-                if (p.isEmployeeInProject(emp.getId())) {
-                    double rate = p.getAllowanceRateFor(emp.getId());
-                    projectAllowance += basicSalary * rate;
-                }
-            }
-
+               if(emp instanceof OfficialEmployee offemp){
+                   for(Project p : listProj.getData()){
+                       if(p.isEmployeeInProject(offemp)){
+                           projectAllowance += p.projectAllowanceSalary(offemp);
+                       }
+                   }
+               }
+            System.out.println(" " + emp.getId() + " - Project Allowance: " + projectAllowance);
             double holidayAllowance = 0;
             for (AllowanceRule rule : listAllowRule.getData()) {
                 if (rule != null && rule.getDay().trim().equals(todayStr)) {
@@ -214,18 +215,7 @@ public class ListAllowance implements Serializable {
             return 0;
         }
     }
-    public void findByEmployeeId(String id) {
-        boolean found = false;
-        for (Allowance a : data) {
-            if (a.getEmployeeId().equalsIgnoreCase(id)) {
-                System.out.println(a);
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("Không tìm thấy phụ cấp cho nhân viên có ID " + id);
-        }
-    }
+
     public void calculateMonthlyAllowance(ListAllowanceRule listRule, String month) {
         ListAllowanceRule rulesInMonth = listRule.findAllowanceInMonth(month);
         if (rulesInMonth.getN() == 0) {
@@ -259,6 +249,34 @@ public class ListAllowance implements Serializable {
             System.out.printf("Tổng phụ cấp tháng %s là: %.2f%n", month, total);
         }
     }
+    public Allowance findByEmployeeId(String empId) {
+        for (Allowance a : data) {
+            if (a.getEmployeeId().equalsIgnoreCase(empId)) {
+                return a;
+            }
+        }
+        return null;
+    }
+    public void calculateProjectAllowance(ListProject projectList, ListEmployee employeeList) {
+        for (Project p : projectList.getData()) {
+            for (Employee emp : employeeList.getData()) {
+                if (!(emp instanceof OfficialEmployee offEmp)) continue;
+
+                String empId = offEmp.getId();
+                if (!p.isEmployeeInProject(empId)) continue;
+
+                float rate = p.getAllowanceRateFor(empId);
+                double projectBonus = offEmp.getBasicSalary() * rate;
+
+                Allowance allow = findByEmployeeId(empId);
+                if (allow != null) {
+                    allow.setProjectAllowance(projectBonus);
+                    allow.updateTotalAllowance();
+                }
+            }
+        }
+    }
+
     public Allowance[] getData() {
         return data;
     }
