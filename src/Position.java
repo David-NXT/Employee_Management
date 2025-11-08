@@ -10,7 +10,7 @@ public class Position implements Serializable
     private String job_title;
     private String job_descripsion;
     private String required_skills;
-    private String[] nameposition={"Truong phong","Pho phong","nhan vien","thuc tap sinh"};
+    private double allowance_position;
 
     public Position(String id_employee,String job_title,String job_descripsion,String required_skills)
     {
@@ -42,20 +42,22 @@ public class Position implements Serializable
             System.out.println("Invalid employee ID");
             enter();
         }
-        System.out.print("Enter your job title: ");
-        job_title=sc.nextLine();
-        System.out.print("Enter your job description: ");
-        job_descripsion=sc.nextLine();
-        System.out.print("Enter your required skills: ");
-        required_skills=sc.nextLine();
+//        System.out.print("Enter your job title: ");
+        job_title=randomPosition();
+//        System.out.print("Enter your job description: ");
+        job_descripsion=ranjob_description();
+//        System.out.print("Enter your required skills: ");
+        required_skills=ranrequired_skills();
     }
 
     public void out()
     {
-        System.out.printf("%-12s %-20s %-45s %-30s\n",id_employee,job_title,job_descripsion,required_skills);
+        allowance_position=allowance_positionx(job_title);
+        System.out.printf("%-12s %-20s %-45s %-30s %-20s\n",id_employee,job_title,job_descripsion,required_skills,allowance_position);
     }
     public String randomPosition()
     {
+        String[] nameposition={"Truong phong","Pho phong","nhan vien","thuc tap sinh"};
         Random rand=new Random();
         String randomposition=nameposition[rand.nextInt(nameposition.length)];
         return randomposition;
@@ -63,6 +65,7 @@ public class Position implements Serializable
     public String ranjob_description()
     {
         String p=randomPosition();
+        Employee_Salary el=new Employee_Salary();
         if (p.equals("Truong phong"))
         {
             return "quan ly va dan dat mot nhom lam viec";
@@ -104,17 +107,42 @@ public class Position implements Serializable
         else
             return null;
     }
+    public double allowance_positionx(String jobx)
+    {
+        ListSalary ls=new ListSalary();
+        ls.loadFromFile();
+        double totalsalary=0;
+        for (Employee_Salary el: ls.getAll())
+        {
+            if(el.getId().equalsIgnoreCase(id_employee))
+            {
+                totalsalary=el.getTotalSalary();
+            }
+        }
+        jobx=job_title;
+        if (jobx.equalsIgnoreCase("giam doc"))
+            return totalsalary*0.20;
+        else if (jobx.equalsIgnoreCase("truong phong"))
+            return totalsalary*0.15;
+        else if (jobx.equalsIgnoreCase("pho phong"))
+            return totalsalary*0.10;
+        else if (jobx.equalsIgnoreCase("nhan vien"))
+            return totalsalary*0.5;
+        else
+            return totalsalary*0.2;
 
-
+    }
 
     //set
     public void setId_employee(String id_employee) {this.id_employee=id_employee;}
     public void setJob_title(String job_title){this.job_title=job_title;}
     public void setJob_desciption(String job_descipsion){this.job_descripsion=job_descipsion;}
     public void setRequired_skills(String required_skills){this.required_skills=required_skills;}
+    public void setAllowance_position(double allowance_position) {this.allowance_position = allowance_position;}
     //get
     public String getId_employee() {return this.id_employee;}
     public String getJob_title(){return job_title;}
     public String getJob_desciption(){return job_descripsion;}
     public String getRequired_skills(){return required_skills;}
+    public double getAllowance_position(){return allowance_position;}
 }
