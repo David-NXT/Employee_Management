@@ -1,9 +1,6 @@
 import java.io.Serial;
 import java.util.Scanner;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 
 abstract class Employee implements Serializable {
     private transient final Scanner sc = new Scanner(System.in);
@@ -262,4 +259,5 @@ abstract class Employee implements Serializable {
     public void setSalary(Employee_Salary salary) {
         this.salary = salary;
     }
+
 }

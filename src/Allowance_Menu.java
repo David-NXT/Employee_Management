@@ -27,42 +27,29 @@ public class Allowance_Menu {
         int choice;
         do {
             System.out.println("\n========= MENU PHỤ CẤP =========");
-            System.out.println("1. Nhập phụ cấp thủ công cho nhân viên");
-            System.out.println("2. Tính phụ cấp tự động cho toàn bộ nhân viên");
-            System.out.println("3. Hiển thị toàn bộ danh sách phụ cấp");
-            System.out.println("4. Tìm phụ cấp theo mã nhân viên");
-            System.out.println("5. Lưu dữ liệu phụ cấp ra file");
-            System.out.println("6. Tính phụ cấp theo tháng khi có lễ");
+            System.out.println("1. Tính phụ cấp tự động cho toàn bộ nhân viên");
+            System.out.println("2. Hiển thị toàn bộ danh sách phụ cấp");
+            System.out.println("3. Tìm phụ cấp theo mã nhân viên");
+            System.out.println("4. Lưu dữ liệu phụ cấp ra file");
+            System.out.println("5. Tính phụ cấp theo tháng khi có lễ");
             System.out.println("0. Quay lại menu chính");
             System.out.print("Chọn: ");
             choice = sc.nextInt();
             sc.nextLine(); // clear buffer
 
             switch (choice) {
-                case 1 -> addManualAllowance(sc);
-                case 2 -> generateAllowances();
-                case 3 -> listAllow.showAll();
-                case 4 -> findAllowanceById(sc);
-                case 5 -> saveAllowances();
-                case 6 -> calcInMonth(sc);
+                case 1 -> generateAllowances();
+                case 2 -> listAllow.showAll();
+                case 3 -> findAllowanceById(sc);
+                case 4 -> saveAllowances();
+                case 5 -> calcInMonth(sc);
                 case 0 -> System.out.println("⬅ Quay lại menu chính...");
                 default -> System.out.println("❌ Lựa chọn không hợp lệ!");
             }
         } while (choice != 0);
     }
 
-    // ───────────────────────────────────────────────
-    private void addManualAllowance(Scanner sc) {
-        System.out.print("Nhập ID nhân viên cần thêm phụ cấp: ");
-        String id = sc.nextLine();
 
-        Employee emp = listEmp.findById(id);
-        if (emp != null) {
-            listAllow.createAllowance(id, listEmp, listPos, listPro, listRule, listAllowRule);
-        } else {
-            System.out.println(" Không tìm thấy nhân viên có ID " + id);
-        }
-    }
 
     private void generateAllowances() {
         listAllow.generateAllowances(listEmp, listPro,listPos,listAllowRule);

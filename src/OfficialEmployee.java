@@ -74,4 +74,5 @@ public class OfficialEmployee extends Employee implements Serializable{
     public void setSalaryAllowance(double salaryallowance){
         this.salaryallowance = salaryallowance;
     }
+
 }

@@ -42,94 +42,21 @@ public class ListAllowance implements Serializable {
     public String getIdAuto() {
         return "AL" + String.format("%03d", n + 1);
     }
-    public void createAllowance(String empId,
-                                ListEmployee listEmp,
-                                ListPosition listPos,
-                                ListProject listProj,
-                                ListSeniorityAllowanceRule listRule,
-                                ListAllowanceRule listAllowRule) {
 
-        Employee emp = listEmp.findById(empId);
-        if (emp == null) {
-            System.out.println("❌ Không tìm thấy nhân viên!");
-            return;
+    private double calcJobAllowance(Position pos, double basicSalary) {
+        if (pos == null || pos.getJob_title() == null) return 0;
+
+        String title = pos.getJob_title().trim().toLowerCase();
+        double rate;
+
+        switch (title) {
+            case "giám đốc" -> rate = 0.07;
+            case "trưởng phòng" -> rate = 0.05;
+            case "nhân viên" -> rate = 0.03;
+            default -> rate = 0.02; // phụ cấp mặc định nếu không khớp
         }
 
-        Employee_Salary salary = emp.getSalary();
-        if (salary == null) {
-            System.out.println("❌ Nhân viên " + emp.getName() + " chưa có thông tin lương.");
-            return;
-        }
-
-        String posId = emp.getPositionId();
-        Position pos = (posId != null) ? listPos.find(posId) : null;
-        double jobAllowance = calcJobAllowance(pos);
-
-        int years = calcYearsOfWork(emp.getStartWorkingDay());
-        SeniorityAllowanceRule rule = listRule.findByYear(years);
-        double seniorityAllowance = calcSeniorityAllowance(salary, rule);
-
-        double projectAllowance = 0;
-        for (Project p : listProj.getData()) {
-            if (p.isEmployeeInProject(emp.getId())) {
-                double rate = p.getAllowanceRateFor(emp.getId());
-                projectAllowance += salary.getBaseSalary() * rate;
-            }
-        }
-
-        double holidayAllowance = 0;
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM");
-        String todayStr = LocalDate.now().format(fmt);
-        for (AllowanceRule ar : listAllowRule.getData()) {
-            if (ar != null && ar.getDay().trim().equals(todayStr)) {
-                holidayAllowance = ar.getAllowancerate();
-                break;
-            }
-        }
-
-        double totalAllowance = jobAllowance + seniorityAllowance + projectAllowance + holidayAllowance;
-
-        Allowance a = new Allowance();
-        a.setAllowanceId(getIdAuto());
-        a.setEmployeeId(emp.getId());
-        a.setEmployeeName(emp.getSurname() + " " + emp.getName());
-        a.setPositionId(posId);
-        a.setJobAllowance(jobAllowance);
-        a.setSeniorityAllowance(seniorityAllowance);
-        a.setProjectAllowance(projectAllowance);
-        a.setAnnualAllowance(holidayAllowance);
-        a.setTotalAllowance(totalAllowance);
-        a.setCreatedDate(LocalDate.now());
-
-        data = Arrays.copyOf(data, n + 1);
-        data[n] = a;
-        n++;
-        writeToFile();
-
-        System.out.println("✅ Đã tạo phụ cấp cho nhân viên " + emp.getSurname() + " " + emp.getName());
-    }
-    private int calcYearsOfWork(String startWorkingDay) {
-        try {
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate start = LocalDate.parse(startWorkingDay, fmt);
-            return Period.between(start, LocalDate.now()).getYears();
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-    private double calcSeniorityAllowance(Employee_Salary salary, SeniorityAllowanceRule rule) {
-        if (rule != null)
-            return salary.getBaseSalary() * rule.getAllowancerate();
-        else
-            return 0;
-    }
-    private double calcJobAllowance(Position pos) {
-        if (pos == null) return 0;
-        String job = pos.getJob_title().toLowerCase();
-        if (job.contains("lap trinh")) return 2000000;
-        if (job.contains("maketing")) return 1500000;
-        if (job.contains("sale")) return 800000;
-        return 500000;
+        return basicSalary * rate;
     }
     public void showAll() {
         if (n == 0) {
@@ -153,7 +80,6 @@ public class ListAllowance implements Serializable {
         for (Employee emp : listEmp.getData()) {
             String posId = emp.getPositionId();
             Position pos = (posId != null) ? listPos.find(posId) : null;
-            double jobAllowance = calcJobAllowance(pos);
 
             double basicSalary = 0;
             if (emp instanceof OfficialEmployee) {
@@ -162,6 +88,7 @@ public class ListAllowance implements Serializable {
                 SeasonalStaff s = (SeasonalStaff) emp;
                 basicSalary = s.getHourlySalary() * s.getWorkTime();
             }
+            double jobAllowance = calcJobAllowance(pos,basicSalary);
 
             double seniorityAllowance = calculateSeniorityAllowance(emp, basicSalary);
 
@@ -201,7 +128,7 @@ public class ListAllowance implements Serializable {
             n++;
         }
 
-        System.out.println("✅ Đã tạo phụ cấp cho toàn bộ nhân viên (" + n + " người).");
+        System.out.println(" Đã tạo phụ cấp cho toàn bộ nhân viên (" + n + " người).");
     }
     private double calculateSeniorityAllowance(Employee emp, double basicSalary) {
         try {

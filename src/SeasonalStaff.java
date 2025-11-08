@@ -69,4 +69,5 @@ public class SeasonalStaff extends Employee implements Serializable {
     public void setWorkTime(float worktime){
         this.worktime = worktime;
     }
+
 }
