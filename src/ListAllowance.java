@@ -78,7 +78,7 @@ public class ListAllowance implements Serializable {
         String todayStr = LocalDate.now().format(fmt);
 
         for (Employee emp : listEmp.getData()) {
-            String posId = emp.getPositionId();
+            String posId = emp.getId();
             Position pos = (posId != null) ? listPos.find(posId) : null;
 
             double basicSalary = 0;
@@ -88,7 +88,7 @@ public class ListAllowance implements Serializable {
                 SeasonalStaff s = (SeasonalStaff) emp;
                 basicSalary = s.getHourlySalary() * s.getWorkTime();
             }
-            double jobAllowance = calcJobAllowance(pos,basicSalary);
+            double jobAllowance = (pos != null) ? pos.getPositionAllowanceRate() * basicSalary : 0;
 
             double seniorityAllowance = calculateSeniorityAllowance(emp, basicSalary);
 

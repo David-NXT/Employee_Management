@@ -27,7 +27,7 @@ public class ListSalary implements Serializable {
             }
 
             if (sheet == null) {
-                System.out.println("❌ Không có bảng chấm công cho nhân viên " + emp.getId());
+                System.out.println(" Không có bảng chấm công cho nhân viên " + emp.getId());
                 continue;
             }
 
@@ -45,7 +45,7 @@ public class ListSalary implements Serializable {
             addSalary(salary);
         }
 
-        System.out.println("✅ Đã tạo bảng lương cho " + data.length + " nhân viên có chấm công.");
+        System.out.println("Đã tạo bảng lương cho " + data.length + " nhân viên có chấm công.");
     }
 
     public void addSalary(Employee_Salary s) {
@@ -56,10 +56,10 @@ public class ListSalary implements Serializable {
 
     public void displayAll() {
         if (getCount() == 0) {
-            System.out.println("❌ Chưa có dữ liệu lương.");
+            System.out.println(" Chưa có dữ liệu lương.");
             return;
         }
-        System.out.println("📊 Tổng số bản ghi lương: " + getCount());
+        System.out.println(" Tổng số bản ghi lương: " + getCount());
         for (Employee_Salary s : data) {
             s.displaySalaryInfo();
         }
@@ -74,7 +74,7 @@ public class ListSalary implements Serializable {
             }
         }
         if (!found)
-            System.out.println("❌ Không tìm thấy nhân viên.");
+            System.out.println(" Không tìm thấy nhân viên.");
     }
 
     public void displayByMonthYear(int month, int year) {
@@ -86,27 +86,27 @@ public class ListSalary implements Serializable {
             }
         }
         if (!found)
-            System.out.println("❌ Không có dữ liệu lương cho tháng/năm này.");
+            System.out.println(" Không có dữ liệu lương cho tháng/năm này.");
     }
 
     public void displayViolations(String id) {
         boolean found = false;
         for (Employee_Salary s : data) {
             if (s.getId().equalsIgnoreCase(id)) {
-                System.out.println("👤 Nhân viên: " + s.getSurname() + " " + s.getName());
-                System.out.println("❗ Số tiền bị trừ do vi phạm: " + s.getDeductions());
+                System.out.println(" Nhân viên: " + s.getSurname() + " " + s.getName());
+                System.out.println(" Số tiền bị trừ do vi phạm: " + s.getDeductions());
                 found = true;
             }
         }
         if (!found)
-            System.out.println("❌ Không tìm thấy nhân viên.");
+            System.out.println(" Không tìm thấy nhân viên.");
     }
 
     public void saveToFile() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             oos.writeObject(data);
         } catch (IOException e) {
-            System.out.println("❌ Lỗi ghi file: " + e.getMessage());
+            System.out.println(" Lỗi ghi file: " + e.getMessage());
         }
     }
 
