@@ -18,6 +18,7 @@ public class Position implements Serializable
         this.job_title=job_title;
         this.job_descripsion=job_descripsion;
         this.required_skills=required_skills;
+        this.allowance_position=allowance_position;
     }
     public Position(Position p)
     {
@@ -25,6 +26,7 @@ public class Position implements Serializable
         this.job_title=p.job_title;
         this.job_descripsion=p.job_descripsion;
         this.required_skills=p.required_skills;
+        this.allowance_position=p.allowance_position;
     }
     public Position(){}
 
@@ -140,7 +142,7 @@ public class Position implements Serializable
     public void setRequired_skills(String required_skills){this.required_skills=required_skills;}
     public void setAllowance_position(double allowance_position) {this.allowance_position = allowance_position;}
     //get
-    public String getId_employee() {return this.id_employee;}
+    public String getId_employee() {return id_employee;}
     public String getJob_title(){return job_title;}
     public String getJob_desciption(){return job_descripsion;}
     public String getRequired_skills(){return required_skills;}

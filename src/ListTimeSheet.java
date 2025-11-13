@@ -176,6 +176,10 @@ public class ListTimeSheet implements Serializable
             ts[i].daycheck(daycheck);
         }
     }
+    public void static_()
+    {
+
+    }
 
 
     //get

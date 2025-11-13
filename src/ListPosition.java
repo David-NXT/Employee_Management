@@ -8,6 +8,14 @@ public class ListPosition implements Serializable
     private Position[] p;
 
     public ListPosition(){p=new Position[0];}
+    public ListPosition(Position[] p)
+    {
+        this.p=p;
+    }
+    public ListPosition(ListPosition lt)
+    {
+        this.p=lt.p;
+    }
 
     public void enter()
     {
@@ -218,6 +226,11 @@ public class ListPosition implements Serializable
         }
         return null;
     }
+
+//    get
+    public Position[] getPositon(){return p;}
+//    set
+    public void setPosition(Position[] p){this.p=p;}
 
 
 }
