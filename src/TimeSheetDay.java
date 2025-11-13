@@ -31,7 +31,6 @@ public class TimeSheetDay implements Serializable
         this.year=t.year;
         this.time_in=t.time_in;
         this.time_out=t.time_out;
-
     }
 
 

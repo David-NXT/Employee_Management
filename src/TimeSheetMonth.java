@@ -12,15 +12,17 @@ public class TimeSheetMonth implements Serializable
 
 
     public TimeSheetMonth(){}
-    public TimeSheetMonth(String id_clock,String id_employee)
+    public TimeSheetMonth(String id_clock,String id_employee,TimeSheetDay[] td)
     {
         this.id_clock=id_clock;
         this.id_employee=id_employee;
+        this.td=td;
     }
     public TimeSheetMonth(TimeSheetMonth t)
     {
         this.id_clock=t.id_clock;
         this.id_employee=t.id_employee;
+        this.td=t.td;
     }
 
     public void enter()
