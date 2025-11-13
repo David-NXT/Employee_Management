@@ -24,7 +24,7 @@ public class ListPosition implements Serializable
     public void out()
     {
         quicksort(p,0,p.length-1);
-        System.out.printf("%-12s %-20s %-45s %-30s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
+        System.out.printf("%-12s %-20s %-45s %-30s %-20s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills","Totally Allowance");
         for (int i=0;i<p.length;i++)
         {
             p[i].out();
@@ -139,6 +139,10 @@ public class ListPosition implements Serializable
             return;
         }
     }
+    public void allowance()
+    {
+
+    }
 
     public void writeToFile()
     {
@@ -183,7 +187,7 @@ public class ListPosition implements Serializable
         int i=l-1;
         for (int j=l;j<r;j++)
         {
-            if (ep[j].getId_employee().compareToIgnoreCase(privot.getId_employee()) <= 0)
+            if (Integer.parseInt(ep[j].getId_employee())<=Integer.parseInt(privot.getId_employee()))
             {
                 i++;
                 Position temp = ep[i];
@@ -191,7 +195,7 @@ public class ListPosition implements Serializable
                 ep[j] = temp;
             }
         }
-        ++i;
+        i++;
         Position temp = ep[i];
         ep[i] = ep[r];
         ep[r] = temp;
