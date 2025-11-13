@@ -14,8 +14,7 @@ abstract class Employee implements Serializable {
     private String phonenumber;
     private String email;
     private String startworkingday;
-    private String positionId;//yy mm dd
-    private Employee_Salary salary;
+
 
 
     public Employee(Employee a){
@@ -27,10 +26,9 @@ abstract class Employee implements Serializable {
         phonenumber = a.phonenumber;
         email = a.email;
         startworkingday = a.startworkingday;
-        positionId=a.positionId;
     }
 
-    public Employee(String id, String surname, String name, String gender, String address, String phonenumber, String email, String startworkingday, String positionId){
+    public Employee(String id, String surname, String name, String gender, String address, String phonenumber, String email, String startworkingday){
         this.id = id;
         this.surname = surname;
         this.name = name;
@@ -39,7 +37,7 @@ abstract class Employee implements Serializable {
         this.phonenumber = phonenumber;
         this.email = email;
         this.startworkingday = startworkingday;
-        this.positionId=positionId;
+
     }
 
     public Employee(){}
@@ -250,14 +248,5 @@ abstract class Employee implements Serializable {
         this.startworkingday = startworkingday;
     }
 
-    public String getPositionId() { return positionId; }
-
-    public Employee_Salary getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Employee_Salary salary) {
-        this.salary = salary;
-    }
 
 }

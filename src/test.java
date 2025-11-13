@@ -17,16 +17,12 @@ public class test {
         listRule.readFromFile();
         listAllowRule.readFromFile();
 
-        // Tạo menu và chạy
-        Allowance_Menu menu = new Allowance_Menu(
-                listEmp,
-                listPro,
-                listAllow,
-                listPos,
-                listRule,
-                listAllowRule
+        ManageAllowance manage = new ManageAllowance(
+                listEmp, listPro, listPos, listAllowRule, listRule
         );
 
-        menu.run();
+        // Gọi menu để bắt đầu chương trình
+        manage.menuAllowance();
+
     }
 }

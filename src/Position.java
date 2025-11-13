@@ -148,12 +148,11 @@ public class Position implements Serializable
     public double getPositionAllowanceRate() {
         if (job_title == null) return 0;
         return switch (job_title.trim().toLowerCase()) {
-            case "giam doc" -> 0.20;
-            case "truong phong" -> 0.15;
-            case "pho phong" -> 0.10;
-            case "nhan vien" -> 0.5;
-            case "thuc tap sinh" -> 0.2;
-            default -> 0.03;
+            case "Giam doc" ->  1;
+            case "Truong phong" ->  0.7;
+            case "Pho phong" ->  0.5;
+            case "nhan vien" ->  0.3;
+            default ->  0.2;
         };
     }
 }
