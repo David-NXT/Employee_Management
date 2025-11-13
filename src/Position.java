@@ -114,7 +114,7 @@ public class Position implements Serializable
         double totalsalary=0;
         for (Employee_Salary el: ls.getAll())
         {
-            if(el.getId().equalsIgnoreCase(id_employee))
+            if(el.getEmpId().equalsIgnoreCase(id_employee))
             {
                 totalsalary=el.getTotalSalary();
             }

@@ -12,42 +12,6 @@ public class ListSalary implements Serializable {
         loadFromFile();
     }
 
-    // ✅ Tạo bảng lương từ danh sách nhân viên, phụ cấp và chấm công
-    public void generateSalaries(ListEmployee listEmp, ListAllowance listAllow, ListTimeSheet listTimeSheet, ListSalary listSalary) {
-        data = new Employee_Salary[0];
-
-        for (Employee emp : listEmp.getData()) {
-            // Tìm bảng chấm công của nhân viên
-            TimeSheetMonth sheet = null;
-            for (TimeSheetMonth t : listTimeSheet.getTs()) {
-                if (t.getId_employee().equalsIgnoreCase(emp.getId())) {
-                    sheet = t;
-                    break;
-                }
-            }
-
-            if (sheet == null) {
-                System.out.println(" Không có bảng chấm công cho nhân viên " + emp.getId());
-                continue;
-            }
-
-            // Tìm phụ cấp
-            Allowance allow = null;
-            for (Allowance a : listAllow.getData()) {
-                if (a.getEmployeeId().equalsIgnoreCase(emp.getId())) {
-                    allow = a;
-                    break;
-                }
-            }
-
-            // Tạo lương
-            Employee_Salary salary = new Employee_Salary(emp, allow, sheet, listSalary);
-            addSalary(salary);
-        }
-
-        System.out.println("Đã tạo bảng lương cho " + data.length + " nhân viên có chấm công.");
-    }
-
     public void addSalary(Employee_Salary s) {
         data = Arrays.copyOf(data, data.length + 1);
         data[data.length - 1] = s;
@@ -59,17 +23,31 @@ public class ListSalary implements Serializable {
             System.out.println(" Chưa có dữ liệu lương.");
             return;
         }
-        System.out.println(" Tổng số bản ghi lương: " + getCount());
-        for (Employee_Salary s : data) {
-            s.displaySalaryInfo();
-        }
+            System.out.println("\nTổng số bản ghi lương: " + getCount());
+            System.out.printf("%-8s %-10s %-25s %-10s %-10s %-12s %-12s %-12s %-8s%n",
+                    "ID", "Mã NV", "Tên nhân viên", "Lương CB", "Phụ cấp", "Thưởng", "Khấu trừ", "Thực lĩnh", "Tháng/Năm");
+            System.out.println("-------------------------------------------------------------------------------------------------------------");
+
+            for (Employee_Salary s : data) {
+                System.out.printf("%-8s %-10s %-25s %-10.2f %-10.2f %-12.2f %-12.2f %-12.2f %02d/%d%n",
+                        s.getSalaryId(),
+                        s.getEmpId(),
+                        s.getEmpName(),
+                        s.getBaseSalary(),
+                        s.getAllowance(),
+                        s.getBonus(),
+                        s.getDeductions(),
+                        s.getTotalSalary(),
+                        s.getMonth(),
+                        s.getYear());
+            }
     }
 
     public void displaySalaryByEmployeeId(String id) {
         boolean found = false;
         for (Employee_Salary s : data) {
-            if (s.getId().equalsIgnoreCase(id)) {
-                s.displaySalaryInfo();
+            if (s.getEmpId().equalsIgnoreCase(id)) {
+                s.display();
                 found = true;
             }
         }
@@ -81,7 +59,7 @@ public class ListSalary implements Serializable {
         boolean found = false;
         for (Employee_Salary s : data) {
             if (s.getMonth() == month && s.getYear() == year) {
-                s.displaySalaryInfo();
+                s.display();
                 found = true;
             }
         }
@@ -92,8 +70,8 @@ public class ListSalary implements Serializable {
     public void displayViolations(String id) {
         boolean found = false;
         for (Employee_Salary s : data) {
-            if (s.getId().equalsIgnoreCase(id)) {
-                System.out.println(" Nhân viên: " + s.getSurname() + " " + s.getName());
+            if (s.getEmpId().equalsIgnoreCase(id)) {
+                System.out.println(" Nhân viên: " +  s.getEmpName());
                 System.out.println(" Số tiền bị trừ do vi phạm: " + s.getDeductions());
                 found = true;
             }
