@@ -33,28 +33,15 @@ public class Position implements Serializable
 
     public void enter()
     {
-        ListEmployee l = new ListEmployee();
-        l.readFromFile();
-        l.put();
-        System.out.print("Enter your id: ");
-        id_employee=sc.nextLine();
-        int check_id= l.isEmployee(id_employee);
-        if(check_id==-1)
-        {
-            System.out.println("Invalid employee ID");
-            System.out.println("Enter to continue");
-            sc.nextLine();
-            enter();
-        }
-        System.out.print("Enter your job title: ");
-        job_title=sc.nextLine();
-//        job_title=randomPosition();
-        System.out.print("Enter your job description: ");
-        job_descripsion=sc.nextLine();
-//        job_descripsion=ranjob_description();
-        System.out.print("Enter your required skills: ");
-        required_skills=sc.nextLine();
-//        required_skills=ranrequired_skills();
+//        System.out.print("Enter your job title: ");
+//        job_title=sc.nextLine();
+        job_title=randomPosition();
+//        System.out.print("Enter your job description: ");
+//        job_descripsion=sc.nextLine();
+        job_descripsion=ranjob_description();
+//        System.out.print("Enter your required skills: ");
+//        required_skills=sc.nextLine();
+        required_skills=ranrequired_skills();
     }
 
     public void out()

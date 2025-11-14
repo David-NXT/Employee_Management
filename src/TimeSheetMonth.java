@@ -24,19 +24,6 @@ public class TimeSheetMonth implements Serializable
 
     public void enter()
     {
-        ListEmployee l=new ListEmployee();
-        l.readFromFile();
-        l.put();
-        System.out.print("Enter ID employee: ");
-        id_employee=sc.nextLine();
-        int check_id=l.isEmployee(id_employee);
-        if (check_id==-1)
-        {
-            System.out.println("your ID is Invaible");
-            System.out.println("Enter to continue...");
-            sc.nextLine();
-            enter();
-        }
         int n=1+(int)(Math.random()*30);
         td=new TimeSheetDay[n];
         int month=randomMonth();
@@ -62,7 +49,10 @@ public class TimeSheetMonth implements Serializable
             }
             while(check);
             day[i]=d;
-            td[i].enter(id_employee,d,month,year);
+            td[i].setYear(year);
+            td[i].setMonth(month);
+            td[i].setDay(d);
+            td[i].enter();
         }
     }
     public void out()
@@ -156,11 +146,6 @@ public class TimeSheetMonth implements Serializable
                 maxday=31;
         }
         return 1+(int)(Math.random()*maxday);
-    }
-    public String randomid_clock()
-    {
-        int id=1+(int)(Math.random()*100);
-        return String.format("%02d",id);
     }
 
 
