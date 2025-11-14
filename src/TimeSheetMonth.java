@@ -171,11 +171,11 @@ public class TimeSheetMonth implements Serializable
 //    get
     public String getId_clock() {return id_clock;}
     public String getId_employee() {return id_employee;}
-//    set
-    public void setId_clock(String id_clock) {this.id_clock=id_clock;}
-    public void setId_employee(String id_employee) {this.id_employee=id_employee;}
-
     public TimeSheetDay[] getData() {
         return td;
     }
+//    set
+    public void setId_clock(String id_clock) {this.id_clock=id_clock;}
+    public void setId_employee(String id_employee) {this.id_employee=id_employee;}
+    public void setTd(TimeSheetDay[] td){this.td=td;}
 }

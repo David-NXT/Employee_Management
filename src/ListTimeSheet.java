@@ -176,10 +176,78 @@ public class ListTimeSheet implements Serializable
             ts[i].daycheck(daycheck);
         }
     }
-    public void static_()
+    public void update_timesheet()
     {
-
+        System.out.print("Enter ID employee you want update: ");
+        String idx=sc.nextLine();
+        int pos=-1;
+        for (int i=0;i<ts.length;i++)
+        {
+            if (idx.equalsIgnoreCase(ts[i].getId_employee()))
+            {
+                pos=i;
+                break;
+            }
+        }
+        if (pos==-1)
+        {
+            System.out.println("Invaible ID employee");
+            return;
+        }
+        else
+        {
+            System.out.print("Enter day: ");
+            int dayx=sc.nextInt();
+            System.out.print("Enter month: ");
+            int monthx=sc.nextInt();
+            System.out.print("Enter year: ");
+            int yearx=sc.nextInt();
+            TimeSheetDay[] td=ts[pos].getData();
+            TimeSheetDay record =null;
+            for (int i=0;i<td.length;i++)
+            {
+                if (dayx==td[i].getDay() && monthx==td[i].getMonth() && yearx==td[i].getYear())
+                {
+                    record=td[i];
+                    break;
+                }
+            }
+            int x;
+            do
+            {
+                System.out.println("1. Time in");
+                System.out.println("2. Time out");
+                System.out.println("0. Exit");
+                System.out.print("Chose your option: ");
+                x=sc.nextInt();
+                sc.nextLine();
+                if (x==1)
+                {
+                    System.out.print("Enter new Time in (HH:MM): ");
+                    String timeinx=sc.nextLine();
+                    record.setTime_in(timeinx);
+                    System.out.println("Enter to continue.....");
+                    sc.nextLine();
+                }
+                else if (x==2)
+                {
+                    System.out.print("Enter new Time out (HH:MM): ");
+                    String timeoutx=sc.nextLine();
+                    record.setTime_out(timeoutx);
+                    System.out.println("Enter to continue.....");
+                    sc.nextLine();
+                }
+                else
+                {
+                    System.out.println("Error please chose again");
+                    System.out.println("Enter to continue.....");
+                    sc.nextLine();
+                }
+            }
+            while (x!=0);
+        }
     }
+
 
 
     //get

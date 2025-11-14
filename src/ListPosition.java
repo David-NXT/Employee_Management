@@ -135,7 +135,7 @@ public class ListPosition implements Serializable
         System.out.printf("%-12s %-20s %-45s %-30s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
         for (int i=0;i<p.length;i++)
         {
-            if(positionx.equals(p[i].getJob_title()))
+            if(positionx.equalsIgnoreCase(p[i].getJob_title()))
             {
                 p[i].out();
                 check=true;
@@ -146,10 +146,6 @@ public class ListPosition implements Serializable
             System.out.println("Position not found");
             return;
         }
-    }
-    public void allowance()
-    {
-
     }
 
     public void writeToFile()

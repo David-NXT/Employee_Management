@@ -8,12 +8,13 @@ public class ManageTimeSheet
             int x;
             do
             {
-                System.out.println("1. Enter list Timesheet");
+                System.out.println("1. Create new list Timesheet");
                 System.out.println("2. Print list Timesheet");
                 System.out.println("3. Add Timesheet");
                 System.out.println("4. Delete Timesheet");
                 System.out.println("5. Check employee month");
                 System.out.println("6. Check employee day");
+                System.out.println("7. Update TimeSheet");
                 System.out.println("0. Exit");
                 System.out.print("Choose an option: ");
                 x=sc.nextInt();
@@ -25,14 +26,14 @@ public class ManageTimeSheet
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
-                if (x==2)
+                else if (x==2)
                 {
                     lt.ReadFromFile();
                     lt.out();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
-                if (x==3)
+                else if (x==3)
                 {
                     TimeSheetMonth nts=new TimeSheetMonth();
                     nts.enter();
@@ -41,7 +42,7 @@ public class ManageTimeSheet
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
-                if (x==4)
+                else if (x==4)
                 {
                     lt.ReadFromFile();
                     lt.out();
@@ -52,15 +53,30 @@ public class ManageTimeSheet
                     System.out.println("Enter to continue...");
                     sc.nextLine();
                 }
-                if (x==5)
+                else if (x==5)
                 {
                     lt.rollcallmonth();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
-                if (x==6)
+                else if (x==6)
                 {
                     lt.rollcallday();
+                    System.out.print("Enter to continue...");
+                    sc.nextLine();
+                }
+                else if (x==7)
+                {
+                    lt.ReadFromFile();
+                    lt.out();
+                    lt.update_timesheet();
+                    lt.writeToFile();
+                    System.out.print("Enter to continue...");
+                    sc.nextLine();
+                }
+                else
+                {
+                    System.out.println("Error please chose again");
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }

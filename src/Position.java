@@ -42,14 +42,19 @@ public class Position implements Serializable
         if(check_id==-1)
         {
             System.out.println("Invalid employee ID");
+            System.out.println("Enter to continue");
+            sc.nextLine();
             enter();
         }
-//        System.out.print("Enter your job title: ");
-        job_title=randomPosition();
-//        System.out.print("Enter your job description: ");
-        job_descripsion=ranjob_description();
-//        System.out.print("Enter your required skills: ");
-        required_skills=ranrequired_skills();
+        System.out.print("Enter your job title: ");
+        job_title=sc.nextLine();
+//        job_title=randomPosition();
+        System.out.print("Enter your job description: ");
+        job_descripsion=sc.nextLine();
+//        job_descripsion=ranjob_description();
+        System.out.print("Enter your required skills: ");
+        required_skills=sc.nextLine();
+//        required_skills=ranrequired_skills();
     }
 
     public void out()
@@ -66,7 +71,7 @@ public class Position implements Serializable
     }
     public String ranjob_description()
     {
-        String p=randomPosition();
+        String p=job_title;
         Employee_Salary el=new Employee_Salary();
         if (p.equals("Truong phong"))
         {
@@ -89,7 +94,7 @@ public class Position implements Serializable
     }
     public String ranrequired_skills()
     {
-        String p=randomPosition();
+        String p=job_title;
         if (p.equals("Truong phong"))
         {
             return "lanh dao nhom";
