@@ -33,22 +33,14 @@ public class Position implements Serializable
 
     public void enter()
     {
-        ListEmployee l = new ListEmployee();
-        l.readFromFile();
-        l.put();
-        System.out.print("Enter your id: ");
-        id_employee=sc.nextLine();
-        int check_id= l.isEmployee(id_employee);
-        if(check_id==-1)
-        {
-            System.out.println("Invalid employee ID");
-            enter();
-        }
 //        System.out.print("Enter your job title: ");
+//        job_title=sc.nextLine();
         job_title=randomPosition();
 //        System.out.print("Enter your job description: ");
+//        job_descripsion=sc.nextLine();
         job_descripsion=ranjob_description();
 //        System.out.print("Enter your required skills: ");
+//        required_skills=sc.nextLine();
         required_skills=ranrequired_skills();
     }
 
@@ -66,7 +58,7 @@ public class Position implements Serializable
     }
     public String ranjob_description()
     {
-        String p=randomPosition();
+        String p=job_title;
         Employee_Salary el=new Employee_Salary();
         if (p.equals("Truong phong"))
         {
@@ -89,7 +81,7 @@ public class Position implements Serializable
     }
     public String ranrequired_skills()
     {
-        String p=randomPosition();
+        String p=job_title;
         if (p.equals("Truong phong"))
         {
             return "lanh dao nhom";

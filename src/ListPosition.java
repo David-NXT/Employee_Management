@@ -23,11 +23,44 @@ public class ListPosition implements Serializable
         int n=sc.nextInt();
         sc.nextLine();
         p=new Position[n];
+        ListEmployee l = new ListEmployee();
+        l.readFromFile();
+        l.put();
         for (int i=0;i<n;i++)
         {
+            String id;
+            boolean check=false;
+            do
+            {
+                System.out.print("Enter your ID: ");
+                id=sc.nextLine();
+                if (l.isEmployee(id)==-1)
+                {
+                    System.out.println("Invaible Id");
+                    check=false;
+                }
+                else if (check_id_yet(id)!=-1)
+                {
+                    System.out.println("This id have already exit");
+                    check=false;
+                }
+                else
+                    check=true;
+            }
+            while (!check);
             p[i]=new Position();
+            p[i].setId_employee(id);
             p[i].enter();
         }
+    }
+    public int check_id_yet(String id)
+    {
+        for (int i=0;i<p.length;i++)
+        {
+            if (p[i]!=null &&p[i].getId_employee().equalsIgnoreCase(id))
+                return i;
+        }
+        return -1;
     }
     public void out()
     {
@@ -75,10 +108,8 @@ public class ListPosition implements Serializable
         }
         return null;
     }
-    public void update()
+    public void update(String idx)
     {
-        System.out.print("Enter the id you wanna update: ");
-        String idx=sc.nextLine();
         int pos=-1;
         for (int i=0;i<p.length;i++)
         {
@@ -96,9 +127,9 @@ public class ListPosition implements Serializable
         int x;
         do
         {
-            System.out.println("1.fix job title");
-            System.out.println("2.fix job description");
-            System.out.println("3.fix required_skills");
+            System.out.println("1.Fix job title");
+            System.out.println("2.Fix job description");
+            System.out.println("3.Fix required_skills");
             System.out.println("0.Exit");
             System.out.println("choose option; ");
             x=sc.nextInt();
@@ -110,24 +141,30 @@ public class ListPosition implements Serializable
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==2)
+            else if (x==2)
             {
                 System.out.print("Enter job description to update: ");
                 p[pos].setJob_desciption(sc.nextLine());
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==3)
+            else if (x==3)
             {
                 System.out.print("Enter required skills to update: ");
                 p[pos].setRequired_skills(sc.nextLine());
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
+            else
+            {
+                System.out.println("Error please chose again");
+                System.out.print("Enter to continue");
+                sc.nextLine();
+            }
         }
         while (x!=0);
     }
-    public void numberofemployeeposition()
+    public void static_position_employee()
     {
         System.out.print("Enter the position: ");
         String positionx=sc.nextLine();
@@ -135,7 +172,7 @@ public class ListPosition implements Serializable
         System.out.printf("%-12s %-20s %-45s %-30s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
         for (int i=0;i<p.length;i++)
         {
-            if(positionx.equals(p[i].getJob_title()))
+            if(positionx.equalsIgnoreCase(p[i].getJob_title()))
             {
                 p[i].out();
                 check=true;
@@ -147,9 +184,25 @@ public class ListPosition implements Serializable
             return;
         }
     }
-    public void allowance()
+    public void employee_statistics_by_position()
     {
-
+        int truongphong=0,phophong=0,nhanvien=0,thuctap=0;
+        for (int i=0;i<p.length;i++)
+        {
+            if (p[i].getJob_title().equalsIgnoreCase("truong phong"))
+                truongphong++;
+            else if(p[i].getJob_title().equalsIgnoreCase("pho phong"))
+                phophong++;
+            else if (p[i].getJob_title().equalsIgnoreCase("nhan vien"))
+                nhanvien++;
+            else
+                thuctap++;
+        }
+        System.out.println("Employee statistics by position");
+        System.out.println("Truong phong: "+truongphong);
+        System.out.println("Pho phong: "+phophong);
+        System.out.println("Nhan vien: "+nhanvien);
+        System.out.println("Thuc tap: "+thuctap);
     }
 
     public void writeToFile()

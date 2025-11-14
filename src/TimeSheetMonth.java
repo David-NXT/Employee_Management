@@ -6,41 +6,24 @@ public class TimeSheetMonth implements Serializable
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
-    private String id_clock;
     private String id_employee;
     private TimeSheetDay[] td;
 
 
     public TimeSheetMonth(){}
-    public TimeSheetMonth(String id_clock,String id_employee,TimeSheetDay[] td)
+    public TimeSheetMonth(String id_employee,TimeSheetDay[] td)
     {
-        this.id_clock=id_clock;
         this.id_employee=id_employee;
         this.td=td;
     }
     public TimeSheetMonth(TimeSheetMonth t)
     {
-        this.id_clock=t.id_clock;
         this.id_employee=t.id_employee;
         this.td=t.td;
     }
 
     public void enter()
     {
-//        System.out.print("Enter ID clock: ");
-        id_clock=randomid_clock();
-        ListEmployee l=new ListEmployee();
-        l.readFromFile();
-        l.put();
-        System.out.print("Enter ID employee: ");
-        id_employee=sc.nextLine();
-        int check_id=l.isEmployee(id_employee);
-        if (check_id==-1)
-        {
-            System.out.println("your ID is Invaible");
-            enter();
-        }
-//        System.out.print("Number of Working day: ");
         int n=1+(int)(Math.random()*30);
         td=new TimeSheetDay[n];
         int month=randomMonth();
@@ -66,13 +49,16 @@ public class TimeSheetMonth implements Serializable
             }
             while(check);
             day[i]=d;
-            td[i].enter(id_employee,d,month,year);
+            td[i].setYear(year);
+            td[i].setMonth(month);
+            td[i].setDay(d);
+            td[i].enter();
         }
     }
     public void out()
     {
-        System.out.printf("%-15s %-15s\n","ID","ID Clock");
-        System.out.printf("%-15s %-15s\n",id_employee,id_clock);
+        System.out.printf("%-1s","ID: ");
+        System.out.printf("%-1s\n",id_employee);
         System.out.printf(" %-15s %-15s %-15s %-15s\n","Date","Time in","Time out","Status");
         quickSort(td,0,td.length-1);
         for (int i=0;i<td.length;i++)
@@ -161,21 +147,14 @@ public class TimeSheetMonth implements Serializable
         }
         return 1+(int)(Math.random()*maxday);
     }
-    public String randomid_clock()
-    {
-        int id=1+(int)(Math.random()*100);
-        return String.format("%02d",id);
-    }
 
 
 //    get
-    public String getId_clock() {return id_clock;}
     public String getId_employee() {return id_employee;}
-//    set
-    public void setId_clock(String id_clock) {this.id_clock=id_clock;}
-    public void setId_employee(String id_employee) {this.id_employee=id_employee;}
-
     public TimeSheetDay[] getData() {
         return td;
     }
+//    set
+    public void setId_employee(String id_employee) {this.id_employee=id_employee;}
+    public void setTd(TimeSheetDay[] td){this.td=td;}
 }
