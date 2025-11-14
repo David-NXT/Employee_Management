@@ -110,17 +110,23 @@ public class ListPosition implements Serializable
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==2)
+            else if (x==2)
             {
                 System.out.print("Enter job description to update: ");
                 p[pos].setJob_desciption(sc.nextLine());
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==3)
+            else if (x==3)
             {
                 System.out.print("Enter required skills to update: ");
                 p[pos].setRequired_skills(sc.nextLine());
+                System.out.print("Enter to continue");
+                sc.nextLine();
+            }
+            else
+            {
+                System.out.println("Error please chose again");
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }

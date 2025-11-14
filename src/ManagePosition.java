@@ -15,7 +15,7 @@ public class ManagePosition
             System.out.println("4.Remove position");
             System.out.println("5.Find position");
             System.out.println("6.Updata position");
-            System.out.println("7.Number of positions");
+            System.out.println("7.Number of employee positions");
             System.out.println("0.Exit");
             System.out.print("choose your option: ");
             x=sc.nextInt();
@@ -29,14 +29,14 @@ public class ManagePosition
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if  (x==2)
+            else if  (x==2)
             {
                 ltp.ReadFromFile();
                 ltp.out();
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==3)
+            else if (x==3)
             {
                 ltp.ReadFromFile();
                 Position pos=new Position();
@@ -46,7 +46,7 @@ public class ManagePosition
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==4)
+            else if (x==4)
             {
                 ltp.ReadFromFile();
                 ltp.out();
@@ -57,7 +57,7 @@ public class ManagePosition
                 System.out.println("Enter to continue");
                 sc.nextLine();
             }
-            if (x==5)
+            else if (x==5)
             {
                 ltp.ReadFromFile();
                 System.out.print("Enter position id you want search: ");
@@ -67,7 +67,7 @@ public class ManagePosition
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==6)
+            else if (x==6)
             {
                 ltp.ReadFromFile();
                 ltp.out();
@@ -76,10 +76,16 @@ public class ManagePosition
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==7)
+            else if (x==7)
             {
                 ltp.ReadFromFile();
                 ltp.numberofemployeeposition();
+            }
+            else
+            {
+                System.out.println("Error please chose again");
+                System.out.print("Enter to continue");
+                sc.nextLine();
             }
         }
         while (x!=0);
