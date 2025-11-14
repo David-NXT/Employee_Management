@@ -138,23 +138,6 @@ public class ManageAllowance {
             return 0;
         }
     }
-    public double calcSeniorityAllowance(Employee emp, ListSeniorityAllowanceRule seniorityRule) {
-        try {
-            String startDate = emp.getStartWorkingDay();
-            if (startDate == null || startDate.length() < 10) return 0;
-
-            int startYear = Integer.parseInt(startDate.substring(6, 10));
-            int currentYear = LocalDate.now().getYear();
-            int yearsWorked = currentYear - startYear;
-
-            SeniorityAllowanceRule rule = seniorityRule.findByYear(yearsWorked);
-            return (rule != null) ? rule.getAllowancerate() : 0;
-        } catch (Exception e) {
-            System.err.println("Lỗi tính phụ cấp thâm niên cho nhân viên " + emp.getId());
-            return 0;
-        }
-    }
-
     private double calcProjectAllowance(Employee emp) {
         double total = 0;
         if (emp instanceof OfficialEmployee off) {
