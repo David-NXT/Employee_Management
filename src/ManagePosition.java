@@ -38,6 +38,7 @@ public class ManagePosition
             }
             if (x==3)
             {
+                ltp.ReadFromFile();
                 Position pos=new Position();
                 pos.enter();
                 ltp.add(pos);

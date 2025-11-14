@@ -12,21 +12,23 @@ public class TimeSheetMonth implements Serializable
 
 
     public TimeSheetMonth(){}
-    public TimeSheetMonth(String id_clock,String id_employee)
+    public TimeSheetMonth(String id_clock,String id_employee,TimeSheetDay[] td)
     {
         this.id_clock=id_clock;
         this.id_employee=id_employee;
+        this.td=td;
     }
     public TimeSheetMonth(TimeSheetMonth t)
     {
         this.id_clock=t.id_clock;
         this.id_employee=t.id_employee;
+        this.td=t.td;
     }
 
     public void enter()
     {
-        System.out.print("Enter ID clock: ");
-        id_clock=sc.nextLine();
+//        System.out.print("Enter ID clock: ");
+        id_clock=randomid_clock();
         ListEmployee l=new ListEmployee();
         l.readFromFile();
         l.put();
@@ -38,9 +40,8 @@ public class TimeSheetMonth implements Serializable
             System.out.println("your ID is Invaible");
             enter();
         }
-        System.out.print("Number of Working day: ");
-        int n=sc.nextInt();
-        sc.nextLine();
+//        System.out.print("Number of Working day: ");
+        int n=1+(int)(Math.random()*30);
         td=new TimeSheetDay[n];
         int month=randomMonth();
         int year=randomYear();
@@ -159,6 +160,11 @@ public class TimeSheetMonth implements Serializable
                 maxday=31;
         }
         return 1+(int)(Math.random()*maxday);
+    }
+    public String randomid_clock()
+    {
+        int id=1+(int)(Math.random()*100);
+        return String.format("%02d",id);
     }
 
 

@@ -12,6 +12,14 @@ public class ListTimeSheet implements Serializable
     {
         ts=new TimeSheetMonth[0];
     }
+    public ListTimeSheet(TimeSheetMonth[] ts)
+    {
+        this.ts=ts;
+    }
+    public ListTimeSheet(ListTimeSheet lt)
+    {
+        this.ts=lt.ts;
+    }
 
     public void enter()
     {
@@ -125,7 +133,7 @@ public class ListTimeSheet implements Serializable
         int i=l-1;
         for (int j=l;j<r;j++)
         {
-            if (ts[j].getId_employee().compareToIgnoreCase(privot.getId_employee()) <= 0)
+            if (Integer.parseInt(ts[j].getId_employee())<=Integer.parseInt(privot.getId_employee()))
             {
                 i++;
                 TimeSheetMonth temp = ts[i];
@@ -168,6 +176,11 @@ public class ListTimeSheet implements Serializable
             ts[i].daycheck(daycheck);
         }
     }
+    public void static_()
+    {
+
+    }
+
 
     //get
     public TimeSheetMonth[] getTs()

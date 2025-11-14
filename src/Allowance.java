@@ -1,6 +1,7 @@
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Allowance implements Serializable {
     @Serial
@@ -38,9 +39,10 @@ public class Allowance implements Serializable {
 
     // --- Display ---
     public void display() {
-        System.out.printf("%-10s %-10s %-20s %-10s %-10s %-12.0f %-12.0f %-12.0f %-12.0f %-12s\n",
-                allowanceId, employeeId, employeeName, positionId, projectId,
-                jobAllowance, projectAllowance, seniorityAllowance, totalAllowance, createdDate);
+        System.out.printf("%-10s %-10s %-20s %-10s %-12.2f %-12.2f %-12.2f %-12.2f %-12.2f %-12s%n",
+                allowanceId, employeeId, employeeName, positionId,
+                jobAllowance, projectAllowance, seniorityAllowance, annualAllowance, totalAllowance,
+                createdDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     }
 
     // --- Getters & Setters ---
@@ -100,5 +102,7 @@ public class Allowance implements Serializable {
                 createdDate
         );
     }
-
+    public void updateTotalAllowance() {
+        this.totalAllowance = jobAllowance + projectAllowance + seniorityAllowance;
+    }
 }

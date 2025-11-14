@@ -1,7 +1,6 @@
 import java.io.*;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Arrays;
 
 public class ListAllowance implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,254 +11,73 @@ public class ListAllowance implements Serializable {
         data = new Allowance[0];
         n = 0;
     }
-    public void writeToFile() {
-        String basepath = System.getProperty("user.dir");
-        File dir = new File(basepath + File.separator + "data");
 
-        if (!dir.exists()) {
-            dir.mkdir();
+    // Thêm phụ cấp mới dùng Arrays.copyOf
+    public void add(Allowance a) {
+        data = Arrays.copyOf(data, n + 1); // mở rộng mảng thêm 1 phần tử
+        data[n] = a;
+        n++;
+    }
+
+    // Tạo mã phụ cấp tự động
+    public String getIdAuto() {
+        return "AL" + String.format("%03d", n + 1);
+    }
+
+    // Hiển thị toàn bộ phụ cấp
+    public void showAll() {
+        if (n == 0) {
+            System.out.println("Chưa có phụ cấp nào.");
+            return;
         }
-        File file = new File(dir,"data_allowance");
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(this);
-            oos.close();
-            System.out.println("Saved!");
-        }
-        catch (IOException e) {
-            System.out.println("File chua duoc ghi " + e);
+
+        System.out.printf("%-10s %-10s %-20s %-10s %-12s %-12s %-12s %-12s %-12s %-12s%n",
+                "ID", "EmpID", "Name", "PosID",
+                "Job", "Project", "Seniority", "Holiday", "Total", "Date");
+
+        for (int i = 0; i < n; i++) {
+            data[i].display();
         }
     }
+
+    // Tìm phụ cấp theo mã nhân viên
+    public Allowance findByEmployeeId(String empId) {
+        for (int i = 0; i < n; i++) {
+            if (data[i].getEmployeeId().equalsIgnoreCase(empId)) {
+                return data[i];
+            }
+        }
+        return null;
+    }
+
+    // Ghi dữ liệu ra file
+    public void writeToFile() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream("data/data_allowance.dat"))) {
+            oos.writeObject(this);
+            System.out.println(">> Đã lưu dữ liệu phụ cấp.");
+        } catch (IOException e) {
+            System.err.println("Lỗi ghi file: " + e.getMessage());
+        }
+    }
+
+    // Đọc dữ liệu từ file
     public void readFromFile() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data_allowance"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(
+                new FileInputStream("data/data_allowance.dat"))) {
             ListAllowance tmp = (ListAllowance) ois.readObject();
             this.data = tmp.data;
             this.n = tmp.n;
         } catch (Exception e) {
             data = new Allowance[0];
             n = 0;
+            System.err.println("Không thể đọc file: " + e.getMessage());
         }
     }
-    public String getIdAuto() {
-        return "AL" + String.format("%03d", n + 1);
-    }
-    public void createAllowance(String empId,
-                                ListEmployee listEmp,
-                                ListPosition listPos,
-                                ListProject listProj,
-                                ListSeniorityAllowanceRule listRule,
-                                ListAllowanceRule listAllowRule) {
 
-        Employee emp = listEmp.findById(empId);
-        if (emp == null) {
-            System.out.println("❌ Không tìm thấy nhân viên!");
-            return;
-        }
-
-        Employee_Salary salary = emp.getSalary();
-        if (salary == null) {
-            System.out.println("❌ Nhân viên " + emp.getName() + " chưa có thông tin lương.");
-            return;
-        }
-
-        String posId = emp.getPositionId();
-        Position pos = (posId != null) ? listPos.find(posId) : null;
-        double jobAllowance = calcJobAllowance(pos);
-
-        int years = calcYearsOfWork(emp.getStartWorkingDay());
-        SeniorityAllowanceRule rule = listRule.findByYear(years);
-        double seniorityAllowance = calcSeniorityAllowance(salary, rule);
-
-        double projectAllowance = 0;
-        for (Project p : listProj.getData()) {
-            if (p.isEmployeeInProject(emp.getId())) {
-                double rate = p.getAllowanceRateFor(emp.getId());
-                projectAllowance += salary.getBaseSalary() * rate;
-            }
-        }
-
-        double holidayAllowance = 0;
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM");
-        String todayStr = LocalDate.now().format(fmt);
-        for (AllowanceRule ar : listAllowRule.getData()) {
-            if (ar != null && ar.getDay().trim().equals(todayStr)) {
-                holidayAllowance = ar.getAllowancerate();
-                break;
-            }
-        }
-
-        double totalAllowance = jobAllowance + seniorityAllowance + projectAllowance + holidayAllowance;
-
-        Allowance a = new Allowance();
-        a.setAllowanceId(getIdAuto());
-        a.setEmployeeId(emp.getId());
-        a.setEmployeeName(emp.getSurname() + " " + emp.getName());
-        a.setPositionId(posId);
-        a.setJobAllowance(jobAllowance);
-        a.setSeniorityAllowance(seniorityAllowance);
-        a.setProjectAllowance(projectAllowance);
-        a.setAnnualAllowance(holidayAllowance);
-        a.setTotalAllowance(totalAllowance);
-        a.setCreatedDate(LocalDate.now());
-
-        data = Arrays.copyOf(data, n + 1);
-        data[n] = a;
-        n++;
-        writeToFile();
-
-        System.out.println("✅ Đã tạo phụ cấp cho nhân viên " + emp.getSurname() + " " + emp.getName());
-    }
-    private int calcYearsOfWork(String startWorkingDay) {
-        try {
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate start = LocalDate.parse(startWorkingDay, fmt);
-            return Period.between(start, LocalDate.now()).getYears();
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-    private double calcSeniorityAllowance(Employee_Salary salary, SeniorityAllowanceRule rule) {
-        if (rule != null)
-            return salary.getBaseSalary() * rule.getAllowancerate();
-        else
-            return 0;
-    }
-    private double calcJobAllowance(Position pos) {
-        if (pos == null) return 0;
-        String job = pos.getJob_title().toLowerCase();
-        if (job.contains("lap trinh")) return 2000000;
-        if (job.contains("maketing")) return 1500000;
-        if (job.contains("sale")) return 800000;
-        return 500000;
-    }
-    public void showAll() {
-        if (n == 0) {
-            System.out.println("Chưa có phụ cấp nào được lưu.");
-            return;
-        }
-        System.out.printf("%-10s %-10s %-20s %-10s %-12s %-12s %-12s %-12s %-12s\n",
-                "ID", "EmpID", "Name", "PosID",
-                "Job", "Project", "Seniority", "Total", "Date");
-        for (int i = 0; i < n; i++) {
-            data[i].display();
-        }
-    }
-    public void generateAllowances(ListEmployee listEmp, ListProject listProj, ListPosition listPos, ListAllowanceRule listAllowRule) {
-        data = new Allowance[0];
-        n = 0;
-
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM");
-        String todayStr = LocalDate.now().format(fmt);
-
-        for (Employee emp : listEmp.getData()) {
-            String posId = emp.getPositionId();
-            Position pos = (posId != null) ? listPos.find(posId) : null;
-            double jobAllowance = calcJobAllowance(pos);
-
-            double basicSalary = 0;
-            if (emp instanceof OfficialEmployee) {
-                basicSalary = ((OfficialEmployee) emp).getBasicSalary();
-            } else if (emp instanceof SeasonalStaff) {
-                SeasonalStaff s = (SeasonalStaff) emp;
-                basicSalary = s.getHourlySalary() * s.getWorkTime();
-            }
-
-            double seniorityAllowance = calculateSeniorityAllowance(emp, basicSalary);
-
-            double projectAllowance = 0;
-            for (Project p : listProj.getData()) {
-                if (p.isEmployeeInProject(emp.getId())) {
-                    double rate = p.getAllowanceRateFor(emp.getId());
-                    projectAllowance += basicSalary * rate;
-                }
-            }
-
-            double holidayAllowance = 0;
-            for (AllowanceRule rule : listAllowRule.getData()) {
-                if (rule != null && rule.getDay().trim().equals(todayStr)) {
-                    holidayAllowance = rule.getAllowancerate();
-                    break;
-                }
-            }
-
-            double total = jobAllowance + seniorityAllowance + projectAllowance + holidayAllowance;
-
-            Allowance a = new Allowance();
-            a.setAllowanceId(getIdAuto());
-            a.setEmployeeId(emp.getId());
-            a.setEmployeeName(emp.getSurname() + " " + emp.getName());
-            a.setPositionId(posId);
-            a.setJobAllowance(jobAllowance);
-            a.setSeniorityAllowance(seniorityAllowance);
-            a.setProjectAllowance(projectAllowance);
-            a.setAnnualAllowance(holidayAllowance);
-            a.setTotalAllowance(total);
-            a.setCreatedDate(LocalDate.now());
-
-            data = Arrays.copyOf(data, n + 1);
-            data[n] = a;
-            n++;
-        }
-
-        System.out.println("✅ Đã tạo phụ cấp cho toàn bộ nhân viên (" + n + " người).");
-    }
-    private double calculateSeniorityAllowance(Employee emp, double basicSalary) {
-        try {
-            String startDayStr = emp.getStartWorkingDay();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate startDate = LocalDate.parse(startDayStr, formatter);
-            int years = Period.between(startDate, LocalDate.now()).getYears();
-            return basicSalary * 0.02 * years;
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi thâm niên cho " + emp.getId() + ": " + e.getMessage());
-            return 0;
-        }
-    }
-    public void findByEmployeeId(String id) {
-        boolean found = false;
-        for (Allowance a : data) {
-            if (a.getEmployeeId().equalsIgnoreCase(id)) {
-                System.out.println(a);
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("Không tìm thấy phụ cấp cho nhân viên có ID " + id);
-        }
-    }
-    public void calculateMonthlyAllowance(ListAllowanceRule listRule, String month) {
-        ListAllowanceRule rulesInMonth = listRule.findAllowanceInMonth(month);
-        if (rulesInMonth.getN() == 0) {
-            System.out.println("Không có quy tắc phụ cấp nào trong tháng " + month);
-            return;
-        }
-        double total = 0;
-        boolean found = false;
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM");
-        System.out.println("Danh sách phụ cấp trong tháng " + month + ":");
-        System.out.printf("%-10s %-10s %-20s %-10s %-12s %-12s %-12s %-12s %-12s\n",
-                "ID", "EmpID", "Name", "PosID",
-                "Job", "Project", "Seniority", "Total", "Date");
-        for (int i = 0; i < n; i++) {
-            Allowance a = data[i];
-            String createdDay = a.getCreatedDate().format(fmt); // ví dụ "19/11"
-            for (int j = 0; j < rulesInMonth.getN(); j++) {
-                AllowanceRule rule = rulesInMonth.getData()[j];
-                if (createdDay.equals(rule.getDay().trim())) {
-                    a.display();
-                    total += a.getTotalAllowance();
-                    found = true;
-                    break;
-                }
-            }
-        }
-        if (!found) {
-            System.out.println("Không có phụ cấp nào được áp dụng trong tháng này.");
-        } else {
-            System.out.println("-------------------------------------------------------------");
-            System.out.printf("Tổng phụ cấp tháng %s là: %.2f%n", month, total);
-        }
-    }
+    // Getter cho mảng dữ liệu
     public Allowance[] getData() {
         return data;
     }
+
 }

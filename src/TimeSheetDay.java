@@ -31,7 +31,6 @@ public class TimeSheetDay implements Serializable
         this.year=t.year;
         this.time_in=t.time_in;
         this.time_out=t.time_out;
-
     }
 
 
@@ -48,7 +47,7 @@ public class TimeSheetDay implements Serializable
     {
         String date = String.format("%02d/%02d/%04d", day, month, year);
         String status=check();
-        System.out.printf("%-15s %-15s %-15s %-15s %-15s\n",id_employee,date,time_in,time_out,status);
+        System.out.printf("%-15s %-15s %-15s %-15s\n",date,time_in,time_out,status);
     }
 
 

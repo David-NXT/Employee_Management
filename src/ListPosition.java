@@ -8,6 +8,14 @@ public class ListPosition implements Serializable
     private Position[] p;
 
     public ListPosition(){p=new Position[0];}
+    public ListPosition(Position[] p)
+    {
+        this.p=p;
+    }
+    public ListPosition(ListPosition lt)
+    {
+        this.p=lt.p;
+    }
 
     public void enter()
     {
@@ -24,7 +32,7 @@ public class ListPosition implements Serializable
     public void out()
     {
         quicksort(p,0,p.length-1);
-        System.out.printf("%-12s %-20s %-45s %-30s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
+        System.out.printf("%-12s %-20s %-45s %-30s %-20s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills","Totally Allowance");
         for (int i=0;i<p.length;i++)
         {
             p[i].out();
@@ -139,6 +147,10 @@ public class ListPosition implements Serializable
             return;
         }
     }
+    public void allowance()
+    {
+
+    }
 
     public void writeToFile()
     {
@@ -183,7 +195,7 @@ public class ListPosition implements Serializable
         int i=l-1;
         for (int j=l;j<r;j++)
         {
-            if (ep[j].getId_employee().compareToIgnoreCase(privot.getId_employee()) <= 0)
+            if (Integer.parseInt(ep[j].getId_employee())<=Integer.parseInt(privot.getId_employee()))
             {
                 i++;
                 Position temp = ep[i];
@@ -191,7 +203,7 @@ public class ListPosition implements Serializable
                 ep[j] = temp;
             }
         }
-        ++i;
+        i++;
         Position temp = ep[i];
         ep[i] = ep[r];
         ep[r] = temp;
@@ -206,14 +218,11 @@ public class ListPosition implements Serializable
             quicksort(po,p+1,r);
         }
     }
-    public Position findById(String id){
-        for(Position pos: p){
-            if(pos.getId_employee().equalsIgnoreCase(id)){
-                return pos;
-            }
-        }
-        return null;
-    }
+
+//    get
+    public Position[] getPositon(){return p;}
+//    set
+    public void setPosition(Position[] p){this.p=p;}
 
 
 }
