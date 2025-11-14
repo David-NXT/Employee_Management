@@ -52,11 +52,11 @@ public class ListAllowanceRule implements Serializable {
         n--;
     }
 
-    public AllowanceRule find(String id) {
+    public int find(String id) {
         for (int i = 0;i < n;i++) {
-            if (data[i].getId().equals(id)) return data[i];
+            if (data[i].getId().equals(id)) return i;
         }
-        return null;
+        return -1;
     }
 
     public ListAllowanceRule findAllowanceInMonth(String month) {//tim tat ca cac phu cap trong thang
