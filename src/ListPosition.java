@@ -110,17 +110,23 @@ public class ListPosition implements Serializable
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==2)
+            else if (x==2)
             {
                 System.out.print("Enter job description to update: ");
                 p[pos].setJob_desciption(sc.nextLine());
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
-            if (x==3)
+            else if (x==3)
             {
                 System.out.print("Enter required skills to update: ");
                 p[pos].setRequired_skills(sc.nextLine());
+                System.out.print("Enter to continue");
+                sc.nextLine();
+            }
+            else
+            {
+                System.out.println("Error please chose again");
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
@@ -135,7 +141,7 @@ public class ListPosition implements Serializable
         System.out.printf("%-12s %-20s %-45s %-30s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills");
         for (int i=0;i<p.length;i++)
         {
-            if(positionx.equals(p[i].getJob_title()))
+            if(positionx.equalsIgnoreCase(p[i].getJob_title()))
             {
                 p[i].out();
                 check=true;
@@ -146,10 +152,6 @@ public class ListPosition implements Serializable
             System.out.println("Position not found");
             return;
         }
-    }
-    public void allowance()
-    {
-
     }
 
     public void writeToFile()
