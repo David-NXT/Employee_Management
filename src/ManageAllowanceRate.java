@@ -1,3 +1,4 @@
+import javax.xml.transform.Source;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,13 +26,23 @@ public class ManageAllowanceRate {
         } while (true);
     }
 
-    public void findHolidayManager() {
+    public void findHolidayManager(ListAllowanceRule data) {
         int mode;
         do {
             findHolidayMenu();
             mode = sc.nextInt();sc.nextLine();
             if (mode == 0) break;
-            runFindHolidayManager(mode);
+            runFindHolidayManager(mode,data);
+        } while (true);
+    }
+
+    public void changeHolidayManager(ListAllowanceRule data, int locate) {
+        int mode;
+        do {
+            changeHolidayMenu();
+            mode = sc.nextInt();sc.nextLine();
+            if (mode == 0) break;
+            runChangeHoliday(mode,data,locate);
         } while (true);
     }
 
@@ -42,6 +53,16 @@ public class ManageAllowanceRate {
             mode = sc.nextInt();sc.nextLine();
             if (mode == 0) break;
             runSeniorManager(mode);
+        } while (true);
+    }
+
+    public void changeSeniorManager(ListSeniorityAllowanceRule data, int locate) {
+        int mode;
+        do {
+            changeSeniorMenu();
+            mode = sc.nextInt();sc.nextLine();
+            if (mode == 0) break;
+            runChangeSenior(mode,data,locate);
         } while (true);
     }
 
@@ -76,9 +97,26 @@ public class ManageAllowanceRate {
                 a.get();
                 data.add(a);
                 data.writeToFile();
+                break;
             }
             case 3: {
-                findHolidayManager();
+                findHolidayManager(data);
+                break;
+            }
+            case 4: {
+                System.out.println("ID:");
+                String id = sc.nextLine();
+                data.delete(id);
+                data.writeToFile();
+                break;
+            }
+            case 5: {
+                System.out.println("ID:");
+                String id = sc.nextLine();
+                int locate = data.find(id);
+                if (locate != -1) changeHolidayManager(data,locate);
+                else System.out.println("Invalid ID!");
+                break;
             }
             default :{
                 System.out.println("Invalid Action!");
@@ -103,6 +141,24 @@ public class ManageAllowanceRate {
                 data.writeToFile();
                 break;
             }
+            case 3: {
+                findSeniorAllowance(data);
+                break;
+            }
+            case 4: {
+                System.out.println("ID:");
+                String id = sc.nextLine();
+                data.delete(id);
+                data.writeToFile();
+                break;
+            }
+            case 5: {
+                System.out.println("ID:");
+                String id = sc.nextLine();
+                int locate = data.find(id);
+                changeSeniorManager(data,locate);
+                break;
+            }
             default: {
                 System.out.println("Invalid Action!");
                 break;
@@ -110,13 +166,11 @@ public class ManageAllowanceRate {
         }
     }
 
-    public void runFindHolidayManager(int mode) {
-        ListAllowanceRule data = new ListAllowanceRule();
-        data.readFromFile();
+    public void runFindHolidayManager(int mode, ListAllowanceRule data) {
 
         switch (mode) {
             case 1: {
-                findHollidayByID(data);
+                findHolidayByID(data);
                 break;
             }
             case 2: {
@@ -124,6 +178,59 @@ public class ManageAllowanceRate {
                 String month = sc.nextLine();
                 ListAllowanceRule result = data.findAllowanceInMonth(month);
                 result.put();
+                break;
+            }
+            default: {
+                System.out.println("Invalid Action!");
+                break;
+            }
+        }
+    }
+
+    public void runChangeHoliday(int mode, ListAllowanceRule data, int locate){
+        switch (mode) {
+            case 1: {
+                System.out.println("Alternative Name:");
+                String name = sc.nextLine();
+                data.getData()[locate].setName(name);
+                data.writeToFile();
+                break;
+            }
+            case 2: {
+                System.out.println("Alternative Day:");
+                String day = sc.nextLine();
+                data.getData()[locate].setDay(day);
+                data.writeToFile();
+                break;
+            }
+            case 3: {
+                System.out.println("Alternative Rate:");
+                double rate = sc.nextDouble();sc.nextLine();
+                data.getData()[locate].setAllowancerate(rate);
+                data.writeToFile();
+                break;
+            }
+            default: {
+                System.out.println("Invalid Action!");
+                break;
+            }
+        }
+    }
+
+    public void runChangeSenior(int mode, ListSeniorityAllowanceRule data, int locate){
+        switch (mode) {
+            case 1: {
+                System.out.println("Alternative Year:");
+                int year = sc.nextInt();sc.nextLine();
+                data.getData()[locate].setYearofwork(year);
+                data.writeToFile();
+                break;
+            }
+            case 2: {
+                System.out.println("Alternative Rate:");
+                double rate = sc.nextDouble();sc.nextLine();
+                data.getData()[locate].setAllowancerate(rate);
+                data.writeToFile();
                 break;
             }
             default: {
@@ -145,6 +252,8 @@ public class ManageAllowanceRate {
         System.out.println("1. Print All Allowance");
         System.out.println("2. Add New Allowance");
         System.out.println("3. Find");
+        System.out.println("4. Delete");
+        System.out.println("5. Change Information");
     }
 
     public void seniorMenu(){
@@ -153,6 +262,8 @@ public class ManageAllowanceRate {
         System.out.println("1. Print All Allowance");
         System.out.println("2. Add New Allowance");
         System.out.println("3. Find");
+        System.out.println("4. Delete");
+        System.out.println("5. Change Information");
     }
 
     public void findHolidayMenu(){
@@ -162,13 +273,35 @@ public class ManageAllowanceRate {
         System.out.println("2. Find By Month");
     }
 
-    public void findHollidayByID(ListAllowanceRule data){
+    public void changeHolidayMenu() {
+        System.out.println("Choose What To Change");
+        System.out.println("0. Exit");
+        System.out.println("1. Name");
+        System.out.println("2. Day");
+        System.out.println("3. Allowance Rate");
+    }
+
+    public void changeSeniorMenu() {
+        System.out.println("Choose What To Change");
+        System.out.println("0. Exit");
+        System.out.println("1. Year");
+        System.out.println("2. Allowance Rate");
+    }
+
+    public void findHolidayByID(ListAllowanceRule data){
         System.out.println("ID:");
         String id = sc.nextLine();
-        AllowanceRule result = data.find(id);
-        if (result != null) result.put();
+        int locate = data.find(id);
+        if (locate != -1) data.getData()[locate].put();
         else {
             System.out.println("Invalid ID");
         }
+    }
+
+    public void findSeniorAllowance(ListSeniorityAllowanceRule data) {
+        System.out.println("Year:");
+        int year = sc.nextInt();
+        SeniorityAllowanceRule result = data.findYear(year);
+        result.put();
     }
 }
