@@ -40,7 +40,7 @@ public class Employee_Salary implements Serializable {
                 bonus, deductions, totalSalary, month, year);
     }
 
-    // Getters
+    // Getters and setters
 
     public String getEmpId() {
         return empId;
