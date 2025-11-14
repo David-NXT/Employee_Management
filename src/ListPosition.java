@@ -68,6 +68,7 @@ public class ListPosition implements Serializable
         System.out.printf("%-12s %-20s %-45s %-30s %-20s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills","Totally Allowance");
         for (int i=0;i<p.length;i++)
         {
+            p[i].setAllowance_position(allowance_positionx(p[i]));
             p[i].out();
         }
     }
@@ -203,6 +204,33 @@ public class ListPosition implements Serializable
         System.out.println("Pho phong: "+phophong);
         System.out.println("Nhan vien: "+nhanvien);
         System.out.println("Thuc tap: "+thuctap);
+    }
+    public double allowance_positionx(Position pos)
+    {
+        ListSalary ls=new ListSalary();
+        ls.loadFromFile();
+        double totalsalary=0;
+        for (Employee_Salary el: ls.getAll())
+        {
+            if(el.getEmpId().equalsIgnoreCase(pos.getId_employee()))
+            {
+                totalsalary=el.getTotalSalary();
+                break;
+            }
+        }
+        double allowance=0.0;
+        if (pos.getJob_title().equalsIgnoreCase("giam doc"))
+            allowance=totalsalary*0.20;
+        else if (pos.getJob_title().equalsIgnoreCase("truong phong"))
+            allowance=totalsalary*0.15;
+        else if (pos.getJob_title().equalsIgnoreCase("pho phong"))
+            allowance=totalsalary*0.10;
+        else if (pos.getJob_title().equalsIgnoreCase("nhan vien"))
+            allowance=totalsalary*0.05;
+        else
+            allowance=totalsalary*0.02;
+        allowance=Math.round(allowance*100.0)/100.0;
+        return allowance;
     }
 
     public void writeToFile()

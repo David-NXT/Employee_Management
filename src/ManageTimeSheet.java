@@ -71,7 +71,7 @@ public class ManageTimeSheet
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
-                else
+                else if (x>8)
                 {
                     System.out.println("Error please chose again");
                     System.out.print("Enter to continue...");
@@ -108,9 +108,35 @@ public class ManageTimeSheet
         }
         public void add_timesheet()
         {
-            TimeSheetMonth nts=new TimeSheetMonth();
-            nts.enter();
-            lt.add(nts);
+            ListEmployee l=new ListEmployee();
+            l.readFromFile();
+            l.put();
+            lt.ReadFromFile();
+            System.out.print("Number of timesheet you want add: ");
+            int n=sc.nextInt();
+            sc.nextLine();
+            for (int i=0;i<n;i++)
+            {
+                String id;
+                boolean check=false;
+                do
+                {
+                    System.out.print("Enter your ID: ");
+                    id = sc.nextLine();
+                    if (lt.check_id_have_enter(id) != -1)
+                    {
+                        System.out.print("This ID have already exit");
+                        check = false;
+                    }
+                    else
+                        check = true;
+                }
+                while (!check);
+                TimeSheetMonth tm=new TimeSheetMonth();
+                tm.setId_employee(id);
+                tm.enter();
+                lt.add(tm);
+            }
             lt.writeToFile();
         }
 

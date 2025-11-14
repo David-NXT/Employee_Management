@@ -73,7 +73,7 @@ public class ManagePosition
                 System.out.println("Enter to continue");
                 sc.nextLine();
             }
-            else
+            else if (x>8)
             {
                 System.out.println("Error please chose again");
                 System.out.print("Enter to continue");
@@ -84,10 +84,34 @@ public class ManagePosition
     }
     public void add_position()
     {
+        ListEmployee l=new ListEmployee();
+        l.readFromFile();
+        l.put();
         ltp.ReadFromFile();
-        Position pos=new Position();
-        pos.enter();
-        ltp.add(pos);
+        System.out.print("Number of position you want add: ");
+        int n=sc.nextInt();
+        for (int i=0;i<n;i++)
+        {
+            String id;
+            boolean check=false;
+            do
+            {
+                System.out.print("Enter your ID: ");
+                id=sc.nextLine();
+                if (ltp.check_id_yet(id)!=-1)
+                {
+                    System.out.print("This ID have already exit");
+                    check=false;
+                }
+                else
+                    check=true;
+            }
+            while (!check);
+            Position pos=new Position();
+            pos.setId_employee(id);
+            pos.enter();
+            ltp.add(pos);
+        }
         ltp.writeToFile();
     }
     public void remove_position()
