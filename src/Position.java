@@ -121,7 +121,7 @@ public class Position implements Serializable
         double totalsalary=0;
         for (Employee_Salary el: ls.getAll())
         {
-            if(el.getId().equalsIgnoreCase(id_employee))
+            if(el.getEmpId().equalsIgnoreCase(id_employee))
             {
                 totalsalary=el.getTotalSalary();
             }
@@ -152,4 +152,14 @@ public class Position implements Serializable
     public String getJob_desciption(){return job_descripsion;}
     public String getRequired_skills(){return required_skills;}
     public double getAllowance_position(){return allowance_position;}
+    public double getPositionAllowanceRate() {
+        if (job_title == null) return 0;
+        return switch (job_title.trim().toLowerCase()) {
+            case "Giam doc" ->  1;
+            case "Truong phong" ->  0.7;
+            case "Pho phong" ->  0.5;
+            case "nhan vien" ->  0.3;
+            default ->  0.2;
+        };
+    }
 }

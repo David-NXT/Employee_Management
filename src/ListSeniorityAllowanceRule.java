@@ -112,6 +112,14 @@ public class ListSeniorityAllowanceRule implements Serializable {
         }
         return null;
     }
+    public SeniorityAllowanceRule findYear(int years) {
+        for (int i = n - 1; i >= 0; i--) {
+            if (years >= data[i].getYearofwork()) {
+                return data[i]; // Trả về mức cao nhất phù hợp
+            }
+        }
+        return null;
+    }
 
     public SeniorityAllowanceRule[] getData() {
         return data;
