@@ -103,7 +103,7 @@ public class ListTimeSheet implements Serializable
             ts[i]=ts[i+1];
         ts=Arrays.copyOf(ts,ts.length-1);
     }
-    public void writeToFile()
+    public void writetofile()
     {
         String basepath = System.getProperty("user.dir");
         File dir = new File(basepath + File.separator + "data");
@@ -122,7 +122,7 @@ public class ListTimeSheet implements Serializable
             System.out.println("File chua duoc ghi " + e);
         }
     }
-    public void ReadFromFile()
+    public void readfromfile()
     {
         String basepath = System.getProperty("user.dir");
         File file = new File(basepath + File.separator + "data" + File.separator + "data_timesheet_Employee");

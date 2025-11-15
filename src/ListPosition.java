@@ -233,7 +233,7 @@ public class ListPosition implements Serializable
         return allowance;
     }
 
-    public void writeToFile()
+    public void writetofile()
     {
         String basepath = System.getProperty("user.dir");
         File dir = new File(basepath + File.separator + "data");
@@ -252,7 +252,7 @@ public class ListPosition implements Serializable
             System.out.println("File chua duoc ghi " + e);
         }
     }
-    public void ReadFromFile()
+    public void readfromfile()
     {
         String basepath = System.getProperty("user.dir");
         File file = new File(basepath + File.separator + "data" + File.separator + "data_Position");

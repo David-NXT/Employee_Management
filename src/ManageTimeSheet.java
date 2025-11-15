@@ -24,13 +24,13 @@ public class ManageTimeSheet
                 if (x==1)
                 {
                     lt.enter();
-                    lt.writeToFile();
+                    lt.writetofile();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
                 else if (x==2)
                 {
-                    lt.ReadFromFile();
+                    lt.readfromfile();
                     lt.out();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
@@ -90,28 +90,28 @@ public class ManageTimeSheet
         }
         public void update_employee()
         {
-            lt.ReadFromFile();
+            lt.readfromfile();
             lt.out();
             System.out.print("Enter Id you want update: ");
             String idx=sc.nextLine();
             lt.update_timesheet(idx);
-            lt.writeToFile();
+            lt.writetofile();
         }
         public void delete_employee()
         {
-            lt.ReadFromFile();
+            lt.readfromfile();
             lt.out();
             System.out.print("Enter id employee to delete: ");
             String idx=sc.nextLine();
             lt.deleted(idx);
-            lt.writeToFile();
+            lt.writetofile();
         }
         public void add_timesheet()
         {
             ListEmployee l=new ListEmployee();
             l.readFromFile();
             l.put();
-            lt.ReadFromFile();
+            lt.readfromfile();
             System.out.print("Number of timesheet you want add: ");
             int n=sc.nextInt();
             sc.nextLine();
@@ -137,7 +137,7 @@ public class ManageTimeSheet
                 tm.enter();
                 lt.add(tm);
             }
-            lt.writeToFile();
+            lt.writetofile();
         }
 
 }

@@ -24,13 +24,13 @@ public class ManagePosition
             if (x==1)
             {
                 ltp.enter();
-                ltp.writeToFile();
+                ltp.writetofile();
                 System.out.print("Enter to continue");
                 sc.nextLine();
             }
             else if  (x==2)
             {
-                ltp.ReadFromFile();
+                ltp.readfromfile();
                 ltp.out();
                 System.out.print("Enter to continue");
                 sc.nextLine();
@@ -61,14 +61,14 @@ public class ManagePosition
             }
             else if (x==7)
             {
-                ltp.ReadFromFile();
+                ltp.readfromfile();
                 ltp.static_position_employee();
                 System.out.println("Enter to continue");
                 sc.nextLine();
             }
             else if(x==8)
             {
-                ltp.ReadFromFile();
+                ltp.readfromfile();
                 ltp.employee_statistics_by_position();
                 System.out.println("Enter to continue");
                 sc.nextLine();
@@ -87,9 +87,10 @@ public class ManagePosition
         ListEmployee l=new ListEmployee();
         l.readFromFile();
         l.put();
-        ltp.ReadFromFile();
+        ltp.readfromfile();
         System.out.print("Number of position you want add: ");
         int n=sc.nextInt();
+        sc.nextLine();
         for (int i=0;i<n;i++)
         {
             String id;
@@ -100,7 +101,7 @@ public class ManagePosition
                 id=sc.nextLine();
                 if (ltp.check_id_yet(id)!=-1)
                 {
-                    System.out.print("This ID have already exit");
+                    System.out.println("This ID have already exit");
                     check=false;
                 }
                 else
@@ -112,20 +113,20 @@ public class ManagePosition
             pos.enter();
             ltp.add(pos);
         }
-        ltp.writeToFile();
+        ltp.writetofile();
     }
     public void remove_position()
     {
-        ltp.ReadFromFile();
+        ltp.readfromfile();
         ltp.out();
         System.out.print("Enter position id you want remove: ");
         String idx=sc.nextLine();
         ltp.remove(idx);
-        ltp.writeToFile();
+        ltp.writetofile();
     }
     public void search_id()
     {
-        ltp.ReadFromFile();
+        ltp.readfromfile();
         System.out.print("Enter position id you want search: ");
         String idx=sc.nextLine();
         ltp.find(idx);
@@ -133,11 +134,11 @@ public class ManagePosition
     }
     public void update()
     {
-        ltp.ReadFromFile();
+        ltp.readfromfile();
         ltp.out();
         System.out.print("Enter id you want update: ");
         String idx=sc.nextLine();
         ltp.update(idx);
-        ltp.writeToFile();
+        ltp.writetofile();
     }
 }
