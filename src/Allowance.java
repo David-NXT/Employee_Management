@@ -11,7 +11,7 @@ public class Allowance implements Serializable {
     private String employeeId;
     private String employeeName;
     private String positionId;
-    private String projectId;
+
     private double annualAllowance;
 
     private double jobAllowance;
@@ -21,14 +21,13 @@ public class Allowance implements Serializable {
     private LocalDate createdDate;
 
     // --- Constructors ---
-    public Allowance(String s, double jobAllowance, double projectAllowance, double annualAllowance, String string, String officialEmployeeAllowance) {}
+    public Allowance() {}
 
-    public Allowance() {
+    public Allowance(String allowanceId, String employeeId, String employeeName, String positionId, double annualAllowance, double jobAllowance, double projectAllowance, double seniorityAllowance) {
         this.allowanceId = allowanceId;
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.positionId = positionId;
-        this.projectId = projectId;
         this.annualAllowance=annualAllowance;
         this.jobAllowance = jobAllowance;
         this.projectAllowance = projectAllowance;
@@ -58,8 +57,7 @@ public class Allowance implements Serializable {
     public String getPositionId() { return positionId; }
     public void setPositionId(String positionId) { this.positionId = positionId; }
 
-    public String getProjectId() { return projectId; }
-    public void setProjectId(String projectId) { this.projectId = projectId; }
+
 
     public double getJobAllowance() { return jobAllowance; }
     public void setJobAllowance(double jobAllowance) { this.jobAllowance = jobAllowance; }

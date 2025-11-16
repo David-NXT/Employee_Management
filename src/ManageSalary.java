@@ -26,6 +26,7 @@ public class ManageSalary {
             System.out.println("4. Hiển thị bảng lương theo tháng/năm");
             System.out.println("5. Xem chi tiết các khoản trừ (vi phạm) theo mã nhân viên");
             System.out.println("6. Bảng thống kê lương theo tháng");
+            System.out.println("7. Lưu file dữ liệu bảng lương");
             System.out.println("0. Thoát khỏi chương trình");
             System.out.print("→ Nhập lựa chọn của bạn: ");
 
@@ -75,6 +76,10 @@ public class ManageSalary {
                     );
                     stats.printStatistics(month, year);
                 }
+                case 7 ->{
+                    System.out.print("Đã lưu dữ liệu vào file.");
+                    salaryList.saveToFile();
+                }
                 case 0 -> System.out.println("Exiting salary menu...");
                 default -> System.out.println("Invalid choice. Please try again.");
             }
@@ -100,7 +105,7 @@ public class ManageSalary {
             Allowance allow = allowanceList.findByEmployeeId(emp.getId());
             double baseSalary = calculateBaseSalary(emp);
             double allowance = (allow != null) ? allow.getTotalAllowance() : 0;
-            double bonus = calculateBonus(emp, sheet, baseSalary);
+            double bonus = calculateBonus( sheet, baseSalary);
             double deductions = calculateDeductions(sheet);
 
             Employee_Salary salary = new Employee_Salary(
@@ -131,7 +136,7 @@ public class ManageSalary {
         return 0;
     }
 
-    private double calculateBonus(Employee emp, TimeSheetMonth timesheet, double baseSalary) {
+    private double calculateBonus( TimeSheetMonth timesheet, double baseSalary) {
         int overtimeDays = countOvertimeDays(timesheet);
         double overtimeBonus = overtimeDays * 50000;
         return baseSalary * 0.05 + overtimeBonus;
@@ -141,14 +146,6 @@ public class ManageSalary {
         int lateDays = countLateDays(timesheet);
         int missingDays = countMissingDays(timesheet);
         return (lateDays * 20000) + (missingDays * 50000);
-    }
-
-    private int countValidDays(TimeSheetMonth sheet) {
-        int count = 0;
-        for (TimeSheetDay day : sheet.getData()) {
-            if (!day.check().contains("Missing")) count++;
-        }
-        return count;
     }
 
     private int countOvertimeDays(TimeSheetMonth sheet) {
