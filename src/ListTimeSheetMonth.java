@@ -84,11 +84,6 @@ public class ListTimeSheetMonth implements Serializable
     }
     public void add(TimeSheetMonth nts)
     {
-        for (TimeSheetDay t: nts.getData())
-        {
-            t.setMonth(nts.getMonth());
-            t.setYear(nts.getYear());
-        }
         ts=Arrays.copyOf(ts,ts.length+1);
         ts[ts.length-1]=nts;
         quicksort(ts,0,ts.length-1);
