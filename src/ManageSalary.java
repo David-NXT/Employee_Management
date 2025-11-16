@@ -20,13 +20,12 @@ public class ManageSalary {
         do {
             System.out.println("\n===== MENU QUẢN LÝ LƯƠNG =====");
             System.out.println(" [#] Tổng số bản ghi lương: " + salaryList.getCount());
-            System.out.println("1. Tạo bảng lương từ bảng chấm công");
+            System.out.println("1. Tạo bảng lương từ bảng chấm công và lưu vào file");
             System.out.println("2. Hiển thị toàn bộ bảng lương");
             System.out.println("3. Tìm bảng lương theo mã nhân viên");
             System.out.println("4. Hiển thị bảng lương theo tháng/năm");
             System.out.println("5. Xem chi tiết các khoản trừ (vi phạm) theo mã nhân viên");
             System.out.println("6. Bảng thống kê lương theo tháng");
-            System.out.println("7. Lưu file dữ liệu bảng lương");
             System.out.println("0. Thoát khỏi chương trình");
             System.out.print("→ Nhập lựa chọn của bạn: ");
 
@@ -76,10 +75,6 @@ public class ManageSalary {
                     );
                     stats.printStatistics(month, year);
                 }
-                case 7 ->{
-                    System.out.print("Đã lưu dữ liệu vào file.");
-                    salaryList.saveToFile();
-                }
                 case 0 -> System.out.println("Exiting salary menu...");
                 default -> System.out.println("Invalid choice. Please try again.");
             }
@@ -105,7 +100,7 @@ public class ManageSalary {
             Allowance allow = allowanceList.findByEmployeeId(emp.getId());
             double baseSalary = calculateBaseSalary(emp);
             double allowance = (allow != null) ? allow.getTotalAllowance() : 0;
-            double bonus = calculateBonus( sheet, baseSalary);
+            double bonus = calculateBonus(sheet, baseSalary);
             double deductions = calculateDeductions(sheet);
 
             Employee_Salary salary = new Employee_Salary(
@@ -159,7 +154,7 @@ public class ManageSalary {
     private int countLateDays(TimeSheetMonth sheet) {
         int count = 0;
         for (TimeSheetDay day : sheet.getData()) {
-            if (day.check().contains("Late")) count++;
+            if (day.check().equals("Late")) count++;
         }
         return count;
     }
@@ -167,7 +162,7 @@ public class ManageSalary {
     private int countMissingDays(TimeSheetMonth sheet) {
         int count = 0;
         for (TimeSheetDay day : sheet.getData()) {
-            if (day.check().contains("Missing")) count++;
+            if (day.check().equals("Missing")) count++;
         }
         return count;
     }
