@@ -23,13 +23,38 @@ public class ListTimeSheet implements Serializable
 
     public void enter()
     {
-        System.out.print("enter number of employee: ");
+        System.out.print("Enter number of employee: ");
         int n=sc.nextInt();
+        sc.nextLine();
         ts=new TimeSheetMonth[n];
+        ListEmployee l=new ListEmployee();
+        l.readFromFile();
+        l.put();
         for (int i=0;i<n;i++)
         {
-            ts[i]=new TimeSheetMonth();
-            ts[i].enter();
+           String id;
+           boolean check=false;
+           do
+           {
+               System.out.print("Enter your ID: ");
+               id=sc.nextLine();
+               if (l.isEmployee(id)==-1)
+               {
+                   System.out.println("Invaible ID");
+                   check=false;
+               }
+               else if (check_id_have_enter(id)!=-1)
+               {
+                   System.out.println("This ID have already exit");
+                   check=false;
+               }
+               else
+                   check=true;
+           }
+           while (!check);
+           ts[i]=new TimeSheetMonth();
+           ts[i].setId_employee(id);
+           ts[i].enter();
         }
     }
     public void out()
@@ -42,6 +67,15 @@ public class ListTimeSheet implements Serializable
             quicksort(ts,i+1,ts.length-1);
             System.out.println("---------------------------");
         }
+    }
+    public int check_id_have_enter(String id)
+    {
+        for (int i=0;i<ts.length;i++)
+        {
+            if (ts[i]!=null && ts[i].getId_employee().equalsIgnoreCase(id))
+                return i;
+        }
+        return -1;
     }
     public void add(TimeSheetMonth nts)
     {
@@ -69,7 +103,7 @@ public class ListTimeSheet implements Serializable
             ts[i]=ts[i+1];
         ts=Arrays.copyOf(ts,ts.length-1);
     }
-    public void writeToFile()
+    public void writetofile()
     {
         String basepath = System.getProperty("user.dir");
         File dir = new File(basepath + File.separator + "data");
@@ -88,7 +122,7 @@ public class ListTimeSheet implements Serializable
             System.out.println("File chua duoc ghi " + e);
         }
     }
-    public void ReadFromFile()
+    public void readfromfile()
     {
         String basepath = System.getProperty("user.dir");
         File file = new File(basepath + File.separator + "data" + File.separator + "data_timesheet_Employee");
@@ -106,26 +140,14 @@ public class ListTimeSheet implements Serializable
             e.printStackTrace();
         }
     }
-    public void search(String idx)
+    public TimeSheetMonth search(String idx)
     {
-        int pos=-1;
-        for (int i=0;i<ts.length;i++)
-        {
-            if(idx.equals(ts[i].getId_employee()))
-            {
-                pos=i;
-                break;
-            }
-        }
-        if (pos==-1)
-        {
-            System.out.println("employee not on the list");
-            return;
-        }
-        System.out.println("data timesheet employee");
-        System.out.println("timesheet "+(pos+1)+":");
-        ts[pos].out();
-        System.out.println("---------------------------");
+       for (int i=0;i<ts.length;i++)
+       {
+           if (idx.equalsIgnoreCase(ts[i].getId_employee()))
+               return ts[i];
+       }
+       return null;
     }
     public int partision(TimeSheetMonth ts[], int l, int r)
     {
@@ -156,7 +178,7 @@ public class ListTimeSheet implements Serializable
             quicksort(ts,p+1,r);
         }
     }
-    public void rollcallmonth()
+    public void Monthly_employee_statistics()
     {
         System.out.print("Enter month: ");
         int monthcheck=sc.nextInt();
@@ -166,7 +188,7 @@ public class ListTimeSheet implements Serializable
             ts[i].monthcheck(monthcheck);
         }
     }
-    public void rollcallday()
+    public void Dayly_employee_statistics()
     {
         System.out.print("Enter day: ");
         int daycheck=sc.nextInt();
@@ -176,10 +198,8 @@ public class ListTimeSheet implements Serializable
             ts[i].daycheck(daycheck);
         }
     }
-    public void update_timesheet()
+    public void update_timesheet(String idx)
     {
-        System.out.print("Enter ID employee you want update: ");
-        String idx=sc.nextLine();
         int pos=-1;
         for (int i=0;i<ts.length;i++)
         {

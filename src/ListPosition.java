@@ -23,11 +23,44 @@ public class ListPosition implements Serializable
         int n=sc.nextInt();
         sc.nextLine();
         p=new Position[n];
+        ListEmployee l = new ListEmployee();
+        l.readFromFile();
+        l.put();
         for (int i=0;i<n;i++)
         {
+            String id;
+            boolean check=false;
+            do
+            {
+                System.out.print("Enter your ID: ");
+                id=sc.nextLine();
+                if (l.isEmployee(id)==-1)
+                {
+                    System.out.println("Invaible Id");
+                    check=false;
+                }
+                else if (check_id_yet(id)!=-1)
+                {
+                    System.out.println("This id have already exit");
+                    check=false;
+                }
+                else
+                    check=true;
+            }
+            while (!check);
             p[i]=new Position();
+            p[i].setId_employee(id);
             p[i].enter();
         }
+    }
+    public int check_id_yet(String id)
+    {
+        for (int i=0;i<p.length;i++)
+        {
+            if (p[i]!=null &&p[i].getId_employee().equalsIgnoreCase(id))
+                return i;
+        }
+        return -1;
     }
     public void out()
     {
@@ -35,6 +68,7 @@ public class ListPosition implements Serializable
         System.out.printf("%-12s %-20s %-45s %-30s %-20s\n", "ID Employee", "Job Title", "Job Descrip", "Required Skills","Totally Allowance");
         for (int i=0;i<p.length;i++)
         {
+            p[i].setAllowance_position(allowance_positionx(p[i]));
             p[i].out();
         }
     }
@@ -75,10 +109,8 @@ public class ListPosition implements Serializable
         }
         return null;
     }
-    public void update()
+    public void update(String idx)
     {
-        System.out.print("Enter the id you wanna update: ");
-        String idx=sc.nextLine();
         int pos=-1;
         for (int i=0;i<p.length;i++)
         {
@@ -96,9 +128,9 @@ public class ListPosition implements Serializable
         int x;
         do
         {
-            System.out.println("1.fix job title");
-            System.out.println("2.fix job description");
-            System.out.println("3.fix required_skills");
+            System.out.println("1.Fix job title");
+            System.out.println("2.Fix job description");
+            System.out.println("3.Fix required_skills");
             System.out.println("0.Exit");
             System.out.println("choose option; ");
             x=sc.nextInt();
@@ -133,7 +165,7 @@ public class ListPosition implements Serializable
         }
         while (x!=0);
     }
-    public void numberofemployeeposition()
+    public void static_position_employee()
     {
         System.out.print("Enter the position: ");
         String positionx=sc.nextLine();
@@ -153,8 +185,55 @@ public class ListPosition implements Serializable
             return;
         }
     }
+    public void employee_statistics_by_position()
+    {
+        int truongphong=0,phophong=0,nhanvien=0,thuctap=0;
+        for (int i=0;i<p.length;i++)
+        {
+            if (p[i].getJob_title().equalsIgnoreCase("truong phong"))
+                truongphong++;
+            else if(p[i].getJob_title().equalsIgnoreCase("pho phong"))
+                phophong++;
+            else if (p[i].getJob_title().equalsIgnoreCase("nhan vien"))
+                nhanvien++;
+            else
+                thuctap++;
+        }
+        System.out.println("Employee statistics by position");
+        System.out.println("Truong phong: "+truongphong);
+        System.out.println("Pho phong: "+phophong);
+        System.out.println("Nhan vien: "+nhanvien);
+        System.out.println("Thuc tap: "+thuctap);
+    }
+    public double allowance_positionx(Position pos)
+    {
+        ListSalary ls=new ListSalary();
+        ls.loadFromFile();
+        double totalsalary=0;
+        for (Employee_Salary el: ls.getAll())
+        {
+            if(el.getEmpId().equalsIgnoreCase(pos.getId_employee()))
+            {
+                totalsalary=el.getTotalSalary();
+                break;
+            }
+        }
+        double allowance=0.0;
+        if (pos.getJob_title().equalsIgnoreCase("giam doc"))
+            allowance=totalsalary*0.20;
+        else if (pos.getJob_title().equalsIgnoreCase("truong phong"))
+            allowance=totalsalary*0.15;
+        else if (pos.getJob_title().equalsIgnoreCase("pho phong"))
+            allowance=totalsalary*0.10;
+        else if (pos.getJob_title().equalsIgnoreCase("nhan vien"))
+            allowance=totalsalary*0.05;
+        else
+            allowance=totalsalary*0.02;
+        allowance=Math.round(allowance*100.0)/100.0;
+        return allowance;
+    }
 
-    public void writeToFile()
+    public void writetofile()
     {
         String basepath = System.getProperty("user.dir");
         File dir = new File(basepath + File.separator + "data");
@@ -173,7 +252,7 @@ public class ListPosition implements Serializable
             System.out.println("File chua duoc ghi " + e);
         }
     }
-    public void ReadFromFile()
+    public void readfromfile()
     {
         String basepath = System.getProperty("user.dir");
         File file = new File(basepath + File.separator + "data" + File.separator + "data_Position");

@@ -52,12 +52,12 @@ public class Project implements Serializable{
         this.projectBudget = projectBudget;
     }
 
-    public void getProject() {
+    public void getProject() {// sua lai quan ly ID o ham list
         System.out.println("Manager Allowance Rate: ");managerallowancerate = sc.nextFloat();
         System.out.println("Main Engineer Allowance Rate: ");mainengineerallowancerate = sc.nextFloat();
         System.out.println("Participant Allowance rate: ");participantallowancerate = sc.nextFloat();
         sc.nextLine();//bo \n thua trong buffer
-        System.out.println("Project Id: ");projectid = sc.nextLine();
+        System.out.println("Project Id: ");projectid = sc.nextLine(); 
         ListProject l = new ListProject();
         l.readFromFile();
         while(true) {

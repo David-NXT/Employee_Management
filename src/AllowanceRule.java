@@ -41,7 +41,7 @@ public class AllowanceRule implements Serializable {
     }
 
     public void put() {
-        System.out.printf("%s-10%s-15%s-15%f-15%n",id,name,day,allowancerate);
+        System.out.printf("%-10s%-35s%-15s%-15f%n",id,name,day,allowancerate);
     }
 
     public String getDay() {

@@ -5,6 +5,7 @@ public class TimeSheetDay implements Serializable
 {
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
+    private static final long serialVersionUID = 1L;
     private String id_employee;
     private int day;
     private int month;
@@ -34,12 +35,8 @@ public class TimeSheetDay implements Serializable
     }
 
 
-    public void enter(String id_employee,int day,int month,int year)
+    public void enter()
     {
-        this.id_employee=id_employee;
-        this.month=month;
-        this.year=year;
-        this.day=day;
         time_in=randomTimeIn();
         time_out=randomTimeOut();
     }

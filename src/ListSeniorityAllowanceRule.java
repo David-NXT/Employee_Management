@@ -1,7 +1,6 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class ListSeniorityAllowanceRule implements Serializable {
@@ -32,6 +31,7 @@ public class ListSeniorityAllowanceRule implements Serializable {
         data = Arrays.copyOf(data,n + 1);
         data[n] = a;
         n++;
+        sort();
     }
 
     public void delete(String id) {
@@ -113,6 +113,24 @@ public class ListSeniorityAllowanceRule implements Serializable {
             }
         }
         return null;
+    }
+
+    public int find(String id){
+        for (int i = 0;i < n;i++) {
+            if (data[i].getId().equals(id)) return i;
+        }
+        return -1;
+    }
+
+    public void sort(){
+        for (int i = 0;i < n - 1;i++)
+            for (int j = i + 1;j < n;j++){
+                if (data[i].getYearofwork() > data[j].getYearofwork()) {
+                    SeniorityAllowanceRule tmp = data[i];
+                    data[i] = data[j];
+                    data[j] = tmp;
+                }
+            }
     }
 
     public SeniorityAllowanceRule[] getData() {

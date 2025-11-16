@@ -18,7 +18,7 @@ public class Position implements Serializable
         this.job_title=job_title;
         this.job_descripsion=job_descripsion;
         this.required_skills=required_skills;
-        this.allowance_position=allowance_position;
+        this.allowance_position=0;
     }
     public Position(Position p)
     {
@@ -33,33 +33,13 @@ public class Position implements Serializable
 
     public void enter()
     {
-        ListEmployee l = new ListEmployee();
-        l.readFromFile();
-        l.put();
-        System.out.print("Enter your id: ");
-        id_employee=sc.nextLine();
-        int check_id= l.isEmployee(id_employee);
-        if(check_id==-1)
-        {
-            System.out.println("Invalid employee ID");
-            System.out.println("Enter to continue");
-            sc.nextLine();
-            enter();
-        }
-        System.out.print("Enter your job title: ");
-        job_title=sc.nextLine();
-//        job_title=randomPosition();
-        System.out.print("Enter your job description: ");
-        job_descripsion=sc.nextLine();
-//        job_descripsion=ranjob_description();
-        System.out.print("Enter your required skills: ");
-        required_skills=sc.nextLine();
-//        required_skills=ranrequired_skills();
+        job_title=randomPosition();
+        job_descripsion=ranjob_description();
+        required_skills=ranrequired_skills();
     }
 
     public void out()
     {
-        allowance_position=allowance_positionx(job_title);
         System.out.printf("%-12s %-20s %-45s %-30s %-20s\n",id_employee,job_title,job_descripsion,required_skills,allowance_position);
     }
     public String randomPosition()
@@ -113,31 +93,6 @@ public class Position implements Serializable
         }
         else
             return null;
-    }
-    public double allowance_positionx(String jobx)
-    {
-        ListSalary ls=new ListSalary();
-        ls.loadFromFile();
-        double totalsalary=0;
-        for (Employee_Salary el: ls.getAll())
-        {
-            if(el.getEmpId().equalsIgnoreCase(id_employee))
-            {
-                totalsalary=el.getTotalSalary();
-            }
-        }
-        jobx=job_title;
-        if (jobx.equalsIgnoreCase("giam doc"))
-            return totalsalary*0.20;
-        else if (jobx.equalsIgnoreCase("truong phong"))
-            return totalsalary*0.15;
-        else if (jobx.equalsIgnoreCase("pho phong"))
-            return totalsalary*0.10;
-        else if (jobx.equalsIgnoreCase("nhan vien"))
-            return totalsalary*0.5;
-        else
-            return totalsalary*0.2;
-
     }
 
     //set

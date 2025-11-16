@@ -26,7 +26,7 @@ public class ListAllowanceRule implements Serializable {
     }
 
     public void put() {
-        System.out.printf("%s-10%s-15%s-15%s-15%n","id","name","day","allowancerate");
+        System.out.printf("%-10s%-35s%-15s%-15s%n","id","name","day","allowancerate");
         for (int i = 0;i < n;i++) {
             data[i].put();
         }
@@ -52,23 +52,23 @@ public class ListAllowanceRule implements Serializable {
         n--;
     }
 
-    public AllowanceRule find(String id) {
+    public int find(String id) {
         for (int i = 0;i < n;i++) {
-            if (data[i].getId().equals(id)) return data[i];
+            if (data[i].getId().equals(id)) return i;
         }
-        return null;
+        return -1;
     }
 
     public ListAllowanceRule findAllowanceInMonth(String month) {//tim tat ca cac phu cap trong thang
         ListAllowanceRule result = new ListAllowanceRule();
+        month = "0" + month;
         String day;
-        int k = 0;
 
 
             for (int i = 1;i < 32;i++) {
                 day = String.format("%02d/%s",i,month);
                 for (int j = 0;j < n;j++){
-                    if (day.equals(data[j].getDay())) result.add(data[j]);//vi k++ nen phai tru 1 moi la phan tu vua tim ra
+                    if (day.equals(data[j].getDay())) result.add(data[j]);
 
                 }
 

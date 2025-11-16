@@ -2,9 +2,10 @@ import java.util.*;
 public class ManageTimeSheet
 {
         Scanner sc=new Scanner(System.in);
+        ListTimeSheet lt = new ListTimeSheet();
+
         public void menu()
         {
-            ListTimeSheet lt = new ListTimeSheet();
             int x;
             do
             {
@@ -15,6 +16,7 @@ public class ManageTimeSheet
                 System.out.println("5. Check employee month");
                 System.out.println("6. Check employee day");
                 System.out.println("7. Update TimeSheet");
+                System.out.println("8. Search employee");
                 System.out.println("0. Exit");
                 System.out.print("Choose an option: ");
                 x=sc.nextInt();
@@ -22,59 +24,54 @@ public class ManageTimeSheet
                 if (x==1)
                 {
                     lt.enter();
-                    lt.writeToFile();
+                    lt.writetofile();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
                 else if (x==2)
                 {
-                    lt.ReadFromFile();
+                    lt.readfromfile();
                     lt.out();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
                 else if (x==3)
                 {
-                    TimeSheetMonth nts=new TimeSheetMonth();
-                    nts.enter();
-                    lt.add(nts);
-                    lt.writeToFile();
+                    add_timesheet();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
                 else if (x==4)
                 {
-                    lt.ReadFromFile();
-                    lt.out();
-                    System.out.print("Enter id employee to delete: ");
-                    String idx=sc.nextLine();
-                    lt.deleted(idx);
-                    lt.writeToFile();
+                    delete_employee();
                     System.out.println("Enter to continue...");
                     sc.nextLine();
                 }
                 else if (x==5)
                 {
-                    lt.rollcallmonth();
+                    lt.Monthly_employee_statistics();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
                 else if (x==6)
                 {
-                    lt.rollcallday();
+                    lt.Dayly_employee_statistics();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
                 else if (x==7)
                 {
-                    lt.ReadFromFile();
-                    lt.out();
-                    lt.update_timesheet();
-                    lt.writeToFile();
+                    update_employee();
                     System.out.print("Enter to continue...");
                     sc.nextLine();
                 }
-                else
+                else if (x==8)
+                {
+                    search_id();
+                    System.out.print("Enter to continue...");
+                    sc.nextLine();
+                }
+                else if (x>8)
                 {
                     System.out.println("Error please chose again");
                     System.out.print("Enter to continue...");
@@ -83,6 +80,64 @@ public class ManageTimeSheet
 
             }
             while (x!=0);
+        }
+        public void search_id()
+        {
+            System.out.print("Enter Id you want searching: ");
+            String idx=sc.nextLine();
+            lt.search(idx);
+            lt.out();
+        }
+        public void update_employee()
+        {
+            lt.readfromfile();
+            lt.out();
+            System.out.print("Enter Id you want update: ");
+            String idx=sc.nextLine();
+            lt.update_timesheet(idx);
+            lt.writetofile();
+        }
+        public void delete_employee()
+        {
+            lt.readfromfile();
+            lt.out();
+            System.out.print("Enter id employee to delete: ");
+            String idx=sc.nextLine();
+            lt.deleted(idx);
+            lt.writetofile();
+        }
+        public void add_timesheet()
+        {
+            ListEmployee l=new ListEmployee();
+            l.readFromFile();
+            l.put();
+            lt.readfromfile();
+            System.out.print("Number of timesheet you want add: ");
+            int n=sc.nextInt();
+            sc.nextLine();
+            for (int i=0;i<n;i++)
+            {
+                String id;
+                boolean check=false;
+                do
+                {
+                    System.out.print("Enter your ID: ");
+                    id = sc.nextLine();
+                    if (lt.check_id_have_enter(id) != -1)
+                    {
+                        System.out.print("This ID have already exit");
+                        check = false;
+                    }
+                    else
+                        check = true;
+                }
+                while (!check);
+                TimeSheetMonth tm=new TimeSheetMonth();
+                tm.setId_employee(id);
+                tm.enter();
+                lt.add(tm);
+            }
+            lt.writetofile();
         }
 
 }
