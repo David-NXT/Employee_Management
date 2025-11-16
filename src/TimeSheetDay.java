@@ -12,6 +12,7 @@ public class TimeSheetDay implements Serializable
     private int year;
     private String time_in;
     private String time_out;
+    private String status;
 
 
     public TimeSheetDay(){}
@@ -23,6 +24,7 @@ public class TimeSheetDay implements Serializable
         this.year=year;
         this.time_in=time_in;
         this.time_out=time_out;
+        this.status=check();
     }
     public TimeSheetDay(TimeSheetDay t)
     {
@@ -32,6 +34,8 @@ public class TimeSheetDay implements Serializable
         this.year=t.year;
         this.time_in=t.time_in;
         this.time_out=t.time_out;
+        this.status=t.status;
+        t.status=check();
     }
 
 
@@ -40,32 +44,17 @@ public class TimeSheetDay implements Serializable
         time_in=randomTimeIn();
         time_out=randomTimeOut();
     }
-    public void out()
+    public void outmonth()
     {
         String date = String.format("%02d/%02d/%04d", day, month, year);
-        String status=check();
+        this.status=check();
         System.out.printf("%-15s %-15s %-15s %-15s\n",date,time_in,time_out,status);
     }
-
-
-    public int randomDay(int month,int year)
+    public void outday()
     {
-        int maxday;
-        switch (month)
-        {
-            case 4: case 6: case 9: case 11:
-            maxday=30;
-            break;
-            case 2:
-                if (year%400==0||(year%4==0&& year%100!=0))
-                    maxday=29;
-                else
-                    maxday=28;
-                break;
-            default:
-                maxday=31;
-        }
-        return 1+(int)(Math.random()*maxday);
+        String date = String.format("%02d/%02d/%04d", day, month, year);
+        this.status=check();
+        System.out.printf("%-15s %-15s %-15s %-15s %-15s\n",id_employee,date,time_in,time_out,status);
     }
     public String randomTimeIn()
     {
@@ -107,13 +96,14 @@ public class TimeSheetDay implements Serializable
 
 
 
-    //get
+//    get
     public String getId_employee(){return id_employee;}
     public int getDay(){return day;}
     public int getMonth(){return month;}
     public int getYear() {return year;}
     public String getTime_in(){return time_in;}
     public String getTime_out(){return time_out;}
+    public String getStatus(){return status;}
 //    set
     public void setId_employee(String id_employee){this.id_employee=id_employee;}
     public void setDay(int day){this.day = day;}

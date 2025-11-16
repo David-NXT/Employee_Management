@@ -7,18 +7,27 @@ public class TimeSheetMonth implements Serializable
     @Serial
     private static final long serialVersionUID = 1L;
     private String id_employee;
+    private int[] day;
+    private int month;
+    private int year;
     private TimeSheetDay[] td;
 
 
     public TimeSheetMonth(){}
-    public TimeSheetMonth(String id_employee,TimeSheetDay[] td)
+    public TimeSheetMonth(String id_employee,int[] day,int month,int year,TimeSheetDay[] td)
     {
         this.id_employee=id_employee;
+        this.day=day;
+        this.month=month;
+        this.year=year;
         this.td=td;
     }
     public TimeSheetMonth(TimeSheetMonth t)
     {
         this.id_employee=t.id_employee;
+        this.day=day;
+        this.month=month;
+        this.year=year;
         this.td=t.td;
     }
 
@@ -26,12 +35,9 @@ public class TimeSheetMonth implements Serializable
     {
         int n=1+(int)(Math.random()*30);
         td=new TimeSheetDay[n];
-        int month=randomMonth();
-        int year=randomYear();
-        int[] day=new int[n];
+        day=new int[n];
         for (int i=0;i<n;i++)
         {
-            td[i]=new TimeSheetDay();
             boolean check;
             int d;
             do
@@ -48,9 +54,11 @@ public class TimeSheetMonth implements Serializable
                 }
             }
             while(check);
+            td[i]=new TimeSheetDay();
             day[i]=d;
-            td[i].setYear(year);
+            td[i].setId_employee(id_employee);
             td[i].setMonth(month);
+            td[i].setYear(year);
             td[i].setDay(d);
             td[i].enter();
         }
@@ -59,11 +67,11 @@ public class TimeSheetMonth implements Serializable
     {
         System.out.printf("%-1s","ID: ");
         System.out.printf("%-1s\n",id_employee);
-        System.out.printf(" %-15s %-15s %-15s %-15s\n","Date","Time in","Time out","Status");
+        System.out.printf("%-15s %-15s %-15s %-15s\n","Date","Time in","Time out","Status");
         quickSort(td,0,td.length-1);
         for (int i=0;i<td.length;i++)
         {
-            td[i].out();
+            td[i].outmonth();
         }
     }
     private int partition(TimeSheetDay[] arr, int l, int r)
@@ -93,21 +101,6 @@ public class TimeSheetMonth implements Serializable
             quickSort(arr, p + 1, r);
         }
     }
-
-    public void monthcheck(int monthx)
-    {
-        for (int i=0;i<td.length;i++)
-        {
-            if(monthx==td[i].getMonth())
-            {
-                String date = String.format("%02d/%02d/%04d", td[i].getDay(),td[i].getMonth(),td[i].getYear());
-                String status=td[i].check();
-                System.out.printf("%-15s %-15s %-15s %-15s %-15s\n",id_employee,date,td[i].getTime_in(),td[i].getTime_out(),status);
-            }
-        }
-
-    }
-
     public void daycheck(int dayx)
     {
         for (int i=0;i<td.length;i++)
@@ -115,18 +108,9 @@ public class TimeSheetMonth implements Serializable
             if(dayx==td[i].getDay())
             {
                 String status=td[i].check();
-                System.out.printf("%-15s %-15s %-15s %-15s\n",td[i].getId_employee(),td[i].getTime_in(),td[i].getTime_out(),status);
+                System.out.printf("%-15s %-15s %-15s %-15s\n",td[i].getId_employee(),td[i].getTime_in(),td[i].getTime_out(),td[i].getStatus());
             }
         }
-    }
-
-    public int randomMonth()
-    {
-        return 1+(int)(Math.random()*12);
-    }
-    public int randomYear()
-    {
-        return 2025+(int)(Math.random()*41);
     }
     public int randomDay(int month,int year)
     {
@@ -151,10 +135,16 @@ public class TimeSheetMonth implements Serializable
 
 //    get
     public String getId_employee() {return id_employee;}
+    public int[] getDay(){return day;}
+    public int getMonth(){return month;}
+    public int getYear(){return year;}
     public TimeSheetDay[] getData() {
         return td;
     }
 //    set
     public void setId_employee(String id_employee) {this.id_employee=id_employee;}
+    public void setDay(int[] day){this.day=day;}
+    public void setMonth(int month){this.month=month;}
+    public void setYear(int year){this.year=year;}
     public void setTd(TimeSheetDay[] td){this.td=td;}
 }

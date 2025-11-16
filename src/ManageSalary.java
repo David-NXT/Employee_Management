@@ -6,9 +6,9 @@ public class ManageSalary {
     private final ListSalary salaryList;
     private final ListEmployee employeeList;
     private final ListAllowance allowanceList;
-    private final ListTimeSheet timeSheetList;
+    private final ListTimeSheetMonth timeSheetList;
 
-    public ManageSalary(ListEmployee empList, ListAllowance allowList, ListTimeSheet timeList) {
+    public ManageSalary(ListEmployee empList, ListAllowance allowList, ListTimeSheetMonth timeList) {
         this.employeeList = empList;
         this.allowanceList = allowList;
         this.timeSheetList = timeList;
