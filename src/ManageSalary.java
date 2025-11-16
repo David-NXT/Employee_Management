@@ -6,9 +6,9 @@ public class ManageSalary {
     private final ListSalary salaryList;
     private final ListEmployee employeeList;
     private final ListAllowance allowanceList;
-    private final ListTimeSheet timeSheetList;
+    private final ListTimeSheetMonth timeSheetList;
 
-    public ManageSalary(ListEmployee empList, ListAllowance allowList, ListTimeSheet timeList) {
+    public ManageSalary(ListEmployee empList, ListAllowance allowList, ListTimeSheetMonth timeList) {
         this.employeeList = empList;
         this.allowanceList = allowList;
         this.timeSheetList = timeList;
@@ -20,7 +20,7 @@ public class ManageSalary {
         do {
             System.out.println("\n===== MENU QUẢN LÝ LƯƠNG =====");
             System.out.println(" [#] Tổng số bản ghi lương: " + salaryList.getCount());
-            System.out.println("1. Tạo bảng lương từ bảng chấm công");
+            System.out.println("1. Tạo bảng lương từ bảng chấm công và lưu vào file");
             System.out.println("2. Hiển thị toàn bộ bảng lương");
             System.out.println("3. Tìm bảng lương theo mã nhân viên");
             System.out.println("4. Hiển thị bảng lương theo tháng/năm");
@@ -100,7 +100,7 @@ public class ManageSalary {
             Allowance allow = allowanceList.findByEmployeeId(emp.getId());
             double baseSalary = calculateBaseSalary(emp);
             double allowance = (allow != null) ? allow.getTotalAllowance() : 0;
-            double bonus = calculateBonus(emp, sheet, baseSalary);
+            double bonus = calculateBonus(sheet, baseSalary);
             double deductions = calculateDeductions(sheet);
 
             Employee_Salary salary = new Employee_Salary(
@@ -131,7 +131,7 @@ public class ManageSalary {
         return 0;
     }
 
-    private double calculateBonus(Employee emp, TimeSheetMonth timesheet, double baseSalary) {
+    private double calculateBonus( TimeSheetMonth timesheet, double baseSalary) {
         int overtimeDays = countOvertimeDays(timesheet);
         double overtimeBonus = overtimeDays * 50000;
         return baseSalary * 0.05 + overtimeBonus;
@@ -141,14 +141,6 @@ public class ManageSalary {
         int lateDays = countLateDays(timesheet);
         int missingDays = countMissingDays(timesheet);
         return (lateDays * 20000) + (missingDays * 50000);
-    }
-
-    private int countValidDays(TimeSheetMonth sheet) {
-        int count = 0;
-        for (TimeSheetDay day : sheet.getData()) {
-            if (!day.check().contains("Missing")) count++;
-        }
-        return count;
     }
 
     private int countOvertimeDays(TimeSheetMonth sheet) {
@@ -162,7 +154,7 @@ public class ManageSalary {
     private int countLateDays(TimeSheetMonth sheet) {
         int count = 0;
         for (TimeSheetDay day : sheet.getData()) {
-            if (day.check().contains("Late")) count++;
+            if (day.check().equals("Late")) count++;
         }
         return count;
     }
@@ -170,7 +162,7 @@ public class ManageSalary {
     private int countMissingDays(TimeSheetMonth sheet) {
         int count = 0;
         for (TimeSheetDay day : sheet.getData()) {
-            if (day.check().contains("Missing")) count++;
+            if (day.check().equals("Missing")) count++;
         }
         return count;
     }
