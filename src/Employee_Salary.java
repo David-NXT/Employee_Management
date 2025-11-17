@@ -40,6 +40,10 @@ public class Employee_Salary implements Serializable {
                 bonus, deductions, totalSalary, month, year);
     }
 
+    public boolean isES(int year, int month, String empid) {
+        return this.year == year && this.month == month && this.empId.equals(empid);
+    }
+
     // Getters and setters
 
     public String getEmpId() {

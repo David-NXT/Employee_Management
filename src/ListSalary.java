@@ -111,6 +111,13 @@ public class ListSalary implements Serializable {
         return "S" + baseId;
     }
 
+    public double getMonthSalary(int year, int month, String id) {
+        for (int i = 0;i < data.length;i++) {
+            if (data[i].isES(year,month,id)) return data[i].getTotalSalary();
+        }
+        return 0;
+    }
+
     public Employee_Salary[] getAll() {
         return data;
     }

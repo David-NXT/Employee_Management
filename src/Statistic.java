@@ -37,21 +37,19 @@ public class Statistic {
         }
         System.out.println();
 
-        for (int i = 0;i < a.getCount();i++) {
-            System.out.printf("%-10s %-30s ",a.getAll()[i].getEmpId(),b.findById(a.getAll()[i].getEmpId()).getSurname() + " " + b.findById(a.getAll()[i].getEmpId()).getName());
+        for (int i = 0;i < b.getData().length;i++) {
+            System.out.printf("%-10s %-30s ",b.getData()[i].getId(),b.getData()[i].getSurname() + " " + b.getData()[i].getName());
             for (int j = startyear;j <= endyear;j++) {
-                employeeQuarterSalary(1,j,a.getAll()[i].getSalaryId());
-                employeeQuarterSalary(2,j,a.getAll()[i].getSalaryId());
-                employeeQuarterSalary(3,j,a.getAll()[i].getSalaryId());
-                employeeQuarterSalary(4,j,a.getAll()[i].getSalaryId());
+                employeeQuarterSalary(1,j,a,b.getData()[i].getId());
+                employeeQuarterSalary(2,j,a,b.getData()[i].getId());
+                employeeQuarterSalary(3,j,a,b.getData()[i].getId());
+                employeeQuarterSalary(4,j,a,b.getData()[i].getId());
             }
             System.out.println();
         }
     }
 
-    public void employeeQuarterSalary(int mode, int year, String id) {
-        ListSalary a = new ListSalary();
-        a.loadFromFile();
+    public void employeeQuarterSalary(int mode, int year, ListSalary data, String empID) {
         double sum = 0;
         int count = 0;
 
@@ -61,15 +59,11 @@ public class Statistic {
             else mode += 7;
         }
 
-        for (int i = 0;i < a.getCount();i++) {
-            if ((a.getAll()[i].getMonth() == mode || a.getAll()[i].getMonth() == (mode + 1) || a.getAll()[i].getMonth() == (mode + 2)) && a.getAll()[i].getYear() == year  && a.getAll()[i].getSalaryId().equals(id)) {
-                sum += a.getAll()[i].getTotalSalary();
-                count++;
-                if (count == 3) {
-                    break;
-                }
-            }
+        //tim tong tien luong trong 3 thang
+        for (int i = 0;i < 3;i++) {
+            sum += data.getMonthSalary(year,mode + i,empID);
         }
+
         System.out.printf("|%30f |",sum);
     }
 }
