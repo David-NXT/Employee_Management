@@ -61,7 +61,7 @@ public class ListAllowanceRule implements Serializable {
 
     public ListAllowanceRule findAllowanceInMonth(String month) {//tim tat ca cac phu cap trong thang
         ListAllowanceRule result = new ListAllowanceRule();
-        month = "0" + month;
+        if (month.length() == 1) month = "0" + month;
         String day;
 
 

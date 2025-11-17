@@ -117,8 +117,9 @@ public class ManageAllowance {
             case "Giam doc" -> salary * 1;
             case "Truong phong" -> salary * 0.7;
             case "Pho phong" -> salary * 0.5;
-            case "nhân viên" -> salary * 0.3;
-            default -> salary * 0.2;
+            case "nhan vien" -> salary * 0.3;
+            case "thuc tap sinh " -> salary *0.2;
+            default -> salary * 0.1;
         };
     }
 
