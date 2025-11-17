@@ -27,13 +27,13 @@ public class Statistic {
 
         System.out.printf("%-42s","");
         for (int i = startyear;i <= endyear;i++) {
-            System.out.printf("|%-120d |",i);
+            System.out.printf("|%129d |",i);
         }
         System.out.println();
 
         System.out.printf("%-42s","");
         for (int i = startyear;i <= endyear;i++) {
-            System.out.printf("%-30s %-30s %-30s %-30s ","1","2","3","4");
+            System.out.printf("|%30s ||%30s ||%30s ||%30s |","1","2","3","4");
         }
         System.out.println();
 
@@ -70,6 +70,6 @@ public class Statistic {
                 }
             }
         }
-        System.out.printf("%-30f ",sum);
+        System.out.printf("|%30f |",sum);
     }
 }
