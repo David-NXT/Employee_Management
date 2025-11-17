@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ManageSalary {
@@ -68,7 +67,6 @@ public class ManageSalary {
                     int year = sc.nextInt();
                     sc.nextLine(); // xóa bộ đệm
 
-                    // Tạo đối tượng thống kê từ dữ liệu trong ListSalary
                     SalaryStatistics stats = new SalaryStatistics(
                             salaryList.getAll(),
                             salaryList.getCount()
@@ -83,18 +81,20 @@ public class ManageSalary {
     }
 
     private void generateSalaries() {
-        int month = LocalDate.now().getMonthValue();
-        int year = LocalDate.now().getYear();
-        TimeSheetMonth[] sheets = timeSheetList.getTs(); // lấy danh sách chấm công
+        TimeSheetMonth[] sheets = timeSheetList.getTs();
+        int createdCount = 0;
 
         for (Employee emp : employeeList.getData()) {
             TimeSheetMonth sheet = null;
-            // Tìm TimeSheetMonth tương ứng với nhân viên
             for (TimeSheetMonth t : sheets) {
-                if (t.getId_employee().equals(emp.getId())) {
+                if (t.getId_employee().equalsIgnoreCase(emp.getId())) {
                     sheet = t;
                     break;
                 }
+            }
+            if (sheet == null) {
+                System.out.println(" Không có bảng chấm công cho nhân viên " + emp.getId());
+                continue;
             }
 
             Allowance allow = allowanceList.findByEmployeeId(emp.getId());
@@ -111,27 +111,26 @@ public class ManageSalary {
                     allowance,
                     bonus,
                     deductions,
-                    month,
-                    year
+                    sheet
             );
 
             salaryList.addSalary(salary);
+            createdCount++;
         }
 
-        System.out.println("Đã tạo bảng lương cho " + employeeList.getData().length + " nhân viên.");
+        System.out.println(" Đã tạo bảng lương cho " + createdCount + " nhân viên.");
     }
 
     private double calculateBaseSalary(Employee emp) {
-
         if (emp instanceof OfficialEmployee offEmp) {
-            return offEmp.getBasicSalary(); // hoặc: * (workDays / 26.0)
+            return offEmp.getBasicSalary();
         } else if (emp instanceof SeasonalStaff seaEmp) {
             return seaEmp.getHourlySalary() * seaEmp.getWorkTime();
         }
         return 0;
     }
 
-    private double calculateBonus( TimeSheetMonth timesheet, double baseSalary) {
+    private double calculateBonus(TimeSheetMonth timesheet, double baseSalary) {
         int overtimeDays = countOvertimeDays(timesheet);
         double overtimeBonus = overtimeDays * 50000;
         return baseSalary * 0.05 + overtimeBonus;
@@ -146,7 +145,7 @@ public class ManageSalary {
     private int countOvertimeDays(TimeSheetMonth sheet) {
         int count = 0;
         for (TimeSheetDay day : sheet.getData()) {
-            if (day.check().equals("Over time")) count++;
+            if (day.check().contains("Over time")) count++;
         }
         return count;
     }
@@ -154,7 +153,7 @@ public class ManageSalary {
     private int countLateDays(TimeSheetMonth sheet) {
         int count = 0;
         for (TimeSheetDay day : sheet.getData()) {
-            if (day.check().equals("Late")) count++;
+            if (day.check().contains("Late")) count++;
         }
         return count;
     }
@@ -162,7 +161,7 @@ public class ManageSalary {
     private int countMissingDays(TimeSheetMonth sheet) {
         int count = 0;
         for (TimeSheetDay day : sheet.getData()) {
-            if (day.check().equals("Missing")) count++;
+            if (day.check().contains("Missing")) count++;
         }
         return count;
     }

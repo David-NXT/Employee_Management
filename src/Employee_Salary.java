@@ -21,7 +21,7 @@ public class Employee_Salary implements Serializable {
 
     public Employee_Salary(String salaryId, String empId, String empName,
                   double baseSalary, double allowance, double bonus, double deductions,
-                  int month, int year) {
+                  TimeSheetMonth ts) {
         this.salaryId = salaryId;
         this.empId = empId;
         this.empName = empName;
@@ -30,8 +30,8 @@ public class Employee_Salary implements Serializable {
         this.bonus = bonus;
         this.deductions = deductions;
         this.totalSalary = baseSalary + allowance + bonus - deductions;
-        this.month = month;
-        this.year = year;
+        this.month = ts.getMonth();
+        this.year = ts.getYear();
         this.createdDate = LocalDate.now();
     }
     public void display() {
