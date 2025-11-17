@@ -260,7 +260,7 @@ public class EmployeeManagerMenu {
                 break;
             }
             case 4: {
-                list.put(listemployee);
+
                 break;
             }
             case 5: {

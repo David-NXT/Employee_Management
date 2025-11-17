@@ -153,9 +153,8 @@ public class ManageAllowanceRate {
                 break;
             }
             case 5: {
-                System.out.println("ID:");
-                String id = sc.nextLine();
-                int locate = data.find(id);
+                int locate = findSeniorByID(data);
+                if (locate == -1) break;
                 changeSeniorManager(data,locate);
                 break;
             }
@@ -295,6 +294,17 @@ public class ManageAllowanceRate {
         if (locate != -1) data.getData()[locate].put();
         else {
             System.out.println("Invalid ID");
+        }
+    }
+
+    public int findSeniorByID(ListSeniorityAllowanceRule data) {
+        System.out.println("ID:");
+        String id = sc.nextLine();
+        int locate = data.find(id);
+        if (locate != -1) return locate;
+        else {
+            System.out.println("Invalid ID");
+            return -1;
         }
     }
 

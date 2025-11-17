@@ -55,9 +55,9 @@ public class Project implements Serializable{
     public void getProject() {// sua lai quan ly ID o ham list
         System.out.println("Manager Allowance Rate: ");managerallowancerate = sc.nextFloat();
         System.out.println("Main Engineer Allowance Rate: ");mainengineerallowancerate = sc.nextFloat();
-        System.out.println("Participant Allowance rate: ");participantallowancerate = sc.nextFloat();
+        System.out.println("Participant Allowance Rate: ");participantallowancerate = sc.nextFloat();
         sc.nextLine();//bo \n thua trong buffer
-        System.out.println("Project Id: ");projectid = sc.nextLine(); 
+        System.out.println("Project ID: ");projectid = sc.nextLine();
         ListProject l = new ListProject();
         l.readFromFile();
         while(true) {
@@ -95,25 +95,18 @@ public class Project implements Serializable{
         }
     }
 
-    public void putProject(ListEmployee list) {
+    public void putProject() {
         System.out.println("________________________________________________________________________________________");
         System.out.printf("%-22s %-28s %-26s %-10s %-12s %-9s %-14s ",managerallowancerate,mainengineerallowancerate,participantallowancerate,projectid,projectname,startday,accomplishday);
 
-        OfficialEmployee name = list.getOfficialEmployee(managerid);
-            if (name != null)
-                System.out.printf("%-13s %-7s ",name.getName(),name.getId());
-            else System.out.printf("%-21s ","Du an chua co quan ly");
-            name = list.getOfficialEmployee(mainengineerid);
-            if (name != null)
-                System.out.printf("%-18s %-7s%n",name.getName(),name.getId());
-            else System.out.printf("%-26s%n","Du an chua co ki su truong");
+
+                System.out.printf("%-13s ",managerid);
+                System.out.printf("%-18s %n",mainengineerid);
 
             System.out.println("Nhan vien tham gia du an: " + employeeid.length);
             System.out.printf("%-25s %-7s%n","Name","ID");
             for (String b: employeeid) {
-                name = list.getOfficialEmployee(b);
-                if (name != null)
-                    System.out.printf("%-25s %-7s%n",name.getSurname() + " " + name.getName(),name.getId());
+                    System.out.printf("%-25s %n",mainengineerid);
             }
             System.out.println("________________________________________________________________________________________");
     }

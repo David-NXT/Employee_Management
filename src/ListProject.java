@@ -30,36 +30,6 @@ public class ListProject implements Serializable {
         }
     }
 
-    public void put(ListEmployee list) {
-        System.out.printf("%-22s %-28s %-26s %-10s %-12s %-9s %-14s %n","Manager Allowancerate","Main Engineer Allowancerate","Participant Allowancerate","Project ID","Project Name","Start Day","Accomplish Day");
-        for(Project a: data) {
-            putProject(a,list);
-        }
-    }
-
-    public void putProject(Project pro, ListEmployee list) {
-        System.out.println("________________________________________________________________________________________");
-        System.out.printf("%-22s %-28s %-26s %-10s %-12s %-9s %-14s ",pro.getMainEngineerAllowanceRate(),pro.getMainEngineerAllowanceRate(),pro.getParticipantAllowanceRate(),pro.getProjectId(),pro.getProjectName(),pro.getStartDay(),pro.getAccomplishDay());
-
-        OfficialEmployee name = list.getOfficialEmployee(pro.getMainengineerId());
-        if (name != null)
-            System.out.printf("%-13s %-7s ",name.getName(),name.getId());
-        else System.out.printf("%-21s ","Du an chua co quan ly");
-        name = list.getOfficialEmployee(pro.getMainengineerId());
-        if (name != null)
-            System.out.printf("%-18s %-7s%n",name.getName(),name.getId());
-        else System.out.printf("%-26s%n","Du an chua co ki su truong");
-
-        System.out.println("Nhan vien tham gia du an: " + pro.getEmployeeId().length);
-        System.out.printf("%-25s %-7s%n","Name","ID");
-        for (String b: pro.getEmployeeId()) {
-            name = list.getOfficialEmployee(b);
-            if (name != null)
-                System.out.printf("%-25s %-7s%n",name.getSurname() + " " + name.getName(),name.getId());
-        }
-        System.out.println("________________________________________________________________________________________");
-    }
-
     public void add() {
         Project a = new Project();
         a.getProject();
@@ -147,7 +117,15 @@ public class ListProject implements Serializable {
         return data;
     }
 
+    public int getN() {
+        return n;
+    }
+
     public void setData(Project[] data) {
         this.data = data;
+    }
+
+    public void setN(int n) {
+        this.n = n;
     }
 }
