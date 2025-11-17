@@ -1,25 +1,21 @@
 import java.util.*;
 public class test {
     public static void main(String[] args) {
-// Khởi tạo các danh sách
-        ListEmployee listEmp = new ListEmployee();
-        ListProject listPro = new ListProject();
-        ListAllowance listAllow = new ListAllowance();
-        ListPosition listPos = new ListPosition();
-        ListSeniorityAllowanceRule listRule = new ListSeniorityAllowanceRule();
-        ListAllowanceRule listAllowRule = new ListAllowanceRule();
-        ListTimeSheetMonth lts = new ListTimeSheetMonth();
-        ListAllYear allYearList = new ListAllYear();
-        allYearList.readfromfile();
+//        ListEmployee b1 = new ListEmployee();
+//        b1.readFromFile();
+//        ListAllowance b2 = new ListAllowance();
+//        b2.readFromFile();
+//        ListAllYear b3 = new ListAllYear();
+//        b3.readfromfile();
+//
+//        ManageSalary b = new ManageSalary(b1,b2,b3);
 
-        // Đọc dữ liệu từ file (nếu có)
-        listEmp.readFromFile();
-        listPro.readFromFile();
-        listAllow.readFromFile();
-        listPos.readfromfile();
-        listRule.readFromFile();
-        listAllowRule.readFromFile();
-allYearList.out();
+//        Statistic a = new Statistic();
+//        a.fullStatisticEmployeeByYear(2023,2025);
+
+
+        ManagerProject a = new ManagerProject();
+        a.menu();
 
     }
 }

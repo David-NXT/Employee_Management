@@ -28,9 +28,24 @@ public class ManagerProject {
         System.out.println("1. Print All Project");
         System.out.println("2. Add Project");
         System.out.println("3. Delete Project");
+        System.out.println("4. Find");
     }
 
+    public void findManager() {
+        int mode;
+        do {
+            findMenu();
+            mode = sc.nextInt();sc.nextLine();
+            if (mode == 0) break;
+            runFind(mode);
+        } while (true);
+    }
 
+    public void findMenu() {
+        System.out.println("0. Exit");
+        System.out.println("1. Find By ID");
+        System.out.println("2. Find By Name");
+    }
 
 
 
@@ -39,7 +54,7 @@ public class ManagerProject {
         switch (mode) {
             case 1: {
                 for (int i = 0;i < lproj.getN();i++) {
-                    putProject(i);
+                    putProject(lproj.getData()[i]);
                 }
                 break;
             }
@@ -47,34 +62,64 @@ public class ManagerProject {
                 addProjects();
                 break;
             }
+            case 3: {
+                deleteProject();
+                break;
+            }
+            case 4: {
+                findManager();
+                break;
+            }
+            default: {
+                System.out.println("Invalid Action!");
+                break;
+            }
         }
+    }
+
+    public void runFind(int mode) {
+        switch (mode) {
+            case 1: {
+                System.out.println("ID:");
+                String id = sc.nextLine();
+                Project result = lproj.find(id);
+                putProject(result);
+                break;
+            }
+            case 2: {
+                findByName();
+                break;
+            }
+            default: {
+                System.out.println("Invalid Action!");
+            }
+        }
+
     }
 
 
 
 
-
-
-    public void putProject(int locate) {
+    public void putProject(Project proj) {
         Employee emp;
 
         //thong tin co ban cua du an
-        System.out.printf("%50s ",lproj.getData()[locate].getProjectName());
-        System.out.printf("%10s ",lproj.getData()[locate].getProjectId());
-        System.out.printf("%5s ",lproj.getData()[locate].getManagerAllowanceRate());
-        System.out.printf("%5s ",lproj.getData()[locate].getMainEngineerAllowanceRate());
-        System.out.printf("%5s %n",lproj.getData()[locate].getParticipantAllowanceRate());
+        System.out.printf("%50s ",proj.getProjectName());
+        System.out.printf("%10s ",proj.getProjectId());
+        System.out.printf("%5s ",proj.getManagerAllowanceRate());
+        System.out.printf("%5s ",proj.getMainEngineerAllowanceRate());
+        System.out.printf("%5s %n",proj.getParticipantAllowanceRate());
 
         //thong tin quan ly du an
-        emp = lemp.findById(lproj.getData()[locate].getManagerId());
-        System.out.printf("%10s %30s %50s %n",lproj.getData()[locate].getManagerId(),emp.getSurname() + " " + emp.getName(),"Project's Manager");
+        emp = lemp.findById(proj.getManagerId());
+        System.out.printf("%10s %30s %50s %n",proj.getManagerId(),emp.getSurname() + " " + emp.getName(),"Project's Manager");
 
 
         //thong tin ki su truong du an
-        emp = lemp.findById(lproj.getData()[locate].getMainengineerId());
-        System.out.printf("%10s %30s %50s %n",lproj.getData()[locate].getMainengineerId(),emp.getSurname() + " " + emp.getName(),"Project's Main Engineer");
+        emp = lemp.findById(proj.getMainengineerId());
+        System.out.printf("%10s %30s %50s %n",proj.getMainengineerId(),emp.getSurname() + " " + emp.getName(),"Project's Main Engineer");
 
-        for (String b: lproj.getData()[locate].getEmployeeId()) {
+        for (String b: proj.getEmployeeId()) {
             emp = lemp.findById(b);
             if (emp != null) System.out.printf("%10s %30s %n",b,emp.getSurname() + " " + emp.getName());
         }
@@ -100,5 +145,21 @@ public class ManagerProject {
         }
 
         lproj.writeToFile();
+    }
+
+    public void deleteProject() {
+        System.out.println("ID Project You Want To Delete: ");
+        String id = sc.nextLine();
+        lproj.delete(id);
+        lproj.writeToFile();
+    }
+
+    public void findByName() {
+        System.out.println("Project Name: ");
+        String name = sc.nextLine();
+        ListProject result = lproj.findByName(name);
+        for (Project p: result.getData()) {
+            putProject(p);
+        }
     }
 }

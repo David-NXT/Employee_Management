@@ -112,6 +112,16 @@ public class ListProject implements Serializable {
         return null;
     }
 
+    public ListProject findByName(String nameproj) {
+        ListProject result = new ListProject();
+
+        for (Project p: data) {
+            if (p.getProjectName().contains(nameproj)) result.add(p);
+        }
+
+        return result;
+    }
+
 
     public Project[] getData() {
         return data;
