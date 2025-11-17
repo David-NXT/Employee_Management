@@ -1,8 +1,8 @@
 import java.io.*;
-import java.time.LocalDate;
 import java.util.Arrays;
 
 public class ListAllowance implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private Allowance[] data;
     private int n;

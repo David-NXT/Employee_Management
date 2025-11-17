@@ -56,6 +56,7 @@ public class TimeSheetDay implements Serializable
         this.status=check();
         System.out.printf("%-15s %-15s %-15s %-15s %-15s\n",id_employee,date,time_in,time_out,status);
     }
+
     public String randomTimeIn()
     {
         int hour=6+(int)(Math.random()*4);

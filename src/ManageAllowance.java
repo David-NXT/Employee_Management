@@ -3,13 +3,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class ManageAllowance {
-    private Scanner sc;
-    private ListAllowance listAllowance;
-    private ListEmployee listEmp;
-    private ListProject listProj;
-    private ListPosition listPos;
-    private ListAllowanceRule listAllowRule;
-    private ListSeniorityAllowanceRule seniorityRule;
+    private final Scanner sc;
+    private final ListAllowance listAllowance;
+    private final ListEmployee listEmp;
+    private final ListProject listProj;
+    private final ListPosition listPos;
+    private final ListAllowanceRule listAllowRule;
+    private final ListSeniorityAllowanceRule seniorityRule;
 
     public ManageAllowance(ListEmployee listEmp, ListProject listProj,
                            ListPosition listPos, ListAllowanceRule listAllowRule,

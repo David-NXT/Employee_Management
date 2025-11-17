@@ -100,7 +100,4 @@ public class Allowance implements Serializable {
                 createdDate
         );
     }
-    public void updateTotalAllowance() {
-        this.totalAllowance = jobAllowance + projectAllowance + seniorityAllowance;
-    }
 }
