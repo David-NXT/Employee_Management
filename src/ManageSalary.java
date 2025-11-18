@@ -5,13 +5,13 @@ public class ManageSalary {
     private final ListSalary salaryList;
     private final ListEmployee employeeList;
     private final ListAllowance allowanceList;
-    private final ListTimeSheetMonth timeSheetList;
+    private final ListAllYear allYearList;
 
-    public ManageSalary(ListEmployee empList, ListAllowance allowList, ListTimeSheetMonth timeList) {
+    public ManageSalary(ListEmployee empList, ListAllowance allowList, ListAllYear allYearList) {
         this.employeeList = empList;
         this.allowanceList = allowList;
-        this.timeSheetList = timeList;
-        this.salaryList = new ListSalary(); // tự động load từ file khi khởi tạo
+        this.allYearList = allYearList;
+        this.salaryList = new ListSalary();
     }
 
     public void showMenu() {
@@ -81,19 +81,21 @@ public class ManageSalary {
     }
 
     private void generateSalaries() {
-        TimeSheetMonth[] sheets = timeSheetList.getTs();
+        System.out.print("Nhập tháng cần tạo lương: ");
+        int month = sc.nextInt();
+        System.out.print("Nhập năm: ");
+        int year = sc.nextInt();
+        sc.nextLine();
+
         int createdCount = 0;
 
         for (Employee emp : employeeList.getData()) {
-            TimeSheetMonth sheet = null;
-            for (TimeSheetMonth t : sheets) {
-                if (t.getId_employee().equalsIgnoreCase(emp.getId())) {
-                    sheet = t;
-                    break;
-                }
-            }
+            // tìm timesheet theo id, tháng, năm
+            TimeSheetMonth sheet = allYearList.searching(emp.getId(), month, year);
+
             if (sheet == null) {
-                System.out.println(" Không có bảng chấm công cho nhân viên " + emp.getId());
+                System.out.println(" Không có bảng chấm công cho nhân viên " + emp.getId() +
+                        " tháng " + month + "/" + year);
                 continue;
             }
 
