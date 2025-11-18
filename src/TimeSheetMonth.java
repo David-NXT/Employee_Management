@@ -37,6 +37,8 @@ public class TimeSheetMonth implements Serializable
         int n=1+(int)(Math.random()*30);
         td=new TimeSheetDay[n];
         day=new int[n];
+        month=1+(int)(Math.random()*12);
+        year=2023+(int)(Math.random()*2);
         for (int i=0;i<n;i++)
         {
             boolean check;
