@@ -2,7 +2,7 @@ import java.io.Serial;
 import java.util.Scanner;
 import java.io.Serializable;
 
-abstract class Employee implements Serializable {
+abstract class Employee implements Serializable, Human {
     private transient final Scanner sc = new Scanner(System.in);
     @Serial
     private static final long serialVersionUID = 1L;
