@@ -1,13 +1,16 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class DepartmentList {
     //========[1.thuoc tinh]======
     private Department[] data;
     private int n;
-    private final String file_path="Employee_Management/data/data_Department.txt";
+    private final String file_path="Employee_Management\\data\\data_Department.bin";
 
     //========[2.phuong thuc]=======
     //(Constructor)
@@ -22,7 +25,7 @@ public class DepartmentList {
     }
 
     //(ogri phuong thuc)
-    public void readFromFile(){ //nhap-doc tu file
+    public void readFromFiles(){ //nhap-doc tu file
         try {
             File file= new File(file_path);
             Scanner sc= new Scanner(file);
@@ -48,7 +51,7 @@ public class DepartmentList {
     public void put(){ //xuat
         System.out.printf("=====Danh sach phong ban=====%n");
         System.out.printf("So phong ban %d%n",n);
-        System.out.printf("%-5s %-20s %-40s %-12s %-20s%n","ID","Name","about","createdate","manager");
+        System.out.printf("%-5s %-20s %-39s %-12s %-20s%n","[ID]","[Name]","[About]","[Createdate]","[Manager]");
         for(int i=0;i<n;i++){
             data[i].putDepartment();
             System.out.println();
@@ -85,6 +88,7 @@ public class DepartmentList {
             data[i] = data[i + 1];
         }
         data = Arrays.copyOf(data,data.length - 1);
+        n--;
     }
 
     public void search(String keyword){
@@ -101,7 +105,64 @@ public class DepartmentList {
         }
 
     }
+    public void addRandom() {
+    
+        ListEmployee list = new ListEmployee();
+        list.readFromFile();
+        Employee[] all = list.getData();
+        
+        System.out.println("So nhan vien doc duoc: " + all.length);
 
+        Random rand = new Random();
+        if (n == 0) {
+        System.out.println("Du lieu phong ban trong, hay nhap [5] hay [2] truoc!");
+        return;
+        }
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nhap n so nhan vien ngau nhien: ");
+        int a = sc.nextInt();
+        sc.nextLine();
+        for (int i = 0; i < a && i < all.length ; i++) {
+            int index_e = rand.nextInt(all.length);
+            Employee employee = all[index_e];
+            boolean alreadyAssigned = false;
+            for (Department department : data) {
+            if (department != null && department.findEmployeeById(employee.getId()) != null) {
+                alreadyAssigned = true;
+                break;
+            }
+            }
+            if (alreadyAssigned) { continue;}
+            int index_dp = rand.nextInt(n); 
+            data[index_dp].addEmployee(all[index_e]); 
+            System.out.println("Added employee " + all[index_e].getName() + " to department "+ data[index_dp].getName());
+        }
+
+    }
+     // Ghi dữ liệu ra file
+    public void writeToFile() {
+    try (PrintWriter pw = new PrintWriter(file_path)) {
+        pw.println(n);
+        for (Department d : data) {
+            pw.println(d.getId());
+            pw.println(d.getName());
+            pw.println(d.getAbout());
+            pw.println(d.getCreateDate());
+            pw.println(d.getManager());
+        }
+        System.out.println("Saved Department.");
+    } catch (IOException e) {
+        System.err.println("Loi ghi file: " + e.getMessage());
+    }
+}
+
+
+
+    //// Getter cho mảng dữ liệu
+    //public Department[] getData() {
+    //    return data;
+    //}
+    
 
     //(Ogi get/set)
     public Department[] getData(){ return data;}
