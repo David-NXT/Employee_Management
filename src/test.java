@@ -12,12 +12,10 @@ public class test {
 //        Statistic a = new Statistic();
 //        a.fullStatisticEmployeeByYear(2023,2025);
         
-        //DepartmentManage a = new DepartmentManage();
-        ////ManagerProject a = new ManagerProject();
-        //a.menu();
+        DepartmentManage a = new DepartmentManage();
+        //ManagerProject a = new ManagerProject();
+        a.menu();
 
-        ListEmployee a = new ListEmployee();
-        a.readFromFile();
-
+        
     }
 }

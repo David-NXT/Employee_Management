@@ -10,7 +10,7 @@ public class DepartmentList {
     //========[1.thuoc tinh]======
     private Department[] data;
     private int n;
-    private final String file_path="Employee_Management\\data\\data_Department.bin";
+    private final String file_path="data\\data_Department.bin";
 
     //========[2.phuong thuc]=======
     //(Constructor)
