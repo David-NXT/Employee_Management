@@ -171,17 +171,35 @@ public class ManageTimeSheet
             System.out.println("Total working: "+lt.totaltime(id));
 
     }
-    public void createNextMonthTimesheet()
-    {
+    public void createNextMonthTimesheet() {
         lt.readfromfile();
         System.out.print("Enter new month: ");
         int newMonth = sc.nextInt();
         System.out.print("Enter new year: ");
         int newYear = sc.nextInt();
         sc.nextLine();
-        lt.nextmonth(newMonth,newYear);
+
+        ListTimeSheetMonth nextMonthList = lt.nextmonth(newMonth, newYear);
+
+        List<TimeSheetMonth> mergedList = new ArrayList<>(Arrays.asList(lt.getTs()));
+
+        for (TimeSheetMonth tsnew : nextMonthList.getTs()) {
+            boolean exists = false;
+            for (TimeSheetMonth tsold : mergedList) {
+                if (tsold.getId_employee().equalsIgnoreCase(tsnew.getId_employee()) &&
+                        tsold.getMonth() == newMonth &&
+                        tsold.getYear() == newYear) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                mergedList.add(tsnew);
+            }
+        }
+
+        lt.setTs(mergedList.toArray(new TimeSheetMonth[0]));
         lt.writetofile();
-        System.out.println("Next month timesheet created!");
     }
 
 }
