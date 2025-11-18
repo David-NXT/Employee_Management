@@ -17,7 +17,8 @@ public class MainManager {
         System.out.println("0. Exit");
         System.out.println("1. Employee Manager");
         System.out.println("2. Project Manager");
-        System.out.println("3. Allowance Rate Manager");
+        System.out.println("3. Allowance Rule Manager");
+        System.out.println("4. Department Manager");
     }
 
     public void runMenu(int mode) {
@@ -34,6 +35,11 @@ public class MainManager {
             }
             case 3: {
                 ManageAllowanceRate a = new ManageAllowanceRate();
+                a.menu();
+                break;
+            }
+            case 4: {
+                DepartmentManage a = new DepartmentManage();
                 a.menu();
                 break;
             }
