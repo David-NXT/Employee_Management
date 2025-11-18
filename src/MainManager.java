@@ -19,6 +19,8 @@ public class MainManager {
         System.out.println("2. Project Manager");
         System.out.println("3. Allowance Rule Manager");
         System.out.println("4. Department Manager");
+        System.out.println("5. Salary Manager");
+        System.out.println("6. Calculate Allowance Manager");
     }
 
     public void runMenu(int mode) {
@@ -43,10 +45,45 @@ public class MainManager {
                 a.menu();
                 break;
             }
+            case 5: {
+                ManageSalary m = getSalary();
+                m.showMenu();
+            }
+            case 6: {
+                ManageAllowance m = getAllowance();
+                m.menuAllowance();
+            }
             default: {
                 System.out.println("Invalid Action!");
                 break;
             }
         }
     }
+
+    private static ManageSalary getSalary() {
+        ListEmployee le = new ListEmployee();
+        ListAllowance la= new ListAllowance();
+        ListTimeSheetMonth lts = new ListTimeSheetMonth();
+        le.readFromFile();
+        la.readFromFile();
+        lts.readfromfile();
+        ManageSalary m = new ManageSalary(le,la,lts);
+        return m;
+    }
+
+    private static ManageAllowance getAllowance() {
+        ListEmployee le = new ListEmployee();
+        ListProject lp = new ListProject();
+        ListPosition lpos= new ListPosition();
+        ListSeniorityAllowanceRule  lr = new ListSeniorityAllowanceRule();
+        ListAllowanceRule lar= new ListAllowanceRule();
+        le.readFromFile();
+        lp.readFromFile();
+        lpos.readfromfile();
+        lr.readFromFile();
+        lar.readFromFile();
+        ManageAllowance m = new ManageAllowance(le,lp,lpos,lar,lr);
+        return m;
+    }
+
 }

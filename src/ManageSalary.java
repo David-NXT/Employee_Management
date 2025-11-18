@@ -17,19 +17,19 @@ public class ManageSalary {
     public void showMenu() {
         int choice;
         do {
-            System.out.println("\n===== MENU QUẢN LÝ LƯƠNG =====");
-            System.out.println(" [#] Tổng số bản ghi lương: " + salaryList.getCount());
-            System.out.println("1. Tạo bảng lương từ bảng chấm công và lưu vào file");
-            System.out.println("2. Hiển thị toàn bộ bảng lương");
-            System.out.println("3. Tìm bảng lương theo mã nhân viên");
-            System.out.println("4. Hiển thị bảng lương theo tháng/năm");
-            System.out.println("5. Xem chi tiết các khoản trừ (vi phạm) theo mã nhân viên");
-            System.out.println("6. Bảng thống kê lương theo tháng");
-            System.out.println("0. Thoát khỏi chương trình");
-            System.out.print("→ Nhập lựa chọn của bạn: ");
+            System.out.println("\n===== SALARY MANAGEMENT MENU =====");
+            System.out.println(" [#] Total number of salary records: " + salaryList.getCount());
+            System.out.println("1. Create a payroll from the timesheet and save it to file");
+            System.out.println("2. Display the entire payroll");
+            System.out.println("3. Find payroll by employee code");
+            System.out.println("4. Display payroll by month/year");
+            System.out.println("5. View details of deducted (violated) accounts by employee code");
+            System.out.println("6. Monthly salary statistics table");
+            System.out.println("0.Exit the program");
+            System.out.print("→ Enter your selection: ");
 
             while (!sc.hasNextInt()) {
-                System.out.print(" Vui lòng nhập một số hợp lệ: ");
+                System.out.print(" Please enter a valid number: ");
                 sc.next();
             }
             choice = sc.nextInt();
@@ -58,12 +58,12 @@ public class ManageSalary {
                 }
                 case 6 -> {
                     if (salaryList.getCount() == 0) {
-                        System.out.println("Chưa có dữ liệu lương. Hãy tạo bảng lương trước.");
+                        System.out.println("No salary data yet. Please create a salary table first.");
                         break;
                     }
-                    System.out.print("Nhập tháng cần thống kê: ");
+                    System.out.print("Enter month: ");
                     int month = sc.nextInt();
-                    System.out.print("Nhập năm: ");
+                    System.out.print("Enter year: ");
                     int year = sc.nextInt();
                     sc.nextLine(); // xóa bộ đệm
 
@@ -119,12 +119,12 @@ public class ManageSalary {
             if (hasTimesheet) {
                 employeeCount++;
             } else {
-                System.out.println(" Không có bảng chấm công cho nhân viên: " + emp.getId());
+                System.out.println(" No timesheets for employees: " + emp.getId());
             }
         }
 
-        System.out.println(" Đã tạo " + createdCount + " bảng lương cho " + employeeCount + " nhân viên.");
-        System.out.println(" Các tháng/năm đã tạo:");
+        System.out.println(" Created " + createdCount + " salary table for " + employeeCount + " employee.");
+        System.out.println(" Months/Years created:");
     }
 
 
