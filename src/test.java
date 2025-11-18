@@ -15,8 +15,10 @@ public class test {
 //        a.fullStatisticEmployeeByYear(2023,2025);
 
 
-        MainManager a = new MainManager();
-        a.menu();
+//        MainManager a = new MainManager();
+//        a.menu();
 
+        ManageTimeSheet a = new ManageTimeSheet();
+        a.menu();
     }
 }
