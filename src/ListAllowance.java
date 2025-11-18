@@ -27,7 +27,7 @@ public class ListAllowance implements Serializable {
     // Hiển thị toàn bộ phụ cấp
     public void showAll() {
         if (n == 0) {
-            System.out.println("Chưa có phụ cấp nào.");
+            System.out.println("No allowances yet.");
             return;
         }
 
@@ -55,9 +55,9 @@ public class ListAllowance implements Serializable {
         try (ObjectOutputStream oos = new ObjectOutputStream(
                 new FileOutputStream("data/data_allowance.dat"))) {
             oos.writeObject(this);
-            System.out.println(">> Đã lưu dữ liệu phụ cấp.");
+            System.out.println(">> Created data allowance.");
         } catch (IOException e) {
-            System.err.println("Lỗi ghi file: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ public class ListAllowance implements Serializable {
         } catch (Exception e) {
             data = new Allowance[0];
             n = 0;
-            System.err.println("Không thể đọc file: " + e.getMessage());
+            System.err.println("Cannot read from file: " + e.getMessage());
         }
     }
 

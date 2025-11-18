@@ -24,50 +24,50 @@ public class ManageAllowance {
     }
 
     public void menuAllowance() {
-        int chon;
+        int select;
         do {
-            System.out.println("\n===== MENU QUẢN LÝ PHỤ CẤP NHÂN VIÊN =====");
-            System.out.println("1. Tính phụ cấp tự động cho nhân viên.");
-            System.out.println("2. Hiển thị toàn bộ phụ cấp nhân viên.");
-            System.out.println("3. Tìm phụ cấp theo mã nhân viên.");
-            System.out.println("4. Lưu file dữ liệu phụ cấp nhân viên.");
-            System.out.println("5. Đọc dữ liệu phụ cấp từ file.");
-            System.out.println("0. Thoát khỏi menu.");
-            System.out.print("-> Chọn: ");
+            System.out.println("\n===== EMPLOYEE ALLOWANCE MANAGEMENT MENU =====");
+            System.out.println("1. Automatically calculate allowances for employees.");
+            System.out.println("2. Display all employee allowances.");
+            System.out.println("3. Find allowances by employee code.");
+            System.out.println("4. Save employee allowance data file.");
+            System.out.println("5. Read allowance data from file.");
+            System.out.println("0. Exit menu.");
+            System.out.println("-> Select: ");
 
             while (!sc.hasNextInt()) {
-                System.out.print("Vui lòng nhập số hợp lệ: ");
+                System.out.print("Please enter a valid number: ");
                 sc.next();
             }
-            chon = sc.nextInt();
+            select = sc.nextInt();
             sc.nextLine();
 
-            switch (chon) {
+            switch (select) {
                 case 1 -> generateAllowances();
                 case 2 -> listAllowance.showAll();
                 case 3 -> {
-                    System.out.print("Nhập mã nhân viên: ");
+                    System.out.print("Enter employee code: ");
                     String empId = sc.nextLine();
                     Allowance a = listAllowance.findByEmployeeId(empId);
                     if (a != null) {
-                        System.out.printf("%-10s %-10s %-20s %-10s %-12s %-12s %-12s %-12s %-12s %-12s%n",
+                        System.out.printf("%-10s %-10s %-20s %-10s %-12s %-12s %-12s %-12s %-12s %-12s %-12s%n",
                                 "ID", "EmpID", "Name", "PosID",
                                 "Job", "Project", "Seniority", "Total", "Date");
                         a.display();
                     } else {
-                        System.out.println("Không tìm thấy phụ cấp cho nhân viên này.");
+                        System.out.println("No allowances found for this employee.");
                     }
                 }
 
                 case 4 -> listAllowance.writeToFile();
                 case 5 -> {
                     listAllowance.readFromFile();
-                    System.out.println(">> Đã đọc dữ liệu phụ cấp từ file.");
+                    System.out.println(">> Read allowance data from file.");
                 }
-                case 0 -> System.out.println(">> Bạn đã thoát khỏi menu phụ cấp.");
-                default -> System.out.println("Lựa chọn không hợp lệ.");
+                case 0 -> System.out.println(">> You have exited the allowance menu.");
+                default -> System.out.println("Invalid choice.");
             }
-        } while (chon != 0);
+        } while (select != 0);
     }
 
     private void generateAllowances() {
@@ -107,7 +107,7 @@ public class ManageAllowance {
             listAllowance.add(a);
         }
 
-        System.out.println(">> Đã tạo phụ cấp cho " + listEmp.getData().length + " nhân viên.");
+        System.out.println(">> Allowance created for " + listEmp.getData().length + " employee.");
     }
 
     private double calcJobAllowance(Position pos, double salary) {
@@ -135,7 +135,7 @@ public class ManageAllowance {
             SeniorityAllowanceRule rule = seniorityRule.findYear(yearsWorked);
             return (rule != null) ? rule.getAllowancerate() : 0;
         } catch (Exception e) {
-            System.err.println("Lỗi tính phụ cấp thâm niên cho nhân viên " + emp.getId());
+            System.out.println("Error calculating seniority allowance for employee " + emp.getId());
             return 0;
         }
     }

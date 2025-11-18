@@ -20,29 +20,29 @@ public class ListSalary implements Serializable {
 
     public void displayGroupedByMonthYear() {
         if (getCount() == 0) {
-            System.out.println("Chưa có dữ liệu lương.");
+            System.out.println("No salaries yet.");
             return;
         }
 
-        // Sắp xếp trước theo tháng/năm
+// Sort by month/year first
         sortByMonthYear();
 
         int currentMonth = -1;
         int currentYear = -1;
 
         for (Employee_Salary s : data) {
-            // Nếu gặp tháng/năm mới thì in tiêu đề nhóm
+// If a new month/year is encountered, print the group title
             if (s.getMonth() != currentMonth || s.getYear() != currentYear) {
                 currentMonth = s.getMonth();
                 currentYear = s.getYear();
 
-                System.out.println("\n===== Lương tháng " + currentMonth + "/" + currentYear + " =====");
+                System.out.println("\n===== Monthly salary " + currentMonth + "/" + currentYear + " =====");
                 System.out.printf("%-8s %-10s %-25s %-10s %-10s %-12s %-12s %-12s %-8s%n",
-                        "ID", "Mã NV", "Tên nhân viên", "Lương CB", "Phụ cấp", "Thưởng", "Khấu trừ", "Thực lĩnh", "Tháng/Năm");
+                        "ID", "Employee Code", "Employee Name", "Employee Salary", "Allowances", "Bonus", "Deductions", "Actual Income", "Month/Year");
                 System.out.println("-------------------------------------------------------------------------------------------------------------");
             }
 
-            // In chi tiết từng nhân viên
+// Print details for each employee
             System.out.printf("%-8s %-10s %-25s %-10.2f %-10.2f %-12.2f %-12.2f %-12.2f %02d/%d%n",
                     s.getSalaryId(),
                     s.getEmpId(),
@@ -66,7 +66,7 @@ public class ListSalary implements Serializable {
             }
         }
         if (!found)
-            System.out.println(" Không tìm thấy nhân viên.");
+            System.out.println(" No employee found.");
     }
 
     public void displayByMonthYear(int month, int year) {
@@ -78,27 +78,27 @@ public class ListSalary implements Serializable {
             }
         }
         if (!found)
-            System.out.println(" Không có dữ liệu lương cho tháng/năm này.");
+            System.out.println("There is no salary data for this month/year.");
     }
 
     public void displayViolations(String id) {
         boolean found = false;
         for (Employee_Salary s : data) {
             if (s.getEmpId().equalsIgnoreCase(id)) {
-                System.out.println(" Nhân viên: " +  s.getEmpName());
-                System.out.println(" Số tiền bị trừ do vi phạm: " + s.getDeductions());
+                System.out.println(" Employee: " + s.getEmpName());
+                System.out.println(" Amount deducted due to violation: " + s.getDeductions());
                 found = true;
             }
         }
         if (!found)
-            System.out.println(" Không tìm thấy nhân viên.");
+            System.out.println(" No employee found.");
     }
 
     public void saveToFile() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             oos.writeObject(data);
         } catch (IOException e) {
-            System.out.println(" Lỗi ghi file: " + e.getMessage());
+            System.out.println(" Error writing file: " + e.getMessage());
         }
     }
 
