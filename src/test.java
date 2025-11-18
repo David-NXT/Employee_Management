@@ -1,21 +1,15 @@
 import java.util.*;
 public class test {
     public static void main(String[] args) {
-//        ListEmployee b1 = new ListEmployee();
-//        b1.readFromFile();
-//        ListAllowance b2 = new ListAllowance();
-//        b2.readFromFile();
-//        ListAllYear b3 = new ListAllYear();
-//        b3.readfromfile();
-//
-//        ManageSalary b = new ManageSalary(b1,b2,b3);
+ListEmployee le = new ListEmployee();
+ListAllowance la = new ListAllowance();
+ListTimeSheetMonth lts = new ListTimeSheetMonth();
 
-//        Statistic a = new Statistic();
-//        a.fullStatisticEmployeeByYear(2023,2025);
+le.readFromFile();
+la.readFromFile();
+lts.readfromfile();
 
-
-        ManagerProject a = new ManagerProject();
-        a.menu();
+lts.out();
 
     }
 }
