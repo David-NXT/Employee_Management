@@ -1,3 +1,4 @@
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
@@ -95,12 +96,35 @@ public class TimeSheetMonth implements Serializable
 
     private void quickSort(TimeSheetDay[] arr, int l, int r)
     {
-        if (l < r)
-        {
+        if (l < r) {
             int p = partition(arr, l, r);
             quickSort(arr, l, p - 1);
             quickSort(arr, p + 1, r);
         }
+    }
+    public void daycheck(int dayx)
+    {
+        for (int i=0;i<td.length;i++)
+        {
+            if(dayx==td[i].getDay())
+            {
+                String status=td[i].check();
+                System.out.printf("%-15s %-15s %-15s %-15s\n",td[i].getId_employee(),td[i].getTime_in(),td[i].getTime_out(),td[i].getStatus());
+            }
+        }
+    }
+    public void monthcheck(int monthx)
+    {
+        for (int i=0;i<td.length;i++)
+        {
+            if(monthx==td[i].getMonth())
+            {
+                String date = String.format("%02d/%02d/%04d", td[i].getDay(),td[i].getMonth(),td[i].getYear());
+                String status=td[i].check();
+                System.out.printf("%-15s %-15s %-15s %-15s %-15s\n",id_employee,date,td[i].getTime_in(),td[i].getTime_out(),status);
+            }
+        }
+
     }
     public int randomDay(int month,int year)
     {
@@ -123,13 +147,15 @@ public class TimeSheetMonth implements Serializable
     }
 
 
-//    get
+    //    get
     public String getId_employee() {return id_employee;}
     public int[] getDay(){return day;}
     public int getMonth(){return month;}
     public int getYear(){return year;}
-    public TimeSheetDay[] getData() {return td;}
-//    set
+    public TimeSheetDay[] getData() {
+        return td;
+    }
+    //    set
     public void setId_employee(String id_employee) {this.id_employee=id_employee;}
     public void setDay(int[] day){this.day=day;}
     public void setMonth(int month){this.month=month;}
