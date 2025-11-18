@@ -15,6 +15,8 @@ public class test {
         DepartmentManage a = new DepartmentManage();
         //ManagerProject a = new ManagerProject();
         a.menu();
+        //EmployeeManagerMenu a = new EmployeeManagerMenu();
+        //a.menu();
 
         
     }

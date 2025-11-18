@@ -136,18 +136,18 @@ public class Department {
     }
 
     private void printEmployeeTable() {
-        System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12s %-12s %-12s%n","ID", "Surname", "Name", "Gender", "Phone", "Email", "Start Day", "Basic Sal", "Allowance", "Hourly/Time");
+        System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12s %-12s %-12s %-12s%n","ID", "Surname", "Name", "Gender", "Phone", "Email", "Start Day", "Basic Sal", "Allowance", "Hourly/Time","Type");
         for (int i = 0; i < n; i++) {
         Employee e = nv[i];
         if (e == null) continue;
         if (e instanceof OfficialEmployee) {
             OfficialEmployee oe = (OfficialEmployee) e;
-            System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12.2f %-12.2f %-12s%n",oe.getId(), oe.getSurname(), oe.getName(), oe.getGender(), oe.getPhoneNumber(),oe.getEmail(), oe.getStartWorkingDay(), oe.getBasicSalary(), oe.getSalaryAllowance(), "-");
+            System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12.2f %-12.2f %-12s %-12s%n",oe.getId(), oe.getSurname(), oe.getName(), oe.getGender(), oe.getPhoneNumber(),oe.getEmail(), oe.getStartWorkingDay(), oe.getBasicSalary(), oe.getSalaryAllowance(), "-","Offical");
         } else if (e instanceof SeasonalStaff) {
             SeasonalStaff ss = (SeasonalStaff) e;
-            System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12s %-12s %-12s%n",ss.getId(), ss.getSurname(), ss.getName(), ss.getGender(), ss.getPhoneNumber(),ss.getEmail(), ss.getStartWorkingDay(), "-", "-", ss.getHourlySalary() + "/" + ss.getWorkTime());
+            System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12s %-12s %-12s %-12s%n",ss.getId(), ss.getSurname(), ss.getName(), ss.getGender(), ss.getPhoneNumber(),ss.getEmail(), ss.getStartWorkingDay(), "-", "-", ss.getHourlySalary() + "$/ " + ss.getWorkTime(),"Seasonal");
         } else {
-            System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12s %-12s %-12s%n",e.getId(), e.getSurname(), e.getName(), e.getGender(), e.getPhoneNumber(),e.getEmail(), e.getStartWorkingDay(), "-", "-", "-", "-");
+            System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12s %-12s %-12s %-12s%n",e.getId(), e.getSurname(), e.getName(), e.getGender(), e.getPhoneNumber(),e.getEmail(), e.getStartWorkingDay(), "-", "-", "-", "-","Other");
         }
         }
     }
