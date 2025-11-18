@@ -41,6 +41,8 @@ public class TimeSheetDay implements Serializable
 
     public void enter()
     {
+        month=1+(int)(Math.random()*12);
+        year=2023+(int)(Math.random()*2);
         time_in=randomTimeIn();
         time_out=randomTimeOut();
     }

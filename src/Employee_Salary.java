@@ -35,9 +35,14 @@ public class Employee_Salary implements Serializable {
         this.createdDate = LocalDate.now();
     }
     public void display() {
-        System.out.printf("%-8s %-10s %-20s %-10.2f %-10.2f %-10.2f %-10.2f %-10.2f %02d/%d\n",
+        System.out.printf("%-8s %-10s %-20s %-12s %-12s %-12s %-12s %-12s %-10s%n",
+                "ID", "Mã NV", "Tên nhân viên", "Lương CB", "Phụ cấp", "Thưởng", "Khấu trừ", "Thực lĩnh", "Tháng/Năm");
+
+        // In dữ liệu lương
+        System.out.printf("%-8s %-10s %-20s %-12.2f %-12.2f %-12.2f %-12.2f %-12.2f %02d/%d%n",
                 salaryId, empId, empName, baseSalary, allowance,
                 bonus, deductions, totalSalary, month, year);
+        System.out.println("-----------------------------------------------------------------------------------------------------------------");
     }
 
     public boolean isES(int year, int month, String empid) {

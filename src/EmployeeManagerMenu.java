@@ -44,7 +44,7 @@ public class EmployeeManagerMenu {
                 }
                 case 6: {
                     ManageTimeSheet mt=new ManageTimeSheet();
-                    mt.menumain();
+                    mt.menu();
                     break;
                 }
                 case 7: {

@@ -21,6 +21,8 @@ public class DepartmentManage {
             System.out.println("3. Xoa 1 Phong Ban (Theo id phong ban)");
             System.out.println("4. Tim kiem Phong Ban");
             System.out.println("5. Nhap Phong Ban (tu file Department)");
+            System.out.println("6. Ngau nhien xep n nhan vien vao cac phong ban");
+            System.out.println("7. In ra file");
             System.out.println("0. Thoat");
             System.out.print(">> Chon: ");
             chon = sc.nextInt();
@@ -33,7 +35,7 @@ public class DepartmentManage {
                     int n = sc.nextInt(); sc.nextLine();
                     for (int i = 0;i < n;i++) {
                     Department a = new Department();
-                    a.getDepartment(sc);
+                    a.getDepartment();
                     data.them(a);
                     }
                     break;
@@ -49,9 +51,22 @@ public class DepartmentManage {
                     data.search(key);
                 }
                 case 5 -> {
-                    data.readFromFile();
+
                     System.out.print("Da nhap data phong ban tu file Department..");
+                    data.readFromFiles();
                 }
+                case 6 -> {
+                    //System.out.print("Nhap n so nhan vien ngau nhien: ");
+                    //int n = sc.nextInt();
+                    //sc.nextLine();
+                    data.addRandom();
+                }
+                case 7 -> {
+                    System.out.println("Xuat du lieu ra file");
+                    data.writeToFile();
+
+                }
+
                 case 0 -> System.out.println(">> Ban da thoat tinh nang!");
                 default -> System.out.println("ERROR!");
             }

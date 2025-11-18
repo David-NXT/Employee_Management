@@ -23,52 +23,31 @@ public class ListTimeSheetMonth implements Serializable
 
     public void enter()
     {
+        ListEmployee l=new ListEmployee();
+        l.readFromFile();
+        Employee[] list=l.getData();
         System.out.print("Enter number of employee: ");
         int n=sc.nextInt();
         sc.nextLine();
         ts=new TimeSheetMonth[n];
-        ListEmployee l=new ListEmployee();
         l.readFromFile();
-        int month=randomMonth();
-        int year=randomYear();
+        l.put();
         for (int i=0;i<n;i++)
         {
-            String id;
-            boolean check2=false;
-           do
-           {
-               System.out.print("Enter your ID: ");
-               id=sc.nextLine();
-               if (l.isEmployee(id)==-1)
-               {
-                   System.out.println("Invaible ID");
-                   check2=false;
-               }
-               else if (check_id_have_enter(id)!=-1)
-               {
-                   System.out.println("This ID have already exit");
-                   check2=false;
-               }
-               else
-                   check2=true;
-           }
-           while (!check2);
-           ts[i]=new TimeSheetMonth();
-           ts[i].setId_employee(id);
-           ts[i].setMonth(month);
-           ts[i].setYear(year);
-           ts[i].enter();
+            String id=list[i].getId();
+            ts[i]=new TimeSheetMonth();
+            ts[i].setId_employee(id);
+            ts[i].enter();
         }
     }
     public void out()
     {
-        System.out.println("Data time sheet employee");
-        quicksort(ts,0,ts.length-1);
-        number_of_employee_statistics();
+        System.out.println("data timesheet employee");
         for (int i=0;i<ts.length;i++)
         {
-            System.out.println("Time sheet month "+(i+1)+":");
+            System.out.println("timesheet "+(i+1)+":");
             ts[i].out();
+            quicksort(ts,i+1,ts.length-1);
             System.out.println("---------------------------");
         }
     }
@@ -87,14 +66,12 @@ public class ListTimeSheetMonth implements Serializable
         ts[ts.length-1]=nts;
         quicksort(ts,0,ts.length-1);
     }
-    public TimeSheetMonth[] deleted(String idx,int month,int year)
+    public void deleted(String idx)
     {
-        if (ts==null || ts.length==0)
-            return ts;
         int pos=-1;
         for (int i=0;i<ts.length;i++)
         {
-            if(idx.equals(ts[i].getId_employee()) && month==ts[i].getMonth() && year==ts[i].getYear())
+            if(idx.equals(ts[i].getId_employee()))
             {
                 pos=i;
                 break;
@@ -102,25 +79,58 @@ public class ListTimeSheetMonth implements Serializable
         }
         if (pos==-1)
         {
-            System.out.println("Employee not on the list");
-            return ts;
+            System.out.println("employee not on the list");
+            return;
         }
         for (int i=pos;i<ts.length-1;i++)
             ts[i]=ts[i+1];
         ts=Arrays.copyOf(ts,ts.length-1);
-        return ts;
     }
-
-    public TimeSheetMonth search(String idx,int month,int year)
+    public void writetofile()
     {
-       for (int i=0;i<ts.length;i++)
-       {
-           if (idx.equalsIgnoreCase(ts[i].getId_employee()) && month == ts[i].getMonth() && ts[i].getYear()==year)
-           {
-               return ts[i];
-           }
-       }
-       return null;
+        String basepath = System.getProperty("user.dir");
+        File dir = new File(basepath + File.separator + "data");
+        if (!dir.exists())
+        {
+            dir.mkdir();
+        }
+        File file = new File(dir,"data_timesheet_Employee");
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file)))
+        {
+            oos.writeObject(this);
+            System.out.println("Saved!");
+        }
+        catch (IOException e)
+        {
+            System.out.println("File chua duoc ghi " + e);
+        }
+    }
+    public void readfromfile()
+    {
+        String basepath = System.getProperty("user.dir");
+        File file = new File(basepath + File.separator + "data" + File.separator + "data_timesheet_Employee");
+
+        if (!file.exists()) {
+            System.out.println("file is not exist");
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            ListTimeSheetMonth lts = (ListTimeSheetMonth) ois.readObject();
+            this.ts=lts.ts;
+        }
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    public TimeSheetMonth search(String idx)
+    {
+        for (int i=0;i<ts.length;i++)
+        {
+            if (idx.equalsIgnoreCase(ts[i].getId_employee()))
+                return ts[i];
+        }
+        return null;
     }
     public int partision(TimeSheetMonth ts[], int l, int r)
     {
@@ -151,108 +161,95 @@ public class ListTimeSheetMonth implements Serializable
             quicksort(ts,p+1,r);
         }
     }
-    public void dayly_employee_statistics(int daycheck,int monthcheck,int yearcheck)
+    public void Monthly_employee_statistics()
     {
-        System.out.printf("%-15s %-15s %-15s %-15s %-15s\n","ID","Date","Time in","Time out","Status");
+        System.out.print("Enter month: ");
+        int monthcheck=sc.nextInt();
+        System.out.printf("%-15s %-15s %-15s %-15s %-15s\n","ID","Date","Time in ","Time out","Status");
         for (int i=0;i<ts.length;i++)
         {
-            if (monthcheck==ts[i].getMonth() && yearcheck==ts[i].getYear())
-            {
-                TimeSheetDay[] tsd=ts[i].getData();
-                for (int j=0;j<tsd.length;j++)
-                {
-                    if (daycheck==tsd[j].getDay())
-                    {
-                        tsd[i].outday();
-                    }
-                }
-            }
+            ts[i].monthcheck(monthcheck);
         }
     }
-    public void monthly_employee_statistics(int monthcheck,int yearcheck)
+    public void Dayly_employee_statistics()
     {
+        System.out.print("Enter day: ");
+        int daycheck=sc.nextInt();
+        System.out.printf("%-15s %-15s %-15s %-15s\n","ID","Time in","Time out","Status");
         for (int i=0;i<ts.length;i++)
         {
-            if (monthcheck==ts[i].getMonth() && yearcheck==ts[i].getYear())
-            {
-               ts[i].out();
-            }
+            ts[i].daycheck(daycheck);
         }
     }
-
-    public void number_of_employee_statistics()
+    public void update_timesheet(String idx)
     {
-        int employee=ts.length;
-        System.out.println("Number of employee: "+employee);
-    }
-    public void update_timesheet(String idx,int dayx,int monthx,int yearx,Scanner sc)
-    {
-        TimeSheetDay record =null;
+        int pos=-1;
         for (int i=0;i<ts.length;i++)
         {
-            if (monthx==ts[i].getMonth() && yearx==ts[i].getYear() && idx.equalsIgnoreCase(ts[i].getId_employee()))
+            if (idx.equalsIgnoreCase(ts[i].getId_employee()))
             {
-               TimeSheetDay[] tsd=ts[i].getData();
-               for (int j=0;j<tsd.length;j++)
-               {
-                   if (dayx==tsd[j].getDay())
-                   {
-                       record=tsd[j];
-                       break;
-                   }
-               }
-               break;
+                pos=i;
+                break;
             }
         }
-        if (record==null)
+        if (pos==-1)
         {
-            System.out.println("No record found for this date.");
+            System.out.println("Invaible ID employee");
             return;
         }
-        int x;
-        do
+        else
         {
-            System.out.println("1. Time in");
-            System.out.println("2. Time out");
-            System.out.println("0. Exit");
-            System.out.print("Chose your option: ");
-            x=sc.nextInt();
-            sc.nextLine();
-            if (x==1)
+            System.out.print("Enter day: ");
+            int dayx=sc.nextInt();
+            System.out.print("Enter month: ");
+            int monthx=sc.nextInt();
+            System.out.print("Enter year: ");
+            int yearx=sc.nextInt();
+            TimeSheetDay[] td=ts[pos].getData();
+            TimeSheetDay record =null;
+            for (int i=0;i<td.length;i++)
             {
-                System.out.print("Enter new Time in (HH:MM): ");
-                String timeinx=sc.nextLine();
-                record.setTime_in(timeinx);
-                System.out.println("Enter to continue.....");
-                sc.nextLine();
+                if (dayx==td[i].getDay() && monthx==td[i].getMonth() && yearx==td[i].getYear())
+                {
+                    record=td[i];
+                    break;
+                }
             }
-            else if (x==2)
+            int x;
+            do
             {
-                System.out.print("Enter new Time out (HH:MM): ");
-                String timeoutx=sc.nextLine();
-                record.setTime_out(timeoutx);
-                System.out.println("Enter to continue.....");
+                System.out.println("1. Time in");
+                System.out.println("2. Time out");
+                System.out.println("0. Exit");
+                System.out.print("Chose your option: ");
+                x=sc.nextInt();
                 sc.nextLine();
+                if (x==1)
+                {
+                    System.out.print("Enter new Time in (HH:MM): ");
+                    String timeinx=sc.nextLine();
+                    record.setTime_in(timeinx);
+                    System.out.println("Enter to continue.....");
+                    sc.nextLine();
+                }
+                else if (x==2)
+                {
+                    System.out.print("Enter new Time out (HH:MM): ");
+                    String timeoutx=sc.nextLine();
+                    record.setTime_out(timeoutx);
+                    System.out.println("Enter to continue.....");
+                    sc.nextLine();
+                }
+                else
+                {
+                    System.out.println("Error please chose again");
+                    System.out.println("Enter to continue.....");
+                    sc.nextLine();
+                }
             }
-            else if (x>2)
-            {
-                System.out.println("Error please chose again");
-                System.out.println("Enter to continue.....");
-                sc.nextLine();
-            }
+            while (x!=0);
         }
-        while (x!=0);
     }
-    public int randomMonth()
-    {
-        return 1+(int)(Math.random()*12);
-    }
-    public int randomYear()
-    {
-        return 2023+(int)(Math.random()*2);
-    }
-
-
 
 
 
@@ -260,22 +257,6 @@ public class ListTimeSheetMonth implements Serializable
     public TimeSheetMonth[] getTs()
     {
         return ts;
-    }
-    public int getMinYear() {
-        int minYear = Integer.MAX_VALUE;
-        for (TimeSheetMonth tm : ts) {
-            if (tm.getYear() < minYear) minYear = tm.getYear();
-        }
-        return minYear;
-    }
-
-    public int getMinMonth() {
-        int year = getMinYear();
-        int minMonth = 13;
-        for (TimeSheetMonth tm : ts) {
-            if (tm.getYear() == year && tm.getMonth() < minMonth) minMonth = tm.getMonth();
-        }
-        return minMonth;
     }
     //set
     public void setTs(TimeSheetMonth[] ts)

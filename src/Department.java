@@ -1,120 +1,175 @@
-import java.util.ArrayList;
-import java.util.List;
+
+
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class Department{
-    //========[1.thuoc tinh]======
-    private String id,name,about,createdate,manager; //thuoc tinh co ban cua class
-    private List<Employee> nv; //thuoc tinh muon cua class khac
-    
+public class Department {
+    private String id, name, about, createdate, manager;
+    private Employee[] nv;
+    private int n;
     private Scanner sc = new Scanner(System.in);
 
-
-    //========[2.phuong thuc]=======
-    //(Constructor)
-    public Department(String id,String name,String about,String createdate,String manager){ //constructor
-        //ogri
-        this.id=id;
-        this.name=name;
-        this.about=about;
-        this.createdate=createdate;
-        this.manager=manager;
-        //muon tu class khac
-        this.nv=new ArrayList<>();
+    public Department(String id, String name, String about, String createdate, String manager) {
+        this.id = id;
+        this.name = name;
+        this.about = about;
+        this.createdate = createdate;
+        this.manager = manager;
+        this.nv = new Employee[100];
+        this.n = 0;
     }
-    public Department(Department a){ //copy constructor
-        id=a.id;
-        name=a.name;
-        about=a.about;
-        createdate=a.createdate;
-        manager=a.manager;
-        this.nv = new ArrayList<>(a.nv);
+    public Department(Department a) {
+        this.id = a.id;
+        this.name = a.name;
+        this.about = a.about;
+        this.createdate = a.createdate;
+        this.manager = a.manager;
+        this.n = a.n;
+        this.nv = new Employee[100];
+        for (int i = 0; i < a.n; i++) {
+            this.nv[i] = a.nv[i];
+        }
     }
-    public Department(){} //default constructor
-
-    //(Ogi phuong thuc)
-
-     public void getDepartment(Scanner sc){ //nhap
-        System.out.printf("Id phong ban: ");id=sc.nextLine();
-        System.out.printf("Ten phong ban: ");name=sc.nextLine();
-        System.out.printf("Mieu ta phong ban: ");about=sc.nextLine();
-        System.out.printf("Ngay thanh lap phong ban (yy-mm-dd): ");createdate=sc.nextLine();
-        System.out.printf("Truong phong ban: ");manager=sc.nextLine();
+    public Department() {
+        this.nv = new Employee[100];
+        this.n = 0;
     }
-
-    public void putDepartment(){ //hien thi/xuat
-        System.out.printf("%-5s %-20s %-40s %-12s %-20s",id,name,about,createdate,manager);
+    public void getDepartment() {
+        System.out.print("Id phong ban: "); id = sc.nextLine();
+        System.out.print("Ten phong ban: "); name = sc.nextLine();
+        System.out.print("Mieu ta phong ban: "); about = sc.nextLine();
+        System.out.print("Ngay thanh lap (yy-mm-dd): "); createdate = sc.nextLine();
+        System.out.print("Truong phong ban: "); manager = sc.nextLine();
     }
-
-    //(Ogri phuong thuc de tuong tac thong tin lay tu class khac)
-    class ConcreteEmployee extends Employee {
-        public ConcreteEmployee(){ super();} 
-    }
-    public void addDepartment_Employee(Employee e){ 
-        nv.add(e);
+    public void putDepartment() {
+        System.out.printf("%-5s %-20s %-40s %-12s %-20s", id, name, about, createdate, manager);
     }
 
+    //(Ogri Employee-related)
 
-
-    public void printDepartmentInfo(){
-        System.out.printf("======Department: %s (ID: %s)========%n", name, id);
-        if (nv.isEmpty()){
-            System.out.println("Khong co nv nao trong phong ban");
-            System.out.println("Co muon them nhan vien?");
-            System.out.println("1. Them nhan vien (add new data template)");
-            System.out.println("2. Them nhan vien (add Employee from the data file)");
-            System.out.println("0. Khong them nhan vien");
-            System.out.print(">> Chon: ");
-            int chon= sc.nextInt();
-            switch (chon) {
-                case 1 ->{
-                     System.out.print("Nhap so luong nhan vien muon them: ");
-                    int n = sc.nextInt();
-                    for(int i = 0;i < n;i++){
-                        Employee e = new ConcreteEmployee();
-                        e.get();
-                        nv.add(e);
-                    }
-                    break;
-                }
-                case 2 ->{
-                    System.out.print("Nhap so luong nhan vien muon them: ");
-                    int n = sc.nextInt();
-                     for(int i = 0;i < n;i++){
-
-                    }
-                    break;
-                }
-                case 0 -> System.out.println("Khong them nhan vien.");
-                default -> System.out.println("ERROR!");
+    public Employee findEmployeeById(String id) {
+        for (int i = 0; i < n; i++) {
+            if (nv[i].getId().equalsIgnoreCase(id)){
+                return nv[i];
             }
+        }
+        return null;
+    }
+
+    public void addEmployee(Employee a) {
+        if (n >= nv.length) {
+            nv = Arrays.copyOf(nv, nv.length + 100);
+        }
+        nv[n++] = a;
+    }
+
+
+   public void addEmployeeFromList(String inputId, ListEmployee list) {
+        Employee[] all = list.getData();
+        if (all == null || all.length == 0) {
+            System.out.println("Danh sach nhan vien trong file rong!");
             return;
         }
-        if (!nv.isEmpty()) {
-        System.out.printf("%-10s %-20s %-20s %-8s %-15s %-20s %-12s%n","ID", "Surname", "Name", "Gender", "Phone", "Email", "Start Day");
-        for (Employee e : nv) {
-        System.out.printf("%-10s %-20s %-20s %-8s %-15s %-20s %-12s%n",e.getId(), e.getSurname(), e.getName(), e.getGender(),e.getPhoneNumber(), e.getEmail(), e.getStartWorkingDay());
+        for (Employee e : all) {
+            if (e != null && e.getId().equalsIgnoreCase(inputId)) {
+                addEmployee(e);
+                System.out.println("Nhan vien da duoc them vao phong ban: " + e.getName());
+                return;
+            }
         }
-        }
+        System.out.println("Khong tim thay nhan vien co ID: " + inputId);
     }
 
 
-    //(Ogi get/set)
-    public String getId(){ return id;}
-    public void setId(String id){this.id = id;}
-    public String getName(){ return name;}
-    public void setName(String name){this.name = name;}
-    public String getAbout(){return about;}
-    public void setAbout(String about){this.about = about;}
-    public String getCreateDate(){return createdate;}
-    public void setCreateDate(String createdate){this.createdate = createdate;}
-    public String getManager(){return manager;}
-    public void setManager(String manager){this.manager = manager;}
+    public void printDepartmentInfo() {
+        System.out.printf("====== Department: %s (ID: %s) ======%n", name, id);
+        if (n == 0) {
+            System.out.println("Khong co nhan vien.");
+            addEmployees();
+            return;
+        }
+        printEmployeeTable();
+        System.out.println("Co muon them nhan vien?");
+        addEmployees();
+    }
 
-    public List<Employee> getEmployees() { return nv;}
+    private void addEmployees() {
+        System.out.println("1. Them nhan vien tu tay");
+        System.out.println("2. Them nhan vien tu file");
+        System.out.println("0. Thoat");
+        System.out.println(">> Chon:");
+        int choice = sc.nextInt(); 
+        sc.nextLine(); 
+        switch (choice) {
+            case 1->{
+                System.out.print("Nhap so luong: ");
+                int count = sc.nextInt();
+                sc.nextLine();
+                for (int i = 0; i < count; i++) {
+                    System.out.println("-- Nhap nhan vien thu " + (i + 1) + " --");
+                    System.out.println("Chon loai nhan vien: 1. Official 2. Seasonal");
+                    int type = sc.nextInt();
+                    sc.nextLine();
+                    Employee e;
+                    if (type == 1) e = new OfficialEmployee();
+                    else e = new SeasonalStaff();
+                    e.get(); // gọi phương thức get() của từng loại
+                    addEmployee(e);
+                }
+            
+                break;}
 
+            case 2 ->{
+                ListEmployee list = new ListEmployee();
+                list.readFromFile();
+                System.out.print("Nhap ID nhan vien muon them: ");
+                String inputId = sc.nextLine();
+                addEmployeeFromList(inputId, list);
+                break;}
 
+            case 0 ->{
+                System.out.println("Thoat.");
+                break;}
 
+            default -> System.out.println("Lua chon khong hop le.");
+        }
+    }
 
+    private void printEmployeeTable() {
+        System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12s %-12s %-12s %-12s%n","ID", "Surname", "Name", "Gender", "Phone", "Email", "Start Day", "Basic Sal", "Allowance", "Hourly/Time","Type");
+        for (int i = 0; i < n; i++) {
+        Employee e = nv[i];
+        if (e == null) continue;
+        if (e instanceof OfficialEmployee) {
+            OfficialEmployee oe = (OfficialEmployee) e;
+            System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12.2f %-12.2f %-12s %-12s%n",oe.getId(), oe.getSurname(), oe.getName(), oe.getGender(), oe.getPhoneNumber(),oe.getEmail(), oe.getStartWorkingDay(), oe.getBasicSalary(), oe.getSalaryAllowance(), "-","Offical");
+        } else if (e instanceof SeasonalStaff) {
+            SeasonalStaff ss = (SeasonalStaff) e;
+            System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12s %-12s %-12s %-12s%n",ss.getId(), ss.getSurname(), ss.getName(), ss.getGender(), ss.getPhoneNumber(),ss.getEmail(), ss.getStartWorkingDay(), "-", "-", ss.getHourlySalary() + "$/ " + ss.getWorkTime(),"Seasonal");
+        } else {
+            System.out.printf("%-10s %-15s %-15s %-8s %-15s %-30s %-12s %-12s %-12s %-12s %-12s%n",e.getId(), e.getSurname(), e.getName(), e.getGender(), e.getPhoneNumber(),e.getEmail(), e.getStartWorkingDay(), "-", "-", "-", "-","Other");
+        }
+        }
+    }
     
+    
+    
+
+
+    //(Orgi Get/Set)
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getAbout() { return about; }
+    public void setAbout(String about) { this.about = about; }
+    public String getCreateDate() { return createdate; }
+    public void setCreateDate(String createdate) { this.createdate = createdate; }
+    public String getManager() { return manager; }
+    public void setManager(String manager) { this.manager = manager; }
+
+    public Employee[] getEmployees() { return nv; }
+    public int getN() { return n; }
+
+
 }
