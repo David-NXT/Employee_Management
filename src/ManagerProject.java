@@ -29,6 +29,7 @@ public class ManagerProject {
         System.out.println("2. Add Project");
         System.out.println("3. Delete Project");
         System.out.println("4. Find");
+        System.out.println("5. Statistic");
     }
 
     public void findManager() {
@@ -72,6 +73,10 @@ public class ManagerProject {
             }
             case 4: {
                 findManager();
+                break;
+            }
+            case 5: {
+                statistic();
                 break;
             }
             default: {
@@ -189,5 +194,15 @@ public class ManagerProject {
             else break;
         }
         return Integer.toString(newID);
+    }
+
+    public void statistic() {
+        int[] result = lproj.statistic();
+
+        System.out.printf("%30s |%15s| %n","Project Name","Number Employee");
+        System.out.println("-----------------------------------------------------------------------------");
+        for (int i = 0;i < lproj.getN();i++) {
+            System.out.printf("%30s |%15d| %n",lproj.getData()[i].getProjectName(),result[i]);
+        }
     }
 }

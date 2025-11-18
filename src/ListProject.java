@@ -122,6 +122,17 @@ public class ListProject implements Serializable {
         return result;
     }
 
+    public int[] statistic() {
+        int[] result = new int[n];
+
+        for (int i = 0;i < n;i++) {
+            result[i] += data[i].getEmployeeId().length;
+            if (data[i].getMainengineerId() != null && !data[i].getMainengineerId().equalsIgnoreCase("")) result[i]++;
+            if (data[i].getManagerId() != null && !data[i].getManagerId().equalsIgnoreCase("")) result[i]++;
+        }
+        return result;
+    }
+
 
     public Project[] getData() {
         return data;

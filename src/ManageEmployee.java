@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class ManageEmployee {
     private transient final Scanner sc = new Scanner(System.in);
-    private ListEmployee lemp;
+    private final ListEmployee lemp;
 
     public ManageEmployee() {
         lemp = new ListEmployee();
@@ -48,6 +48,7 @@ public class ManageEmployee {
         System.out.println("5. Delete");
         System.out.println("6. Change");
         System.out.println("7. Find");
+        System.out.println("8. Statistic");
     }
 
     public void changeMenu(int type) {
@@ -98,6 +99,10 @@ public class ManageEmployee {
             }
             case 7: {
                 findManage();
+                break;
+            }
+            case 8: {
+                statistic();
                 break;
             }
             default: {
@@ -236,5 +241,11 @@ public class ManageEmployee {
             ((SeasonalStaff) lemp.getData()[locate]).setHourlySalary(newsalary);
         }
         lemp.writeToFile();
+    }
+
+    public void statistic() {
+        int[] result = lemp.statistic();
+        System.out.println("Number Of Official Employee: " + result[0]);
+        System.out.println("Number Of Seasonal Staff: " + result[1]);
     }
 }

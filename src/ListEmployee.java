@@ -315,6 +315,16 @@ public class ListEmployee implements Serializable{
         return result;
     }
 
+    public int[] statistic() {
+        int[] result = new int[2];
+        for (Employee e: data) {
+            if (e instanceof OfficialEmployee) result[0]++;
+            else result[1]++;
+        }
+
+        return result;
+    }
+
     public Employee[] getData(){
         return data;
     }

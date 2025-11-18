@@ -18,6 +18,8 @@ public class ManageTimeSheet
             System.out.println("6. Check employee day");
             System.out.println("7. Update TimeSheet");
             System.out.println("8. Search employee");
+            System.out.println("9. Total working of employee");
+            System.out.println("10. Create next month");
             System.out.println("0. Exit");
             System.out.print("Choose an option: ");
             x=sc.nextInt();
@@ -72,7 +74,19 @@ public class ManageTimeSheet
                 System.out.print("Enter to continue...");
                 sc.nextLine();
             }
-            else if (x>8)
+            else if (x==9)
+            {
+                totalworking();
+                System.out.print("Enter to continue...");
+                sc.nextLine();
+            }
+            else if(x==10)
+            {
+                createNextMonthTimesheet();
+                System.out.print("Enter to continue...");
+                sc.nextLine();
+            }
+            else if (x>9)
             {
                 System.out.println("Error please chose again");
                 System.out.print("Enter to continue...");
@@ -139,6 +153,35 @@ public class ManageTimeSheet
             lt.add(tm);
         }
         lt.writetofile();
+    }
+    public void totalworking()
+    {
+        ListEmployee l=new ListEmployee();
+        l.readFromFile();
+        l.put();
+        lt.readfromfile();
+        System.out.print("Enter id: ");
+        String id=sc.nextLine();
+        lt.totaltime(id);
+        if (lt.totaltime(id)==0)
+        {
+            System.out.print("Invalible id");
+        }
+        else
+            System.out.println("Total working: "+lt.totaltime(id));
+
+    }
+    public void createNextMonthTimesheet()
+    {
+        lt.readfromfile();
+        System.out.print("Enter new month: ");
+        int newMonth = sc.nextInt();
+        System.out.print("Enter new year: ");
+        int newYear = sc.nextInt();
+        sc.nextLine();
+        lt.nextmonth(newMonth,newYear);
+        lt.writetofile();
+        System.out.println("Next month timesheet created!");
     }
 
 }
