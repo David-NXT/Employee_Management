@@ -8,7 +8,6 @@ ListTimeSheetMonth lts = new ListTimeSheetMonth();
 le.readFromFile();
 la.readFromFile();
 lts.readfromfile();
-lts.out();
 
 
 ManageSalary m = new ManageSalary(le,la,lts);

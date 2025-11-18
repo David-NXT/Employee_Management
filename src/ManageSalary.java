@@ -95,8 +95,6 @@ public class ManageSalary {
                 if (!t.getId_employee().equalsIgnoreCase(emp.getId())) continue;
 
                 hasTimesheet = true;
-                System.out.println("DEBUG: " + t.getId_employee() + " → " + t.getMonth() + "/" + t.getYear());
-
                 Allowance allow = allowanceList.findByEmployeeId(emp.getId());
                 double baseSalary = calculateBaseSalary(emp, t);
                 double allowance = (allow != null) ? allow.getTotalAllowance() : 0;
@@ -127,9 +125,6 @@ public class ManageSalary {
 
         System.out.println(" Đã tạo " + createdCount + " bảng lương cho " + employeeCount + " nhân viên.");
         System.out.println(" Các tháng/năm đã tạo:");
-        for (Employee_Salary s : salaryList.getAll()) {
-            System.out.println(" - " + s.getEmpId() + " → " + s.getMonth() + "/" + s.getYear());
-        }
     }
 
 
