@@ -9,7 +9,7 @@ public class test {
 //        b3.readfromfile();
 //
 //        ManageSalary b = new ManageSalary(b1,b2,b3);
-
+//
 //        Statistic a = new Statistic();
 //        a.fullStatisticEmployeeByYear(2023,2025);
 
