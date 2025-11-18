@@ -58,11 +58,10 @@ public class SalaryStatistics implements Serializable {
         double avgNet = averageNetSalary(month, year);
         int count = countByMonth(month, year);
 
-        System.out.println("\n===== THỐNG KÊ LƯƠNG THÁNG " + month + "/" + year + " =====");
+        System.out.println("\n>>>>> THỐNG KÊ LƯƠNG THÁNG " + month + "/" + year + " <<<<<");
         System.out.println("Số bản ghi: " + count);
         System.out.printf("Tổng lương cơ bản: %.2f\n", totalBase);
         System.out.printf("Tổng lương thực nhận: %.2f\n", totalNet);
         System.out.printf("Lương trung bình: %.2f\n", avgNet);
-        System.out.println("========================================");
     }
 }

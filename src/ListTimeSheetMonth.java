@@ -23,36 +23,42 @@ public class ListTimeSheetMonth implements Serializable
 
     public void enter()
     {
+        ListEmployee l=new ListEmployee();
+        l.readFromFile();
+        Employee[] list=l.getData();
+        int month=1+(int)(Math.random()*12);
+        int year=2023+(int)(Math.random()*3);
         System.out.print("Enter number of employee: ");
         int n=sc.nextInt();
         sc.nextLine();
         ts=new TimeSheetMonth[n];
-        ListEmployee l=new ListEmployee();
         l.readFromFile();
         l.put();
         for (int i=0;i<n;i++)
         {
-            String id;
-            boolean check=false;
-            do
-            {
-                System.out.print("Enter your ID: ");
-                id=sc.nextLine();
-                if (l.isEmployee(id)==-1)
-                {
-                    System.out.println("Invaible ID");
-                    check=false;
-                }
-                else if (check_id_have_enter(id)!=-1)
-                {
-                    System.out.println("This ID have already exit");
-                    check=false;
-                }
-                else
-                    check=true;
-            }
-            while (!check);
+            String id=list[i].getId();
+//            boolean check;
+//            do
+//            {
+//                System.out.print("Enter id: ");
+//                id=sc.nextLine();
+//                if (check_id_have_enter(id)!=-1)
+//                {
+//                    System.out.println("This id have already yet");
+//                    check=false;
+//                }
+//                else if (l.isEmployee(id)==-1)
+//                {
+//                    System.out.println("Invaible id");
+//                    check=false;
+//                }
+//                else
+//                    check=true;
+//            }
+//            while(!check);
             ts[i]=new TimeSheetMonth();
+            ts[i].setMonth(month);
+            ts[i].setYear(year);
             ts[i].setId_employee(id);
             ts[i].enter();
         }
@@ -60,11 +66,11 @@ public class ListTimeSheetMonth implements Serializable
     public void out()
     {
         System.out.println("data timesheet employee");
+        quicksort(ts,0,ts.length-1);
         for (int i=0;i<ts.length;i++)
         {
             System.out.println("timesheet "+(i+1)+":");
             ts[i].out();
-            quicksort(ts,i+1,ts.length-1);
             System.out.println("---------------------------");
         }
     }
@@ -76,6 +82,17 @@ public class ListTimeSheetMonth implements Serializable
                 return i;
         }
         return -1;
+    }
+    public boolean check(String idx,int month,int year)
+    {
+        for (int i=0;i<ts.length;i++)
+        {
+            if (idx.equalsIgnoreCase(ts[i].getId_employee()) && month==ts[i].getMonth()  && year==ts[i].getYear())
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public void add(TimeSheetMonth nts)
     {
@@ -197,6 +214,15 @@ public class ListTimeSheetMonth implements Serializable
         {
             ts[i].daycheck(daycheck);
         }
+    }
+    public double totaltime(String idx)
+    {
+        double total=0;
+        for (int i=0;i<ts.length;i++)
+        {
+            total=total+ts[i].totaltime(idx);
+        }
+        return total;
     }
     public void update_timesheet(String idx)
     {

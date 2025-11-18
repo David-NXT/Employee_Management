@@ -1,4 +1,51 @@
+import java.util.Scanner;
+
 public class Statistic {
+    private final transient Scanner sc = new Scanner(System.in);
+    private ListSalary a;
+    private ListEmployee b;
+
+        public Statistic() {
+            a = new ListSalary();
+            a.loadFromFile();
+            b = new ListEmployee();
+            b.readFromFile();
+        }
+
+    public void menu() {
+        int mode;
+        do {
+            mainMenu();
+            mode = sc.nextInt();sc.nextLine();
+            if (mode == 0) break;
+            runMenu(mode);
+        } while (true);
+    }
+
+
+    public void mainMenu() {
+        System.out.println("0. Exit");
+        System.out.println("1. Statistic Employee Salary By Quarter");
+        System.out.println("2. Statistic Salary By year");
+    }
+
+    public void runMenu(int mode) {
+        switch (mode) {
+            case 1: {
+                fullStatisticEmployeeByYear(a.findMinYear(),a.findMaxYear());
+                break;
+            }
+            case 2: {
+                fullStatisticByYear(a.findMinYear(),a.findMaxYear());
+                break;
+            }
+            default: {
+                System.out.println("Invalid Action!");
+                break;
+            }
+        }
+    }
+
     public void fullStatisticByYear(int startyear, int endyear) {
         ListSalary a = new ListSalary();
         a.loadFromFile();
@@ -20,10 +67,6 @@ public class Statistic {
     }
 
     public void fullStatisticEmployeeByYear(int startyear, int endyear) {
-        ListSalary a = new ListSalary();
-        a.loadFromFile();
-        ListEmployee b = new ListEmployee();
-        b.readFromFile();
 
         System.out.printf("%-42s","");
         for (int i = startyear;i <= endyear;i++) {
@@ -51,7 +94,6 @@ public class Statistic {
 
     public void employeeQuarterSalary(int mode, int year, ListSalary data, String empID) {
         double sum = 0;
-        int count = 0;
 
         if (mode != 1) {
             if (mode == 2) mode += 2;
@@ -66,4 +108,6 @@ public class Statistic {
 
         System.out.printf("|%30f |",sum);
     }
+
+
 }

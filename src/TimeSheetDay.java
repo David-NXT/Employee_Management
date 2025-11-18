@@ -1,6 +1,8 @@
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.time.LocalTime;
+import java.time.Duration;
 public class TimeSheetDay implements Serializable
 {
     private transient final Scanner sc = new Scanner(System.in);
@@ -92,6 +94,17 @@ public class TimeSheetDay implements Serializable
         else
             return "Ok";
     }
+    public double totaltimeworking(String idx)
+    {
+        if (idx.equalsIgnoreCase(id_employee))
+        {
+            LocalTime in=LocalTime.parse(time_in);
+            LocalTime out=LocalTime.parse(time_out);
+            Duration d=Duration.between(in,out);
+            return d.toMinutes()/60.0;
+        }
+        return 0;
+    }
 
 
 
@@ -112,4 +125,5 @@ public class TimeSheetDay implements Serializable
     public void setYear(int year){this.year = year;}
     public void setTime_in(String time_in){this.time_in = time_in;}
     public void setTime_out(String time_out){this.time_out = time_out;}
+    public void setStatus(String status){this.status=status;}
 }
