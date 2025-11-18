@@ -5,7 +5,7 @@ public class ListSalary implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private Employee_Salary[] data;
-    private final String FILE_PATH = "data/salary.dat";
+    private final String FILE_PATH = "data/data_salary.dat";
 
     public ListSalary() {
         data = new Employee_Salary[0];
@@ -18,20 +18,31 @@ public class ListSalary implements Serializable {
         saveToFile();
     }
 
-    public void displayAll() {
+    public void displayGroupedByMonthYear() {
         if (getCount() == 0) {
-            System.out.println(" Chưa có dữ liệu lương.");
+            System.out.println("Chưa có dữ liệu lương.");
             return;
         }
 
-        sortByMonthYear(); // sắp xếp trực tiếp mảng data
+        // Sắp xếp trước theo tháng/năm
+        sortByMonthYear();
 
-        System.out.println("\nTổng số bản ghi lương: " + getCount());
-        System.out.printf("%-8s %-10s %-25s %-10s %-10s %-12s %-12s %-12s %-8s%n",
-                "ID", "Mã NV", "Tên nhân viên", "Lương CB", "Phụ cấp", "Thưởng", "Khấu trừ", "Thực lĩnh", "Tháng/Năm");
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        int currentMonth = -1;
+        int currentYear = -1;
 
         for (Employee_Salary s : data) {
+            // Nếu gặp tháng/năm mới thì in tiêu đề nhóm
+            if (s.getMonth() != currentMonth || s.getYear() != currentYear) {
+                currentMonth = s.getMonth();
+                currentYear = s.getYear();
+
+                System.out.println("\n===== Lương tháng " + currentMonth + "/" + currentYear + " =====");
+                System.out.printf("%-8s %-10s %-25s %-10s %-10s %-12s %-12s %-12s %-8s%n",
+                        "ID", "Mã NV", "Tên nhân viên", "Lương CB", "Phụ cấp", "Thưởng", "Khấu trừ", "Thực lĩnh", "Tháng/Năm");
+                System.out.println("-------------------------------------------------------------------------------------------------------------");
+            }
+
+            // In chi tiết từng nhân viên
             System.out.printf("%-8s %-10s %-25s %-10.2f %-10.2f %-12.2f %-12.2f %-12.2f %02d/%d%n",
                     s.getSalaryId(),
                     s.getEmpId(),

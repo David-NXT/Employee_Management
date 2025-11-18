@@ -37,7 +37,7 @@ public class ManageSalary {
 
             switch (choice) {
                 case 1 -> generateSalaries();
-                case 2 -> salaryList.displayAll();
+                case 2 -> salaryList.displayGroupedByMonthYear();
                 case 3 -> {
                     System.out.print("Enter employee ID: ");
                     String id = sc.nextLine().trim();
@@ -84,44 +84,54 @@ public class ManageSalary {
 
     private void generateSalaries() {
         TimeSheetMonth[] sheets = timeSheetList.getTs();
-        int createdCount = 0;
+        int createdCount = 0;   // tổng số bảng lương được tạo
+        int employeeCount = 0;  // số nhân viên có bảng lương
 
         for (Employee emp : employeeList.getData()) {
-            TimeSheetMonth sheet = null;
+
+            // Duyệt tất cả bảng công, tạo lương cho từng bảng công
+            boolean hasTimesheet = false;
             for (TimeSheetMonth t : sheets) {
-                if (t.getId_employee().equalsIgnoreCase(emp.getId())) {
-                    sheet = t;
-                    break;
-                }
+                if (!t.getId_employee().equalsIgnoreCase(emp.getId())) continue;
+
+                hasTimesheet = true;
+                System.out.println("DEBUG: " + t.getId_employee() + " → " + t.getMonth() + "/" + t.getYear());
+
+                Allowance allow = allowanceList.findByEmployeeId(emp.getId());
+                double baseSalary = calculateBaseSalary(emp, t);
+                double allowance = (allow != null) ? allow.getTotalAllowance() : 0;
+                double bonus = calculateBonus(t, baseSalary);
+                double deductions = calculateDeductions(t);
+
+                Employee_Salary salary = new Employee_Salary(
+                        salaryList.getAutoSalaryId(),
+                        emp.getId(),
+                        emp.getSurname() + " " + emp.getName(),
+                        baseSalary,
+                        allowance,
+                        bonus,
+                        deductions,
+                        t
+                );
+
+                salaryList.addSalary(salary);
+                createdCount++;
             }
-            if (sheet == null) {
+
+            if (hasTimesheet) {
+                employeeCount++;
+            } else {
                 System.out.println(" Không có bảng chấm công cho nhân viên: " + emp.getId());
-                continue;
             }
-
-            Allowance allow = allowanceList.findByEmployeeId(emp.getId());
-            double baseSalary = calculateBaseSalary(emp,sheet);
-            double allowance = (allow != null) ? allow.getTotalAllowance() : 0;
-            double bonus = calculateBonus(sheet, baseSalary);
-            double deductions = calculateDeductions(sheet);
-
-            Employee_Salary salary = new Employee_Salary(
-                    salaryList.getAutoSalaryId(),
-                    emp.getId(),
-                    emp.getSurname() + " " + emp.getName(),
-                    baseSalary,
-                    allowance,
-                    bonus,
-                    deductions,
-                    sheet
-            );
-
-            salaryList.addSalary(salary);
-            createdCount++;
         }
 
-        System.out.println(" Đã tạo bảng lương cho " + createdCount + " nhân viên.");
+        System.out.println(" Đã tạo " + createdCount + " bảng lương cho " + employeeCount + " nhân viên.");
+        System.out.println(" Các tháng/năm đã tạo:");
+        for (Employee_Salary s : salaryList.getAll()) {
+            System.out.println(" - " + s.getEmpId() + " → " + s.getMonth() + "/" + s.getYear());
+        }
     }
+
 
     private double calculateBaseSalary(Employee emp, TimeSheetMonth sheet) {
         if (emp instanceof OfficialEmployee offEmp) {
