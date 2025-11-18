@@ -19,7 +19,6 @@ public class ManageTimeSheet
             System.out.println("7. Update TimeSheet");
             System.out.println("8. Search employee");
             System.out.println("9. Total working of employee");
-            System.out.println("10. Create next month");
             System.out.println("0. Exit");
             System.out.print("Choose an option: ");
             x=sc.nextInt();
@@ -80,12 +79,6 @@ public class ManageTimeSheet
                 System.out.print("Enter to continue...");
                 sc.nextLine();
             }
-            else if(x==10)
-            {
-                createNextMonthTimesheet();
-                System.out.print("Enter to continue...");
-                sc.nextLine();
-            }
             else if (x>9)
             {
                 System.out.println("Error please chose again");
@@ -125,29 +118,36 @@ public class ManageTimeSheet
     {
         ListEmployee l=new ListEmployee();
         l.readFromFile();
+        Employee[] list=l.getData();
         l.put();
         lt.readfromfile();
         System.out.print("Number of timesheet you want add: ");
         int n=sc.nextInt();
+        System.out.print("Enter month: ");
+        int month=sc.nextInt();
+        System.out.print("Enter year: ");
+        int year=sc.nextInt();
         sc.nextLine();
         for (int i=0;i<n;i++)
         {
-            String id;
-            boolean check=false;
-            do
-            {
-                System.out.print("Enter your ID: ");
-                id = sc.nextLine();
-                if (lt.check_id_have_enter(id) != -1)
-                {
-                    System.out.print("This ID have already exit");
-                    check = false;
-                }
-                else
-                    check = true;
-            }
-            while (!check);
+            String id=list[i].getId();
+//            boolean check=false;
+//            do
+//            {
+//                System.out.print("Enter your ID: ");
+//                id = sc.nextLine();
+//                if (lt.check_id_have_enter(id) != -1)
+//                {
+//                    System.out.print("This ID have already exit");
+//                    check = false;
+//                }
+//                else
+//                    check = true;
+//            }
+//            while (!check);
             TimeSheetMonth tm=new TimeSheetMonth();
+            tm.setMonth(month);
+            tm.setYear(year);
             tm.setId_employee(id);
             tm.enter();
             lt.add(tm);
@@ -170,36 +170,6 @@ public class ManageTimeSheet
         else
             System.out.println("Total working: "+lt.totaltime(id));
 
-    }
-    public void createNextMonthTimesheet() {
-        lt.readfromfile();
-        System.out.print("Enter new month: ");
-        int newMonth = sc.nextInt();
-        System.out.print("Enter new year: ");
-        int newYear = sc.nextInt();
-        sc.nextLine();
-
-        ListTimeSheetMonth nextMonthList = lt.nextmonth(newMonth, newYear);
-
-        List<TimeSheetMonth> mergedList = new ArrayList<>(Arrays.asList(lt.getTs()));
-
-        for (TimeSheetMonth tsnew : nextMonthList.getTs()) {
-            boolean exists = false;
-            for (TimeSheetMonth tsold : mergedList) {
-                if (tsold.getId_employee().equalsIgnoreCase(tsnew.getId_employee()) &&
-                        tsold.getMonth() == newMonth &&
-                        tsold.getYear() == newYear) {
-                    exists = true;
-                    break;
-                }
-            }
-            if (!exists) {
-                mergedList.add(tsnew);
-            }
-        }
-
-        lt.setTs(mergedList.toArray(new TimeSheetMonth[0]));
-        lt.writetofile();
     }
 
 }

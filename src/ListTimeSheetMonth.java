@@ -20,37 +20,6 @@ public class ListTimeSheetMonth implements Serializable
     {
         this.ts=lt.ts;
     }
-    public ListTimeSheetMonth nextmonth(int month,int year) {
-        ListTimeSheetMonth newlist = new ListTimeSheetMonth();
-        List<TimeSheetMonth> temp = new ArrayList<>();
-
-        for (TimeSheetMonth oldts : ts) {
-            if (!check(oldts.getId_employee(), month, year)) {
-                TimeSheetMonth newts = new TimeSheetMonth();
-                newts.setId_employee(oldts.getId_employee());
-                TimeSheetDay[] olddays = oldts.getData();
-                TimeSheetDay[] newdays = new TimeSheetDay[olddays.length];
-
-                for (int j = 0; j < olddays.length; j++) {
-                    TimeSheetDay oldday = olddays[j];
-                    TimeSheetDay newday = new TimeSheetDay();
-                    newday.setId_employee(oldday.getId_employee());
-                    newday.setDay(oldday.getDay());
-                    newday.setMonth(month);
-                    newday.setYear(year);
-                    newday.enter();
-                    newdays[j] = newday;
-                }
-
-                newts.setTd(newdays);
-                temp.add(newts);
-            }
-        }
-
-        newlist.ts = temp.toArray(new TimeSheetMonth[0]);
-        quicksort(newlist.ts, 0, newlist.ts.length - 1);
-        return newlist;
-    }
 
     public void enter()
     {
@@ -67,26 +36,26 @@ public class ListTimeSheetMonth implements Serializable
         l.put();
         for (int i=0;i<n;i++)
         {
-            String id;
-            boolean check;
-            do
-            {
-                System.out.print("Enter id: ");
-                id=sc.nextLine();
-                if (check_id_have_enter(id)!=-1)
-                {
-                    System.out.println("This id have already yet");
-                    check=false;
-                }
-                else if (l.isEmployee(id)==-1)
-                {
-                    System.out.println("Invaible id");
-                    check=false;
-                }
-                else
-                    check=true;
-            }
-            while(!check);
+            String id=list[i].getId();
+//            boolean check;
+//            do
+//            {
+//                System.out.print("Enter id: ");
+//                id=sc.nextLine();
+//                if (check_id_have_enter(id)!=-1)
+//                {
+//                    System.out.println("This id have already yet");
+//                    check=false;
+//                }
+//                else if (l.isEmployee(id)==-1)
+//                {
+//                    System.out.println("Invaible id");
+//                    check=false;
+//                }
+//                else
+//                    check=true;
+//            }
+//            while(!check);
             ts[i]=new TimeSheetMonth();
             ts[i].setMonth(month);
             ts[i].setYear(year);
