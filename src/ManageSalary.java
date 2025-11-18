@@ -67,6 +67,8 @@ public class ManageSalary {
                     int year = sc.nextInt();
                     sc.nextLine(); // xóa bộ đệm
 
+                    salaryList.displayByMonthYear(month,year);
+
                     SalaryStatistics stats = new SalaryStatistics(
                             salaryList.getAll(),
                             salaryList.getCount()
@@ -98,7 +100,7 @@ public class ManageSalary {
             }
 
             Allowance allow = allowanceList.findByEmployeeId(emp.getId());
-            double baseSalary = calculateBaseSalary(emp);
+            double baseSalary = calculateBaseSalary(emp,sheet);
             double allowance = (allow != null) ? allow.getTotalAllowance() : 0;
             double bonus = calculateBonus(sheet, baseSalary);
             double deductions = calculateDeductions(sheet);
@@ -121,11 +123,11 @@ public class ManageSalary {
         System.out.println(" Đã tạo bảng lương cho " + createdCount + " nhân viên.");
     }
 
-    private double calculateBaseSalary(Employee emp) {
+    private double calculateBaseSalary(Employee emp, TimeSheetMonth sheet) {
         if (emp instanceof OfficialEmployee offEmp) {
             return offEmp.getBasicSalary();
         } else if (emp instanceof SeasonalStaff seaEmp) {
-            return seaEmp.getHourlySalary() * seaEmp.getWorkTime();
+            return calculateSeasonalSalary(seaEmp,sheet);
         }
         return 0;
     }
@@ -140,6 +142,33 @@ public class ManageSalary {
         int lateDays = countLateDays(timesheet);
         int missingDays = countMissingDays(timesheet);
         return (lateDays * 20000) + (missingDays * 50000);
+    }
+    private double calculateHoursWorked(TimeSheetDay day) {
+        if (day.getTime_in() == null || day.getTime_out() == null) return 0;
+
+        String[] inParts = day.getTime_in().split(":");
+        String[] outParts = day.getTime_out().split(":");
+
+        int inHour = Integer.parseInt(inParts[0]);
+        int inMinute = Integer.parseInt(inParts[1]);
+        int outHour = Integer.parseInt(outParts[0]);
+        int outMinute = Integer.parseInt(outParts[1]);
+
+        double start = inHour + inMinute / 60.0;
+        double end = outHour + outMinute / 60.0;
+
+        return Math.max(0, end - start); // số giờ làm trong ngày
+    }
+    private double calculateMonthlyHours(TimeSheetMonth sheet) {
+        double totalHours = 0;
+        for (TimeSheetDay day : sheet.getData()) {
+            totalHours += calculateHoursWorked(day);
+        }
+        return totalHours;
+    }
+    private double calculateSeasonalSalary(SeasonalStaff staff, TimeSheetMonth sheet) {
+        double totalHours = calculateMonthlyHours(sheet);
+        return staff.getHourlySalary() * totalHours;
     }
 
     private int countOvertimeDays(TimeSheetMonth sheet) {
