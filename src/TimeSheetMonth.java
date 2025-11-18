@@ -31,14 +31,11 @@ public class TimeSheetMonth implements Serializable
         this.year=year;
         this.td=t.td;
     }
-
     public void enter()
     {
         int n=1+(int)(Math.random()*30);
         td=new TimeSheetDay[n];
         day=new int[n];
-        month=1+(int)(Math.random()*12);
-        year=2023+(int)(Math.random()*2);
         for (int i=0;i<n;i++)
         {
             boolean check;
@@ -60,8 +57,6 @@ public class TimeSheetMonth implements Serializable
             td[i]=new TimeSheetDay();
             day[i]=d;
             td[i].setId_employee(id_employee);
-            td[i].setMonth(month);
-            td[i].setYear(year);
             td[i].setDay(d);
             td[i].enter();
         }

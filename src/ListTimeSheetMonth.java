@@ -23,35 +23,18 @@ public class ListTimeSheetMonth implements Serializable
 
     public void enter()
     {
+        ListEmployee l=new ListEmployee();
+        l.readFromFile();
+        Employee[] list=l.getData();
         System.out.print("Enter number of employee: ");
         int n=sc.nextInt();
         sc.nextLine();
         ts=new TimeSheetMonth[n];
-        ListEmployee l=new ListEmployee();
         l.readFromFile();
         l.put();
         for (int i=0;i<n;i++)
         {
-            String id;
-            boolean check=false;
-            do
-            {
-                System.out.print("Enter your ID: ");
-                id=sc.nextLine();
-                if (l.isEmployee(id)==-1)
-                {
-                    System.out.println("Invaible ID");
-                    check=false;
-                }
-                else if (check_id_have_enter(id)!=-1)
-                {
-                    System.out.println("This ID have already exit");
-                    check=false;
-                }
-                else
-                    check=true;
-            }
-            while (!check);
+            String id=list[i].getId();
             ts[i]=new TimeSheetMonth();
             ts[i].setId_employee(id);
             ts[i].enter();
