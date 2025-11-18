@@ -35,11 +35,11 @@ public class Department {
         this.n = 0;
     }
     public void getDepartment() {
-        System.out.print("Id phong ban: "); id = sc.nextLine();
-        System.out.print("Ten phong ban: "); name = sc.nextLine();
-        System.out.print("Mieu ta phong ban: "); about = sc.nextLine();
-        System.out.print("Ngay thanh lap (yy-mm-dd): "); createdate = sc.nextLine();
-        System.out.print("Truong phong ban: "); manager = sc.nextLine();
+        System.out.print("Department's Id: "); id = sc.nextLine();
+        System.out.print("Department's name: "); name = sc.nextLine();
+        System.out.print("Department's about: "); about = sc.nextLine();
+        System.out.print("Create date (yy-mm-dd): "); createdate = sc.nextLine();
+        System.out.print("Department manager: "); manager = sc.nextLine();
     }
     public void putDepartment() {
         System.out.printf("%-5s %-20s %-40s %-12s %-20s", id, name, about, createdate, manager);
@@ -67,47 +67,47 @@ public class Department {
    public void addEmployeeFromList(String inputId, ListEmployee list) {
         Employee[] all = list.getData();
         if (all == null || all.length == 0) {
-            System.out.println("Danh sach nhan vien trong file rong!");
+            System.out.println("The Employee list is empty!");
             return;
         }
         for (Employee e : all) {
             if (e != null && e.getId().equalsIgnoreCase(inputId)) {
                 addEmployee(e);
-                System.out.println("Nhan vien da duoc them vao phong ban: " + e.getName());
+                System.out.println("Employee sent to department successfully: " + e.getName());
                 return;
             }
         }
-        System.out.println("Khong tim thay nhan vien co ID: " + inputId);
+        System.out.println("Cant find employee with ID: " + inputId);
     }
 
 
     public void printDepartmentInfo() {
         System.out.printf("====== Department: %s (ID: %s) ======%n", name, id);
         if (n == 0) {
-            System.out.println("Khong co nhan vien.");
+            System.out.println("No employee here.");
             addEmployees();
             return;
         }
         printEmployeeTable();
-        System.out.println("Co muon them nhan vien?");
+        System.out.println("Wanna add employees?");
         addEmployees();
     }
 
     private void addEmployees() {
-        System.out.println("1. Them nhan vien tu tay");
-        System.out.println("2. Them nhan vien tu file");
-        System.out.println("0. Thoat");
-        System.out.println(">> Chon:");
+        System.out.println("1. Input from keyboard");
+        System.out.println("2. Input from file data");
+        System.out.println("0. Exit");
+        System.out.println(">> Select:");
         int choice = sc.nextInt(); 
         sc.nextLine(); 
         switch (choice) {
             case 1->{
-                System.out.print("Nhap so luong: ");
+                System.out.print("Amount: ");
                 int count = sc.nextInt();
                 sc.nextLine();
                 for (int i = 0; i < count; i++) {
-                    System.out.println("-- Nhap nhan vien thu " + (i + 1) + " --");
-                    System.out.println("Chon loai nhan vien: 1. Official 2. Seasonal");
+                    System.out.println("-- Input Employee no." + (i + 1) + " --");
+                    System.out.println("Select Employee type: 1. Official 2. Seasonal");
                     int type = sc.nextInt();
                     sc.nextLine();
                     Employee e;
@@ -122,16 +122,16 @@ public class Department {
             case 2 ->{
                 ListEmployee list = new ListEmployee();
                 list.readFromFile();
-                System.out.print("Nhap ID nhan vien muon them: ");
+                System.out.print("Enter ID of wanted Employee: ");
                 String inputId = sc.nextLine();
                 addEmployeeFromList(inputId, list);
                 break;}
 
             case 0 ->{
-                System.out.println("Thoat.");
+                System.out.println("Exited.");
                 break;}
 
-            default -> System.out.println("Lua chon khong hop le.");
+            default -> System.out.println("Choice is vaild.");
         }
     }
 

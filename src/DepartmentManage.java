@@ -15,23 +15,23 @@ public class DepartmentManage {
      public void menu() {
          int chon;
         do {
-            System.out.println("\n===== MENU Quan Ly Phong ban =====");
-            System.out.println("1. Xem Danh Sach Phong Ban");
-            System.out.println("2. Them Danh Sach Phong Ban");
-            System.out.println("3. Xoa 1 Phong Ban (Theo id phong ban)");
-            System.out.println("4. Tim kiem Phong Ban");
-            System.out.println("5. Nhap Phong Ban (tu file Department)");
-            System.out.println("6. Ngau nhien xep n nhan vien vao cac phong ban");
-            System.out.println("7. In ra file");
-            System.out.println("0. Thoat");
-            System.out.print(">> Chon: ");
+            System.out.println("\n===== MENU Of Department Managing =====");
+            System.out.println("1. Take a look at Department list");
+            System.out.println("2. Add a department to the list");
+            System.out.println("3. Remove a department (using Department ID)");
+            System.out.println("4. Searching for department");
+            System.out.println("5. Input Department list (from Department data file)");
+            System.out.println("6. Send ramdom employees to departments");
+            System.out.println("7. Write to file");
+            System.out.println("0. Exit");
+            System.out.print(">> Select: ");
             chon = sc.nextInt();
             sc.nextLine(); // bỏ dòng trống
             
             switch (chon) {
                 case 1 -> data.put();
                 case 2 -> {
-                    System.out.print("Nhap so luong Phong Ban muon them: ");
+                    System.out.print("Number of Departments you wanna add: ");
                     int n = sc.nextInt(); sc.nextLine();
                     for (int i = 0;i < n;i++) {
                     Department a = new Department();
@@ -41,18 +41,18 @@ public class DepartmentManage {
                     break;
                 }
                 case 3 -> {
-                    System.out.print("Nhap ma Phong Ban can xoa: ");
+                    System.out.print("ID of department you want to remove: ");
                     String ma = sc.nextLine();
                     data.xoa(ma);
                 }
                 case 4 -> {
-                    System.out.print("Nhap id hoac ten Phong Ban can tim: ");
+                    System.out.print("ID or name of department you are searching for: ");
                     String key = sc.nextLine();
                     data.search(key);
                 }
                 case 5 -> {
 
-                    System.out.print("Da nhap data phong ban tu file Department..");
+                    System.out.print("Added departments data from file Department..");
                     data.readFromFiles();
                 }
                 case 6 -> {
@@ -62,12 +62,12 @@ public class DepartmentManage {
                     data.addRandom();
                 }
                 case 7 -> {
-                    System.out.println("Xuat du lieu ra file");
+                    System.out.println("Printed info to file");
                     data.writeToFile();
 
                 }
 
-                case 0 -> System.out.println(">> Ban da thoat tinh nang!");
+                case 0 -> System.out.println(">> You exited the department menu!");
                 default -> System.out.println("ERROR!");
             }
         } while (chon != 0);

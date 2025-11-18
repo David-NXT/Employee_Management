@@ -49,8 +49,8 @@ public class DepartmentList {
     }
 
     public void put(){ //xuat
-        System.out.printf("=====Danh sach phong ban=====%n");
-        System.out.printf("So phong ban %d%n",n);
+        System.out.printf("=====Department List=====%n");
+        System.out.printf("Amount of department: %d%n",n);
         System.out.printf("%-5s %-20s %-39s %-12s %-20s%n","[ID]","[Name]","[About]","[Createdate]","[Manager]");
         for(int i=0;i<n;i++){
             data[i].putDepartment();
@@ -81,7 +81,7 @@ public class DepartmentList {
     public void xoa(String id){ //xoa
         int locate = isDepartment(id);
         if (locate == -1) {
-            System.out.println("Khong ton tai phong ban nay..");
+            System.out.println("This Department isnt exist..");
             return;
         }
         for (int i = locate;i < data.length - 1;i++) {
@@ -93,7 +93,7 @@ public class DepartmentList {
 
     public void search(String keyword){
         boolean found = false;
-        System.out.println("\nKet qua tim kiem cho: " + keyword);
+        System.out.println("\nSearch result: " + keyword);
         for (Department d : data) {
             if (d.getId().equalsIgnoreCase(keyword) || d.getName().equalsIgnoreCase(keyword)) {
                 d.printDepartmentInfo();
@@ -101,7 +101,7 @@ public class DepartmentList {
             }
         }
         if (!found) {
-            System.out.println("Khong tim thay phong ban phu hop..");
+            System.out.println("No suitable departments..");
         }
 
     }
@@ -111,15 +111,15 @@ public class DepartmentList {
         list.readFromFile();
         Employee[] all = list.getData();
         
-        System.out.println("So nhan vien doc duoc: " + all.length);
+        System.out.println("Amounts of employees can be sent: " + all.length);
 
         Random rand = new Random();
         if (n == 0) {
-        System.out.println("Du lieu phong ban trong, hay nhap [5] hay [2] truoc!");
+        System.out.println("Department List is empty, pls choose [5] or [2] first!");
         return;
         }
         Scanner sc = new Scanner(System.in);
-        System.out.print("Nhap n so nhan vien ngau nhien: ");
+        System.out.print("Randomly n employees, n = ");
         int a = sc.nextInt();
         sc.nextLine();
         for (int i = 0; i < a && i < all.length ; i++) {
@@ -152,7 +152,7 @@ public class DepartmentList {
         }
         System.out.println("Saved Department.");
     } catch (IOException e) {
-        System.err.println("Loi ghi file: " + e.getMessage());
+        System.err.println("Error in write to file: " + e.getMessage());
     }
 }
 
