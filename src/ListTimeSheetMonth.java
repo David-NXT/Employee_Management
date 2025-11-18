@@ -20,12 +20,45 @@ public class ListTimeSheetMonth implements Serializable
     {
         this.ts=lt.ts;
     }
+    public void nextmonth(int newmonth, int newyear)
+    {
+        int oldLength = ts.length;
+        TimeSheetMonth[] newTs = Arrays.copyOf(ts, ts.length); // giữ dữ liệu cũ
+        for (int i = 0; i < oldLength; i++)
+        {
+            TimeSheetMonth oldTS = ts[i];
+            TimeSheetMonth newTS = new TimeSheetMonth();
+            newTS.setId_employee(oldTS.getId_employee());
+
+            TimeSheetDay[] oldDays = oldTS.getData();
+            TimeSheetDay[] newDays = new TimeSheetDay[oldDays.length];
+            for (int j = 0; j < oldDays.length; j++)
+            {
+                TimeSheetDay oldDay = oldDays[j];
+                TimeSheetDay newDay = new TimeSheetDay();
+                newDay.setId_employee(oldDay.getId_employee());
+                newDay.setDay(oldDay.getDay());
+                newDay.setMonth(newmonth);
+                newDay.setYear(newyear);
+                newDay.enter();
+                newDays[j] = newDay;
+            }
+            newTS.setTd(newDays);
+
+            // add vào cuối array
+            newTs = Arrays.copyOf(newTs, newTs.length + 1);
+            newTs[newTs.length - 1] = newTS;
+        }
+        ts = newTs;
+    }
 
     public void enter()
     {
         ListEmployee l=new ListEmployee();
         l.readFromFile();
         Employee[] list=l.getData();
+        int month=1+(int)(Math.random()*12);
+        int year=2023+(int)(Math.random()*3);
         System.out.print("Enter number of employee: ");
         int n=sc.nextInt();
         sc.nextLine();
@@ -36,6 +69,8 @@ public class ListTimeSheetMonth implements Serializable
         {
             String id=list[i].getId();
             ts[i]=new TimeSheetMonth();
+            ts[i].setMonth(month);
+            ts[i].setYear(year);
             ts[i].setId_employee(id);
             ts[i].enter();
         }
@@ -180,6 +215,15 @@ public class ListTimeSheetMonth implements Serializable
         {
             ts[i].daycheck(daycheck);
         }
+    }
+    public double totaltime(String idx)
+    {
+        double total=0;
+        for (int i=0;i<ts.length;i++)
+        {
+            total=total+ts[i].totaltime(idx);
+        }
+        return total;
     }
     public void update_timesheet(String idx)
     {

@@ -57,6 +57,8 @@ public class TimeSheetMonth implements Serializable
             td[i]=new TimeSheetDay();
             day[i]=d;
             td[i].setId_employee(id_employee);
+            td[i].setYear(year);
+            td[i].setMonth(month);
             td[i].setDay(d);
             td[i].enter();
         }
@@ -123,6 +125,15 @@ public class TimeSheetMonth implements Serializable
         }
 
     }
+    public double totaltime(String idx)
+    {
+        double total=0;
+        for (int i=0;i<td.length;i++)
+        {
+            total=total+td[i].totaltimeworking(idx);
+        }
+        return total;
+    }
     public int randomDay(int month,int year)
     {
         int maxday;
@@ -132,7 +143,7 @@ public class TimeSheetMonth implements Serializable
             maxday=30;
             break;
             case 2:
-                if (year%400==0||(year%4==0&& year%100!=0))
+                if (year%400==0||(year%4==0 && year%100!=0))
                     maxday=29;
                 else
                     maxday=28;
