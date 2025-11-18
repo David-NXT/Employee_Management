@@ -23,6 +23,7 @@ public class DepartmentManage {
             System.out.println("5. Input Department list (from Department data file)");
             System.out.println("6. Send ramdom employees to departments");
             System.out.println("7. Write to file");
+            System.out.println("8. Update info about a department");
             System.out.println("0. Exit");
             System.out.print(">> Select: ");
             chon = sc.nextInt();
@@ -65,6 +66,11 @@ public class DepartmentManage {
                     System.out.println("Printed info to file");
                     data.writeToFile();
 
+                }
+                case 8 ->{
+                    System.out.print("ID or name of department you want to update: ");
+                    String key = sc.nextLine();
+                    data.searchToUpdate(key);
                 }
 
                 case 0 -> System.out.println(">> You exited the department menu!");

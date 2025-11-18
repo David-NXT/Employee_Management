@@ -152,6 +152,38 @@ public class Department {
         }
     }
     
+    // Thêm vào class Department.java
+
+    public void updateDepartment() {
+        System.out.println("====== Update Department (" + this.id + ") info ======");
+        System.out.print("New department name (Current: " + this.name + "): ");
+        String newName = sc.nextLine();
+        if (!newName.isEmpty()) {
+            setName(newName);
+        }
+
+        System.out.print("New department about (Current: " + this.about + "): ");
+        String newAbout = sc.nextLine();
+        if (!newAbout.isEmpty()) {
+           setAbout(newAbout);
+        }
+
+        System.out.print("New department manager (Current: " + this.manager + "): ");
+        String newManager = sc.nextLine();
+        if (!newManager.isEmpty()) {
+           setManager(newManager);
+        }
+
+        System.out.print("Update department create date (Current: " + this.createdate + "): ");
+        String newCreateDate = sc.nextLine();
+        if (!newCreateDate.isEmpty()) {
+           setCreateDate(newCreateDate);
+        }
+
+
+    
+        System.out.println("Updated info for this department successfully!");
+    }
     
     
 

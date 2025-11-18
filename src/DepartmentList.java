@@ -154,7 +154,22 @@ public class DepartmentList {
     } catch (IOException e) {
         System.err.println("Error in write to file: " + e.getMessage());
     }
-}
+    }
+
+    public void searchToUpdate(String keyword){
+        boolean found = false;
+        System.out.println("\nSearch result: " + keyword);
+        for (Department d : data) {
+            if (d.getId().equalsIgnoreCase(keyword) || d.getName().equalsIgnoreCase(keyword)) {
+                d.updateDepartment();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No suitable departments..");
+        }
+
+    }
 
 
 
