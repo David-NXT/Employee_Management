@@ -31,6 +31,12 @@ public class ListContract implements Serializable {
         }
     }
 
+    public void put() {
+        for (int i = 0;i < n;i++) {
+            data[i].put();
+        }
+    }
+
     public void add(Contract a) {
         data = Arrays.copyOf(data,n + 1);
         data[n] = a;
@@ -75,7 +81,7 @@ public class ListContract implements Serializable {
             dir.mkdir();
         }
 
-        File file = new File(dir,"data_Employee");
+        File file = new File(dir,"data_Employee_Contract");
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(this);
             oos.close();
@@ -88,7 +94,7 @@ public class ListContract implements Serializable {
 
     public void readFromFile() {
         String basepath = System.getProperty("user.dir");
-        File file = new File(basepath + File.separator + "data" + File.separator + "data_Employee");
+        File file = new File(basepath + File.separator + "data" + File.separator + "data_Employee_Contract");
 
         if (!file.exists()) {
             System.out.println("file is not exist");
@@ -98,6 +104,7 @@ public class ListContract implements Serializable {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             ListContract a = (ListContract) ois.readObject();
             this.data = a.data;
+            this.n = a.n;
         }
         catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

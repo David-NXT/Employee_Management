@@ -166,6 +166,22 @@ public class ListSalary implements Serializable {
         return i + 1;
     }
 
+    public int findMinYear() {
+        int result = 10000;
+        for (int i = 0;i < data.length;i++) {
+            if (result > data[i].getYear()) result = data[i].getYear();
+        }
+        return result;
+    }
+
+    public int findMaxYear() {
+        int result = 0;
+        for (int i = 0;i < data.length;i++) {
+            if (result < data[i].getYear()) result = data[i].getYear();
+        }
+        return result;
+    }
+
     public Employee_Salary[] getAll() {
         return data;
     }

@@ -21,6 +21,9 @@ public class MainManager {
         System.out.println("4. Department Manager");
         System.out.println("5. Salary Manager");
         System.out.println("6. Calculate Allowance Manager");
+        System.out.println("7. Manage Time Sheet");
+        System.out.println("8. Manage Contract");
+        System.out.println("9. Statistic Year Quarter");
     }
 
     public void runMenu(int mode) {
@@ -52,6 +55,22 @@ public class MainManager {
             case 6: {
                 ManageAllowance m = getAllowance();
                 m.menuAllowance();
+            }
+            case 7: {
+                ManageTimeSheet a = new ManageTimeSheet();
+                a.menu();
+                break;
+            }
+            case 8: {
+                ManageContract a = new ManageContract();
+                a.menu();
+                break;
+            }
+            case 9: {
+                ManageSalary m = getSalary();
+                m.generateSalaries();
+                Statistic a = new Statistic();
+                a.menu();
             }
             default: {
                 System.out.println("Invalid Action!");

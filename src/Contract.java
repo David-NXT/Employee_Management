@@ -10,6 +10,12 @@ public class Contract implements Serializable {
     private String day;
     private String content;
 
+    public Contract() {
+        empID = "";
+        day = "";
+        content = "";
+    }
+
     public Contract(Contract a) {
         empID = a.empID;
         day = a.day;
@@ -24,7 +30,18 @@ public class Contract implements Serializable {
 
     public void get(String id) {
         empID = id;
-        System.out.println("Sign Day:");sc.nextLine();
+        System.out.println("Sign Day:");day = sc.nextLine();
+        content = "An employment contract is an agreement between the employer and the employee that defines\n" +
+                " the required job duties, salary, working hours and rest periods, the rights and obligations of\n" +
+                " each party, working conditions, the contract term, benefits, insurance provisions, workplace\n" +
+                " safety rules, conditions for contract termination, and responsibilities for compensation in case\n" +
+                " of violations; the contract becomes effective when both parties sign and agree to fully comply with\n" +
+                " all stated terms.";
+    }
+
+    public void get(String id, String swd) {
+        empID = id;
+        day = swd;
         content = "An employment contract is an agreement between the employer and the employee that defines\n" +
                 " the required job duties, salary, working hours and rest periods, the rights and obligations of\n" +
                 " each party, working conditions, the contract term, benefits, insurance provisions, workplace\n" +

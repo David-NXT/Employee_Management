@@ -82,7 +82,7 @@ public class ManageSalary {
         } while (choice != 0);
     }
 
-    private void generateSalaries() {
+    public void generateSalaries() {
         TimeSheetMonth[] sheets = timeSheetList.getTs();
         int createdCount = 0;   // tổng số bảng lương được tạo
         int employeeCount = 0;  // số nhân viên có bảng lương
