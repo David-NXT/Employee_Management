@@ -53,12 +53,16 @@ public class ManagerProject {
     public void runMainMenu(int mode) {
         switch (mode) {
             case 1: {
+                sort();
+                lproj.writeToFile();
                 for (int i = 0;i < lproj.getN();i++) {
                     putProject(lproj.getData()[i]);
                 }
                 break;
             }
             case 2: {
+                sort();
+                lproj.writeToFile();
                 addProjects();
                 break;
             }
@@ -131,19 +135,19 @@ public class ManagerProject {
         int n = sc.nextInt();sc.nextLine();
         for (int i = 0;i < n;i++) {
             Project newproj = new Project();
-            newproj.getProject();
+            newproj.getProject(autoID());
 
             //ktr id neu khong ton tai thi xoa
             for (int j = 0;j < newproj.getEmployeeId().length;j++) {
-                if (lemp.findById(newproj.getEmployeeId()[i]) == null) {
-                    System.out.println(newproj.getEmployeeId()[i] + "Isn't Exist!");
-                    newproj.deleteEmployeeId(newproj.getEmployeeId()[i]);
+                if (lemp.findById(newproj.getEmployeeId()[j]) == null) {
+                    System.out.println(newproj.getEmployeeId()[j] + "Isn't Exist!");
+                    newproj.deleteEmployeeId(newproj.getEmployeeId()[j]);
                 }
             }
 
             lproj.add(newproj);
         }
-
+        sort();
         lproj.writeToFile();
     }
 
@@ -161,5 +165,29 @@ public class ManagerProject {
         for (Project p: result.getData()) {
             putProject(p);
         }
+    }
+
+    public void sort() {
+        for (int i = 0;i < lproj.getN() - 1;i++)
+            for (int j = i + 1;j < lproj.getN();j++) {
+                if (Integer.parseInt(lproj.getData()[i].getProjectId()) > Integer.parseInt(lproj.getData()[j].getProjectId())) {
+                    Project tmp = lproj.getData()[i];
+                    lproj.getData()[i] = lproj.getData()[j];
+                    lproj.getData()[j] = tmp;
+                }
+            }
+    }
+
+    public String  autoID() {
+        int newID = 3000;
+        int i = 0;
+        while (i < lproj.getN()) {
+            //so xem id moi co trung id cu khong neu co thi tang 1 don vi neu khong trung thi out ra
+            if (newID == Integer.parseInt(lproj.getData()[i++].getProjectId())) {
+                newID++;
+            }
+            else break;
+        }
+        return Integer.toString(newID);
     }
 }

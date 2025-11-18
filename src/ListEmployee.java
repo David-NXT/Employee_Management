@@ -1,5 +1,6 @@
 import javax.xml.transform.Source;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 
@@ -8,21 +9,26 @@ public class ListEmployee implements Serializable{
     @Serial
     private static final long serialVersionUID = 1L;
     private Employee[] data;
+    private int n;
 
     public ListEmployee(ListEmployee a){
         data = a.data;
+        n = a.n;
     }
 
     public ListEmployee(){
         data = new Employee[0];
+        n = 0;
     }
     public void get(){
-        int n;
-        System.out.print("Number of employee: ");n = sc.nextInt();
+        int num,le = 0;
+        if (n != 0) le = n;//luu gia tri cu cua do dai mang
+        System.out.print("Number of employee: ");num = sc.nextInt();
         sc.nextLine();//loai bo \n thua trong buffer
-        data = Arrays.copyOf(data,n);
+        data = Arrays.copyOf(data,n + num);
+        n += num;
 
-        for(int i = 0;i < n;i++){
+        for(int i = le;i < le + num;i++){
             System.out.println("1. Official Employee");
             System.out.println("2. Seasonal Staff");
             int mode = sc.nextInt();
@@ -33,13 +39,15 @@ public class ListEmployee implements Serializable{
                 System.out.println();
             } else if (mode == 2) {
                 data[i] = new SeasonalStaff();
-                data[i].get();
+                String newid = getIdAutoForST();
+                data[i].get(newid);
                 System.out.println();
             } else {
                 System.out.println("Invalid! Please choose again");
                 i--;
             }
         }
+        quickSort(0,n - 1);
     }
 
     public void getOfficialEmployee() {
@@ -124,37 +132,45 @@ public class ListEmployee implements Serializable{
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
         quickSort(0, data.length - 1);
+        n++;
     }
 
     public void add(SeasonalStaff a) {
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
         quickSort(0, data.length - 1);
+        n++;
     }
 
     public String getIdAutoForOE() {//OE = Official Employee
         int baseid = 1000;
+        int i = 0;
 
-        for (int i = 0;i < data.length;i++) {//kiem tra tu dau mang de phong co id da bi xoa va chua co ai dung
-            if (data[i] instanceof OfficialEmployee) {
-                if (Integer.toString(baseid).equals(data[i].getId())) {
-                    baseid++;//neu id goc bang id cua nhan vien thi tang them 1
-                    i--;
-                }
+        while (i < data.length) {
+            if (data[i] instanceof OfficialEmployee && Integer.parseInt(data[i].getId()) == baseid) {
+                baseid++;
+                i++;
             }
+            else if (data[i] instanceof SeasonalStaff) i++;
+            else break;
         }
+
         return Integer.toString(baseid);
     }
 
     public String getIdAutoForST() {//ST = Seasonal Staff
         int baseid = 2000;
+        int i = 0;
 
-        for (int i = 0;i < data.length;i++) {
-            if (Integer.toString(baseid).equals(data[i].getId())) {
-                baseid++;//neu id goc bang id cua nhan vien thi tang them 1
-                i--;
+        while (i < data.length) {
+            if (data[i] instanceof SeasonalStaff && Integer.parseInt(data[i].getId()) == baseid) {
+                baseid++;
+                i++;
             }
+            else if (data[i] instanceof OfficialEmployee) i++;
+            else break;
         }
+
         return Integer.toString(baseid);
     }
 
@@ -203,6 +219,7 @@ public class ListEmployee implements Serializable{
         }
 
         data = Arrays.copyOf(data,data.length - 1);
+        n--;
     }
 
     public void writeToFile() {
@@ -283,12 +300,34 @@ public class ListEmployee implements Serializable{
         return null;
     }
 
+    public ListEmployee findByName(String name) {
+        if (data == null) return null;
+        ListEmployee result = new ListEmployee();
+
+        for (Employee e: data) {
+            if (e.getName().contains(name)) {
+                if (e instanceof OfficialEmployee) {
+                    result.add((OfficialEmployee) e);
+                } else result.add((SeasonalStaff) e);
+            }
+        }
+
+        return result;
+    }
 
     public Employee[] getData(){
         return data;
     }
 
+    public int getN() {
+        return n;
+    }
+
     public void setData(Employee[] a){
         data = a;
+    }
+
+    public void setN(int n) {
+        this.n = n;
     }
 }

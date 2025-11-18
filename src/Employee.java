@@ -44,22 +44,6 @@ abstract class Employee implements Serializable {
 
     public void get(){
         System.out.println("ID: ");id = sc.nextLine();
-        ListEmployee l = new ListEmployee();
-        l.readFromFile();
-        while(true) {
-            boolean flag = false;
-            for (int i = 0;i < l.getData().length;i++) {
-                if (id.equals(l.getData()[i].id)) {
-                    flag = true;
-                    break;
-                }
-            }
-
-            if (!flag) break;
-
-            System.out.println("This ID Already Exist");
-            id = sc.nextLine();
-        }
         System.out.println("Surname: ");surname = sc.nextLine();
         surname = surname.trim();
         System.out.println("Name: ");name = sc.nextLine();

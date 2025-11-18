@@ -58,22 +58,32 @@ public class Project implements Serializable{
         System.out.println("Participant Allowance Rate: ");participantallowancerate = sc.nextFloat();
         sc.nextLine();//bo \n thua trong buffer
         System.out.println("Project ID: ");projectid = sc.nextLine();
-        ListProject l = new ListProject();
-        l.readFromFile();
-        while(true) {
-            boolean flag = false;
-            for (int i = 0;i < l.getData().length;i++) {
-                if (projectid.equals(l.getData()[i].projectid)) {
-                    flag = true;
+        System.out.println("Project Name: ");projectname = sc.nextLine();
+        System.out.println("Start Day: ");startday = sc.nextLine();
+        System.out.println("Accomplish Day: ");accomplishday = sc.nextLine();
+        System.out.println("Manager Id: ");managerid = sc.nextLine();
+        System.out.println("Main Engineer Id: ");mainengineerid = sc.nextLine();
+        System.out.println("Enter Project Budget:"); projectBudget=sc.nextDouble();
+        System.out.println("Number of Employee: ");int n = sc.nextInt();
+        sc.nextLine();//bo \n thua trong buffer
+        employeeid = Arrays.copyOf(employeeid,n);
+        for (int i = 0;i < employeeid.length;i++) {
+            while (true) {
+                String temp = sc.nextLine();
+                if (!isEmployeeInProject(temp)) {
+                    employeeid[i] = temp;
                     break;
                 }
+                System.out.println("This Employee ID Already in List");
             }
-
-            if (!flag) break;
-
-            System.out.println("This ID Already Exist");
-            projectid = sc.nextLine();
         }
+    }
+
+    public void getProject(String id) {// sua lai quan ly ID o ham list
+        System.out.println("Manager Allowance Rate: ");managerallowancerate = sc.nextFloat();
+        System.out.println("Main Engineer Allowance Rate: ");mainengineerallowancerate = sc.nextFloat();
+        System.out.println("Participant Allowance Rate: ");participantallowancerate = sc.nextFloat();
+        sc.nextLine();//bo \n thua trong buffer
         System.out.println("Project Name: ");projectname = sc.nextLine();
         System.out.println("Start Day: ");startday = sc.nextLine();
         System.out.println("Accomplish Day: ");accomplishday = sc.nextLine();
