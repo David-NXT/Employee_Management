@@ -67,8 +67,6 @@ public class MainManager {
                 break;
             }
             case 9: {
-                ManageSalary m = getSalary();
-                m.generateSalaries();
                 Statistic a = new Statistic();
                 a.menu();
             }

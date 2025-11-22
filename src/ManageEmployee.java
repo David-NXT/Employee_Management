@@ -49,6 +49,7 @@ public class ManageEmployee {
         System.out.println("6. Change");
         System.out.println("7. Find");
         System.out.println("8. Statistic");
+        System.out.println("9. Sort");
     }
 
     public void changeMenu(int type) {
@@ -103,6 +104,12 @@ public class ManageEmployee {
             }
             case 8: {
                 statistic();
+                break;
+            }
+            case 9: {
+                lemp.quickSort(0, lemp.getN() - 1);
+                System.out.println("Done!");
+                lemp.writeToFile();
                 break;
             }
             default: {

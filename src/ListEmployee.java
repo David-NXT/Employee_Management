@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 
-public class ListEmployee implements Serializable{
-    private transient final Scanner sc = new Scanner(System.in);
+public class ListEmployee extends FileIO<ListEmployee> {
     @Serial
     private static final long serialVersionUID = 1L;
+    private transient final Scanner sc = new Scanner(System.in);
     private Employee[] data;
     private int n;
 
@@ -20,6 +20,12 @@ public class ListEmployee implements Serializable{
         data = new Employee[0];
         n = 0;
     }
+
+    public ListEmployee(Employee[] data) {
+        this.data = data;
+        this.n = data.length;
+    }
+
     public void get(){
         int num,le = 0;
         if (n != 0) le = n;//luu gia tri cu cua do dai mang
@@ -47,7 +53,6 @@ public class ListEmployee implements Serializable{
                 i--;
             }
         }
-        quickSort(0,n - 1);
     }
 
     public void getOfficialEmployee() {
@@ -131,28 +136,25 @@ public class ListEmployee implements Serializable{
     public void add(OfficialEmployee a) {
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
-        quickSort(0, data.length - 1);
         n++;
     }
 
     public void add(SeasonalStaff a) {
         data = Arrays.copyOf(data,data.length + 1);
         data[data.length - 1] = a;
-        quickSort(0, data.length - 1);
         n++;
     }
 
     public String getIdAutoForOE() {//OE = Official Employee
         int baseid = 1000;
-        int i = 0;
 
-        while (i < data.length) {
-            if (data[i] instanceof OfficialEmployee && Integer.parseInt(data[i].getId()) == baseid) {
-                baseid++;
-                i++;
+        for (Employee datum : data) {
+            if (datum instanceof OfficialEmployee) {
+                int currentId = Integer.parseInt(datum.getId());
+                if (currentId > baseid) {
+                    baseid = currentId;
+                }
             }
-            else if (data[i] instanceof SeasonalStaff) i++;
-            else break;
         }
 
         return Integer.toString(baseid);
@@ -160,18 +162,17 @@ public class ListEmployee implements Serializable{
 
     public String getIdAutoForST() {//ST = Seasonal Staff
         int baseid = 2000;
-        int i = 0;
 
-        while (i < data.length) {
-            if (data[i] instanceof SeasonalStaff && Integer.parseInt(data[i].getId()) == baseid) {
-                baseid++;
-                i++;
+        for (Employee datum : data) {
+            if (datum instanceof SeasonalStaff) {
+                int currentId = Integer.parseInt(datum.getId());
+                if (currentId > baseid) {
+                    baseid = currentId;
+                }
             }
-            else if (data[i] instanceof OfficialEmployee) i++;
-            else break;
         }
 
-        return Integer.toString(baseid);
+        return Integer.toString(baseid + 1);
     }
 
     public OfficialEmployee getOfficialEmployee(String id) {
@@ -223,39 +224,18 @@ public class ListEmployee implements Serializable{
     }
 
     public void writeToFile() {
-        String basepath = System.getProperty("user.dir");
-        File dir = new File(basepath + File.separator + "data");
-
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
-
-        File file = new File(dir,"data_Employee");
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(this);
-            oos.close();
-            System.out.println("Saved!");
-        }
-        catch (IOException e) {
-            System.out.println("File chua duoc ghi " + e);
-        }
+        write("data_Employee");
     }
 
     public void readFromFile() {
-        String basepath = System.getProperty("user.dir");
-        File file = new File(basepath + File.separator + "data" + File.separator + "data_Employee");
-
-        if (!file.exists()) {
-            System.out.println("file is not exist");
-            return;
-        }
-
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            ListEmployee a = (ListEmployee) ois.readObject();
+        ListEmployee a = FileIO.read("data_Employee");
+        if (a != null) {
+            // Sao chép dữ liệu từ đối tượng được đọc sang đối tượng hiện tại
             this.data = a.data;
-        }
-        catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            this.n = a.n;
+            System.out.println("Data loaded successfully!");
+        } else {
+            System.out.println("Could not load data. Starting with empty list.");
         }
     }
 

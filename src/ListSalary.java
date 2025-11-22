@@ -126,11 +126,12 @@ public class ListSalary implements Serializable {
     }
 
     public double getMonthSalary(int year, int month, String id) {
-        for (int i = 0;i < data.length;i++) {
-            if (data[i].isES(year,month,id)) return data[i].getTotalSalary();
+        for (int i = 0; i < data.length; i++) {
+            if (data[i].isES(year, month, id)) return data[i].getTotalSalary();
         }
         return 0;
     }
+
     public void sortByMonthYear() {
         if (getCount() <= 1) return;
         quickSortByMonthYear(data, 0, getCount() - 1);
@@ -168,7 +169,7 @@ public class ListSalary implements Serializable {
 
     public int findMinYear() {
         int result = 10000;
-        for (int i = 0;i < data.length;i++) {
+        for (int i = 0; i < data.length; i++) {
             if (result > data[i].getYear()) result = data[i].getYear();
         }
         return result;
@@ -176,7 +177,7 @@ public class ListSalary implements Serializable {
 
     public int findMaxYear() {
         int result = 0;
-        for (int i = 0;i < data.length;i++) {
+        for (int i = 0; i < data.length; i++) {
             if (result < data[i].getYear()) result = data[i].getYear();
         }
         return result;
